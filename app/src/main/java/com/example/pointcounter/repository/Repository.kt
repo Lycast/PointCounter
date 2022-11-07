@@ -1,17 +1,18 @@
 package com.example.pointcounter.repository
 
-import com.example.pointcounter.model.dao.GuestDao
-import com.example.pointcounter.model.entity.Guest
+import com.example.pointcounter.model.dao.UserDao
+import com.example.pointcounter.model.entity.User
 
-class Repository (private val dao: GuestDao) {
+class Repository (private val dao: UserDao) {
 
-    val listGuests = dao.getGuests()
+    val listUsers = dao.getUsers()
 
-    suspend fun addGuest(guest: Guest) = dao.addGuest(guest)
+    suspend fun addUser(user: User) = dao.addUser(user)
 
-    suspend fun updateGuest(guest: Guest) = dao.updateGuest(guest)
+    suspend fun updateUser(user: User) = dao.updateUser(user)
 
-    suspend fun deleteGuest(guest: Guest) = dao.deleteGuest(guest)
+    suspend fun deleteUser(user: User) = dao.deleteUser(user)
 
-    suspend fun deleteAllGuest() = dao.deleteAllGuest()
+    suspend fun deleteAllUsers() = dao.deleteAllUsers()
+
 }

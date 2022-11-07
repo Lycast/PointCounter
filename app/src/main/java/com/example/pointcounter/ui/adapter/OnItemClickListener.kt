@@ -1,7 +1,7 @@
 package com.example.pointcounter.ui.adapter
 
-import com.example.pointcounter.model.entity.Guest
+import com.example.pointcounter.model.entity.User
 
 interface OnItemClickListener {
-    fun setOnItemClickListener(guest: Guest, enum: AdapterEnum )
+    fun setOnItemClickListener(user: User, enum: UserEnum )
 }
