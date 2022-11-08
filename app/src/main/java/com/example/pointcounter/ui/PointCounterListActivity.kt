@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.pointcounter.R
 import com.example.pointcounter.data.UserRoomDatabase
-import com.example.pointcounter.databinding.ActivityMainBinding
+import com.example.pointcounter.databinding.ActivityPointCounterListBinding
 import com.example.pointcounter.databinding.PopupAddGuestBinding
 import com.example.pointcounter.model.entity.User
 import com.example.pointcounter.repository.Repository
@@ -21,15 +21,15 @@ import com.example.pointcounter.viewmodel.SharedViewModel
 import com.example.pointcounter.viewmodel.SharedViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 
-class MainActivity : AppCompatActivity(), OnItemClickListener {
+class PointCounterListActivity : AppCompatActivity(), OnItemClickListener {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityPointCounterListBinding
     private lateinit var adapter : UserAdapter
     private lateinit var viewModel: SharedViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityPointCounterListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val dao = UserRoomDatabase.getInstance(application).userDao
@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         viewModel = ViewModelProvider(this, factory)[SharedViewModel::class.java]
 
         displayList()
-        setOnClickAddUser()
         setOnClickMenuToolbar()
     }
 
@@ -51,32 +50,53 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
                 user.score = 0
                 viewModel.updateUser(user)
             }
-            UserEnum.ADD_POINT -> {
+            UserEnum.ADD_1_POINT -> {
                 user.score ++
                 viewModel.updateUser(user)
             }
-            UserEnum.REMOVE_POINT -> {
+            UserEnum.ADD_10_POINT -> {
+                user.score += 10
+                viewModel.updateUser(user)
+            }
+            UserEnum.REMOVE_1_POINT -> {
                 user.score --
+                viewModel.updateUser(user)
+            }
+            UserEnum.REMOVE_10_POINT -> {
+                user.score -= 10
                 viewModel.updateUser(user)
             }
         }
     }
 
     private fun setDisplayPopupAddUser(user: User?) {
+        var color = user?.color ?: viewModel.getRandomLightColor()
         val alertDialog = AlertDialog.Builder(this)
         val dialogBinding = PopupAddGuestBinding.inflate(layoutInflater)
         alertDialog.setView(dialogBinding.root)
+
+        dialogBinding.cardExampleColor.setCardBackgroundColor(color)
+        //dialogBinding.buttonAddNewGuest.setTextColor(color)
+        dialogBinding.colorChoice.setTextColor(color)
+
+        dialogBinding.colorChoice.setOnClickListener {
+            color = viewModel.getRandomLightColor()
+            dialogBinding.cardExampleColor.setCardBackgroundColor(color)
+            //dialogBinding.buttonAddNewGuest.setTextColor(color)
+            dialogBinding.colorChoice.setTextColor(color)
+        }
+
         val dialog = alertDialog.create()
 
         dialogBinding.buttonAddNewGuest.setOnClickListener {
                 if (user == null && !TextUtils.isEmpty(dialogBinding.editTextEnterName.text)) {
                     //  Add new guest
-                    val newUser = User(0, dialogBinding.editTextEnterName.text.toString())
+                    val newUser = User(0, dialogBinding.editTextEnterName.text.toString(), 0, color)
                     viewModel.addUser(newUser)
                     dialog.dismiss()
                 } else if (user != null && !TextUtils.isEmpty(dialogBinding.editTextEnterName.text)) {
                     // Update guest
-                    viewModel.updateUser(User(user.id, dialogBinding.editTextEnterName.text.toString()))
+                    viewModel.updateUser(User(user.id, dialogBinding.editTextEnterName.text.toString(), user.score, color))
                     dialog.dismiss()
                 } else {
                     Snackbar.make(dialogBinding.root, "The name must be filled in", Snackbar.LENGTH_SHORT)
@@ -94,18 +114,18 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         }
     }
 
-    private fun setOnClickAddUser() {
-        binding.btnAddUser.setOnClickListener {
-            setDisplayPopupAddUser(null)
-        }
-    }
-
     private fun setOnClickMenuToolbar() {
         val toolbarBackImg: ImageView = findViewById(R.id.toolbar_image_view_back)
         val toolbarMenu: ImageView = findViewById(R.id.toolbar_image_view_menu)
+        val toolbarAdd: ImageView = findViewById(R.id.toolbar_image_view_add)
 
-        toolbarBackImg.setOnClickListener { finish() }
-
+        toolbarBackImg.setOnClickListener {
+            viewModel.users.observe(this) {
+                viewModel.resetAllUsersPoint(it)
+            }
+            finish()
+        }
+        toolbarAdd.setOnClickListener { setDisplayPopupAddUser(null) }
         toolbarMenu.setOnClickListener {
             val popupMenu = PopupMenu(this, it)
             popupMenu.menu.add("Delete all counters").setOnMenuItemClickListener {

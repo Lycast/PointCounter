@@ -5,36 +5,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="20dp">
 
+    <TextView
+        android:id="@+id/alert_dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_new_participant"
+        android:textSize="10pt"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <EditText
         android:id="@+id/edit_text_enter_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:hint="@string/enter_name"
         android:inputType="text"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/alert_dialog_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:autofillHints="" />
 
-    <TextView
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_example_color"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        app:cardCornerRadius="19dp"
+        app:cardBackgroundColor="@color/green"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_enter_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_add_new_guest"/>
+
+    <Button
         android:id="@+id/color_choice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/chosen_a_color"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_marginStart="50dp"
         android:paddingVertical="10dp"
-        android:layout_marginStart="3dp"
-        android:textSize="7pt"
-        app:layout_constraintTop_toBottomOf="@id/edit_text_enter_name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
+        android:layout_marginTop="10dp"
+        android:text="@string/generate_a_color"
+        android:textColor="@color/green"
+        app:layout_constraintBottom_toTopOf="@id/button_add_new_guest"
+        app:layout_constraintStart_toEndOf="@id/card_example_color"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_enter_name" />
 
     <Button
         android:id="@+id/button_add_new_guest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="@string/ok"
-        android:textColor="@color/green"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         app:layout_constraintTop_toBottomOf="@id/color_choice"
         app:layout_constraintStart_toStartOf="parent"

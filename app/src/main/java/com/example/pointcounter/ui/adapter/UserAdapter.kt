@@ -28,10 +28,21 @@ class UserAdapter(private val users : List<User>, private val listener: OnItemCl
             // binding text
             itemBinding.guestItemTextViewName.text = user.name
             itemBinding.userItemTextViewScore.text = user.score.toString()
+            itemBinding.guestItemCard.setCardBackgroundColor(user.color)
 
             // binding click
-            itemBinding.userItemImageViewAddPoint.setOnClickListener { listener.setOnItemClickListener(user, UserEnum.ADD_POINT) }
-            itemBinding.userItemImageViewRemovePoint.setOnClickListener { listener.setOnItemClickListener(user, UserEnum.REMOVE_POINT) }
+            itemBinding.userItemImageViewAddPoint.setOnClickListener { listener.setOnItemClickListener(user, UserEnum.ADD_1_POINT) }
+            itemBinding.userItemImageViewAddPoint.setOnLongClickListener {
+                listener.setOnItemClickListener(user, UserEnum.ADD_10_POINT)
+                return@setOnLongClickListener true
+            }
+
+            itemBinding.userItemImageViewRemovePoint.setOnClickListener { listener.setOnItemClickListener(user, UserEnum.REMOVE_1_POINT) }
+            itemBinding.userItemImageViewRemovePoint.setOnLongClickListener {
+                listener.setOnItemClickListener(user, UserEnum.REMOVE_10_POINT)
+                return@setOnLongClickListener true
+            }
+
             itemBinding.guestItemImageViewMenu.setOnClickListener {
                 val popupMenu = PopupMenu(context, it)
                 popupMenu.menu.add("Edit").setOnMenuItemClickListener {

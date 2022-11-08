@@ -14,5 +14,12 @@ data class User(
     val name: String,
 
     @ColumnInfo(name = "score_guest")
-    var score : Int = 0
-)
+    var score : Int = 0,
+
+    @ColumnInfo(name = "color_guest")
+    var color : Int = 0
+) {
+    override fun toString(): String {
+        return this.name
+    }
+}

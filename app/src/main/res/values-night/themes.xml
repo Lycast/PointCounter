@@ -1,18 +1,16 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.PointCounterV2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/light_green</item>
+        <item name="colorPrimary">@color/very_light_gray</item>
         <item name="colorPrimaryVariant">@color/green</item>
         <item name="colorOnPrimary">@color/gray</item>
 
-        <item name="colorSecondary">@color/light_green</item>
+        <item name="colorSecondary">@color/very_light_gray</item>
         <item name="colorSecondaryVariant">@color/green</item>
         <item name="colorOnSecondary">@color/gray</item>
 
-    </style>
+        <item name="android:tint">@color/very_light_gray</item>
 
-    <style name="custom.button.style" parent="Widget.AppCompat.Button">
-        <item name="backgroundTint">@color/gray</item>
     </style>
 
 </resources>

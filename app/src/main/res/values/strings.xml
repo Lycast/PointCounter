@@ -6,8 +6,8 @@
     <string name="add_one_point">add one point</string>
     <string name="add_new_counter">Add new counter</string>
     <string name="enter_name">Enter name</string>
-    <string name="ok">ok</string>
-    <string name="chosen_a_color">Added color choice</string>
+    <string name="ok">OK</string>
+    <string name="generate_a_color">Generate color</string>
     <string name="delete_all_user">Delete all users</string>
     <string name="a">N</string>
     <string name="name_of_guest">Name of guest</string>
@@ -15,5 +15,14 @@
     <string name="add">Add</string>
     <string name="_0">0</string>
     <string name="empty_string" />
+    <string name="list_counter">List counter</string>
+    <string name="add_new_participant">Add new participant</string>
+    <string name="home_view">Home</string>
+    <string name="list_view">List</string>
+    <string name="stat_view">Stats</string>
+    <string name="compact_list_counter">Compact list counter</string>
+    <string name="duo_counter">Duo counter</string>
+    <string name="solo_counter">Solo counter</string>
+    <string name="_return">return</string>
 
 </resources>
