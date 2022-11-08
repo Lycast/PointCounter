@@ -4,7 +4,7 @@
     android:singleLine="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="16pt"
+    android:textSize="12pt"
     android:ellipsize="marquee"
     android:padding="5dp"
     android:textAlignment="inherit"/>

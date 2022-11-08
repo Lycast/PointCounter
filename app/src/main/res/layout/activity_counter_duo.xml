@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.CounterDuoActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/toolbar_layout" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/counter_1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/counter_2"
+        app:layout_constraintTop_toBottomOf="@id/appBar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/duo_activity_card_name_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeWidth="1dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/duo_activity_image_view_menu_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:layout_marginStart="15dp"
+                    android:backgroundTint="@android:color/transparent"
+                    app:cardCornerRadius="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:strokeWidth="1dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/menu"
+                        android:padding="5dp"
+                        android:src="@drawable/_edit_24"
+                        app:tint="@color/black" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <Spinner
+                    android:id="@+id/duo_activity_spinner_list_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:backgroundTint="@color/black"
+                    android:spinnerMode="dialog"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/duo_activity_image_view_menu_1"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/duo_activity_text_view_score_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:text="@string/_0"
+            android:textSize="60pt"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/duo_activity_image_view_add_point_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/duo_activity_card_name_1" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/duo_activity_image_view_add_point_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:backgroundTint="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/duo_activity_image_view_remove_point_1"
+            app:strokeWidth="1dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginVertical="20dp"
+                android:contentDescription="@string/add_one_point"
+                android:src="@drawable/_add_48" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/duo_activity_image_view_remove_point_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:backgroundTint="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/duo_activity_image_view_add_point_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:strokeWidth="1dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginVertical="20dp"
+                android:contentDescription="@string/remove_one_point"
+                android:src="@drawable/_remove_48" />
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/counter_2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toEndOf="@id/counter_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/duo_activity_card_name_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/transparent"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeWidth="1dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/duo_activity_image_view_menu_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="8dp"
+                    android:layout_marginStart="15dp"
+                    android:backgroundTint="@android:color/transparent"
+                    app:cardCornerRadius="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:strokeWidth="1dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/menu"
+                        android:padding="5dp"
+                        android:src="@drawable/_edit_24"
+                        app:tint="@color/black" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <Spinner
+                    android:id="@+id/duo_activity_spinner_list_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:backgroundTint="@color/black"
+                    android:spinnerMode="dialog"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/duo_activity_image_view_menu_2"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/duo_activity_text_view_score_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:text="@string/_0"
+            android:textSize="60pt"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/duo_activity_image_view_add_point_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/duo_activity_card_name_2" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/duo_activity_image_view_add_point_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:backgroundTint="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/duo_activity_image_view_remove_point_2"
+            app:strokeWidth="1dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginVertical="20dp"
+                android:contentDescription="@string/add_one_point"
+                android:src="@drawable/_add_48" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/duo_activity_image_view_remove_point_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:backgroundTint="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/duo_activity_image_view_add_point_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:strokeWidth="1dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginVertical="20dp"
+                android:contentDescription="@string/remove_one_point"
+                android:src="@drawable/_remove_48" />
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

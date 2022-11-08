@@ -22,12 +22,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:autofillHints=""
         android:hint="@string/enter_name"
         android:inputType="text"
-        app:layout_constraintTop_toBottomOf="@id/alert_dialog_title"
-        app:layout_constraintStart_toStartOf="parent"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:autofillHints="" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/alert_dialog_title" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_example_color"
@@ -37,10 +38,10 @@
         app:cardBackgroundColor="@color/green"
         app:layout_constraintTop_toBottomOf="@id/edit_text_enter_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/button_add_new_guest"/>
+        app:layout_constraintBottom_toTopOf="@id/alert_dialog_button_ok"/>
 
     <Button
-        android:id="@+id/color_choice"
+        android:id="@+id/btn_generate_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -49,19 +50,19 @@
         android:layout_marginTop="10dp"
         android:text="@string/generate_a_color"
         android:textColor="@color/green"
-        app:layout_constraintBottom_toTopOf="@id/button_add_new_guest"
+        app:layout_constraintBottom_toTopOf="@id/alert_dialog_button_ok"
         app:layout_constraintStart_toEndOf="@id/card_example_color"
         app:layout_constraintTop_toBottomOf="@id/edit_text_enter_name" />
 
     <Button
-        android:id="@+id/button_add_new_guest"
+        android:id="@+id/alert_dialog_button_ok"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/ok"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        app:layout_constraintTop_toBottomOf="@id/color_choice"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/btn_generate_color" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

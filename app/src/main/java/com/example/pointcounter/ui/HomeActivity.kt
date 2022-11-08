@@ -2,7 +2,9 @@ package com.example.pointcounter.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.example.pointcounter.R
 import com.example.pointcounter.databinding.ActivityHomeBinding
 import com.google.android.material.snackbar.Snackbar
@@ -18,14 +20,22 @@ class HomeActivity : AppCompatActivity() {
 
         startCounter()
         setOnClickBottomNavigation()
+
+        setToolbar()
     }
 
     private fun startCounter() {
         binding.btnStartListPointCounter.setOnClickListener {
-            startActivity(Intent(this, PointCounterListActivity::class.java))
+            startActivity(Intent(this, CounterListActivity::class.java))
         }
         binding.btnStartSoloCounter.setOnClickListener {
-            startActivity(Intent(this, SoloCounterActivity::class.java))
+            startActivity(Intent(this, CounterSoloActivity::class.java))
+        }
+        binding.btnStartDuoCounter.setOnClickListener {
+            startActivity(Intent(this, CounterDuoActivity::class.java))
+        }
+        binding.btnStartCompactListPointCounter.setOnClickListener {
+            startActivity(Intent(this, CounterCompactListActivity::class.java))
         }
     }
 
@@ -50,5 +60,11 @@ class HomeActivity : AppCompatActivity() {
                 else -> {false}
             }
         }
+    }
+
+    private fun setToolbar() {
+        val toolbarBackImg: ImageView = findViewById(R.id.toolbar_image_view_back)
+
+        toolbarBackImg.isVisible = false
     }
 }

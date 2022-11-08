@@ -6,53 +6,72 @@
     android:layout_height="match_parent"
     tools:context=".ui.HomeActivity">
 
-    <Button
-        android:id="@+id/btn_start_solo_counter"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/solo_counter"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/btn_start_duo_counter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/duo_counter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_start_solo_counter"/>
+        <include layout="@layout/toolbar_layout" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <Button
-        android:id="@+id/btn_start_list_point_counter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/list_counter"
-        app:layout_constraintStart_toStartOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/home_activity_bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_start_duo_counter"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBar">
 
-    <Button
-        android:id="@+id/btn_start_compact_list_point_counter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/compact_list_counter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_start_list_point_counter"/>
+        <Button
+            android:id="@+id/btn_start_solo_counter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/solo_counter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_start_duo_counter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/duo_counter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_solo_counter" />
+
+        <Button
+            android:id="@+id/btn_start_list_point_counter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/list_counter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_duo_counter" />
+
+        <Button
+            android:id="@+id/btn_start_compact_list_point_counter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/compact_list_counter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_list_point_counter" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/home_activity_bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/menu_bottom_navigation"/>
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_bottom_navigation" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,7 +15,10 @@
 
         <activity
             android:name=".ui.HomeActivity"
-            android:exported="true">
+            android:exported="true" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,12 +27,38 @@
         </activity>
 
         <activity
-            android:name=".ui.PointCounterListActivity"
-            android:exported="true"/>
+            android:name=".ui.CounterListActivity"
+            android:exported="false" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
 
         <activity
-            android:name=".ui.SoloCounterActivity"
-            android:exported="true"/>
+            android:name=".ui.CounterSoloActivity"
+            android:exported="false" >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <activity
+            android:name=".ui.CounterCompactListActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <activity
+            android:name=".ui.CounterDuoActivity"
+            android:screenOrientation="landscape"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
     </application>
 
 </manifest>

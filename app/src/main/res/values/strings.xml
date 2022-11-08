@@ -15,14 +15,15 @@
     <string name="add">Add</string>
     <string name="_0">0</string>
     <string name="empty_string" />
-    <string name="list_counter">List counter</string>
     <string name="add_new_participant">Add new participant</string>
+    <string name="edit_participant">Edit participant</string>
     <string name="home_view">Home</string>
     <string name="list_view">List</string>
     <string name="stat_view">Stats</string>
-    <string name="compact_list_counter">Compact list counter</string>
-    <string name="duo_counter">Duo counter</string>
-    <string name="solo_counter">Solo counter</string>
+    <string name="solo_counter">Solo Counter</string>
+    <string name="duo_counter">Duo Counter</string>
+    <string name="list_counter">List Counter</string>
+    <string name="compact_list_counter">Compact List Counter</string>
     <string name="_return">return</string>
 
 </resources>

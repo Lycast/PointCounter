@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.PointCounterListActivity">
+    tools:context=".ui.CounterCompactListActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
@@ -29,14 +29,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_guests"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/guest_item"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_guests"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            tools:listitem="@layout/counter_compact_list_item"/>
 
     </ScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
