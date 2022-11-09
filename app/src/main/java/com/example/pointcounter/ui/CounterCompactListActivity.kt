@@ -1,13 +1,16 @@
 package com.example.pointcounter.ui
 
 import android.content.res.Configuration
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.Window
+import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.PopupMenu
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pointcounter.R
@@ -32,8 +35,19 @@ class CounterCompactListActivity : AppCompatActivity(), OnItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ) {
+            window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES }
+
         binding = ActivityCounterCompactListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // set immersive mode
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowInsetsControllerCompat(window, binding.root).let {
+            it.hide(WindowInsetsCompat.Type.systemBars())
+            it.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
 
         val dao = UserRoomDatabase.getInstance(application).userDao
         val repository = Repository(dao)
@@ -42,7 +56,6 @@ class CounterCompactListActivity : AppCompatActivity(), OnItemClickListener {
         viewModel = ViewModelProvider(this, factory)[SharedViewModel::class.java]
 
         displayList()
-        setToolbar()
     }
 
     override fun setOnItemClickListener(user: User, enum: UserEnum) {
@@ -72,22 +85,17 @@ class CounterCompactListActivity : AppCompatActivity(), OnItemClickListener {
         }
     }
 
-    private fun setDisplayAlertDialogParticipant(user: User?) {
-        var color = user?.color ?: viewModel.getRandomLightColor()
+    private fun setDisplayAlertDialogParticipant(user: User) {
+        var color = user.color
         val alertDialog = AlertDialog.Builder(this)
         val dialogBinding = AlertDialogParticipantBinding.inflate(layoutInflater)
         alertDialog.setView(dialogBinding.root)
 
         // Populate alert dialog
-        if (user == null) {
-            dialogBinding.cardExampleColor.setCardBackgroundColor(color)
-            dialogBinding.btnGenerateColor.setTextColor(color)
-        } else {
-            dialogBinding.alertDialogTitle.setText(R.string.edit_participant)
-            dialogBinding.editTextEnterName.setText(user.name)
-            dialogBinding.btnGenerateColor.setTextColor(user.color)
-            dialogBinding.cardExampleColor.setCardBackgroundColor(user.color)
-        }
+        dialogBinding.alertDialogTitle.setText(R.string.edit_participant)
+        dialogBinding.editTextEnterName.setText(user.name)
+        dialogBinding.btnGenerateColor.setTextColor(user.color)
+        dialogBinding.cardExampleColor.setCardBackgroundColor(user.color)
 
         val dialog = alertDialog.create()
 
@@ -99,12 +107,7 @@ class CounterCompactListActivity : AppCompatActivity(), OnItemClickListener {
         }
 
         dialogBinding.alertDialogButtonOk.setOnClickListener {
-            if (user == null && !TextUtils.isEmpty(dialogBinding.editTextEnterName.text)) {
-                //  Add new guest
-                val newUser = User(0, dialogBinding.editTextEnterName.text.toString(), 0, color)
-                viewModel.addUser(newUser)
-                dialog.dismiss()
-            } else if (user != null && !TextUtils.isEmpty(dialogBinding.editTextEnterName.text)) {
+            if (!TextUtils.isEmpty(dialogBinding.editTextEnterName.text)) {
                 // Update guest
                 viewModel.updateUser(User(user.id, dialogBinding.editTextEnterName.text.toString(), user.score, color))
                 dialog.dismiss()
@@ -123,34 +126,6 @@ class CounterCompactListActivity : AppCompatActivity(), OnItemClickListener {
             var column = 2
             if (this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) { column = 4 }
             binding.recyclerViewGuests.layoutManager = GridLayoutManager( this, column)
-        }
-    }
-
-    private fun setToolbar() {
-        val toolbarBackImg: ImageView = findViewById(R.id.toolbar_image_view_back)
-        val toolbarMenu: ImageView = findViewById(R.id.toolbar_image_view_menu)
-        val toolbarAdd: ImageView = findViewById(R.id.toolbar_image_view_add)
-        val toolbarTitle: TextView = findViewById(R.id.toolbar_title)
-
-        toolbarTitle.setText(R.string.compact_list_counter)
-        toolbarBackImg.setOnClickListener {
-            viewModel.users.observe(this) {
-                viewModel.resetAllUsersPoint(it)
-            }
-            finish()
-        }
-        toolbarAdd.setOnClickListener { setDisplayAlertDialogParticipant(null) }
-        toolbarMenu.setOnClickListener {
-            val popupMenu = PopupMenu(this, it)
-            popupMenu.menu.add("Delete all counters").setOnMenuItemClickListener {
-                viewModel.deleteAllUsers()
-                true
-            }
-            popupMenu.menu.add("Reset all counters").setOnMenuItemClickListener {
-                viewModel.deleteAllUsers()
-                true
-            }
-            popupMenu.show()
         }
     }
 }

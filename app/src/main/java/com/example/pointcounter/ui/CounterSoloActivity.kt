@@ -1,8 +1,11 @@
 package com.example.pointcounter.ui
 
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
@@ -11,6 +14,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.example.pointcounter.R
@@ -33,8 +39,19 @@ class CounterSoloActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ) {
+            window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES }
+
         binding = ActivityCounterSoloBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // set immersive mode
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowInsetsControllerCompat(window, binding.root).let {
+            it.hide(WindowInsetsCompat.Type.systemBars())
+            it.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
 
         val dao = UserRoomDatabase.getInstance(application).userDao
         val repository = Repository(dao)
@@ -44,7 +61,6 @@ class CounterSoloActivity : AppCompatActivity() {
 
         initSpinnerSelectParticipant()
         setClickListenerPointView()
-        setToolbar()
         setOnClickEditIcon()
 
         if (savedInstanceState != null) {
@@ -104,39 +120,17 @@ class CounterSoloActivity : AppCompatActivity() {
         }
     }
 
-    private fun setToolbar() {
-        val toolbarBackImg: ImageView = findViewById(R.id.toolbar_image_view_back)
-        val toolbarMenu: ImageView = findViewById(R.id.toolbar_image_view_menu)
-        val toolbarAdd: ImageView = findViewById(R.id.toolbar_image_view_add)
-        val toolbarTitle: TextView = findViewById(R.id.toolbar_title)
-
-        toolbarMenu.isVisible = false
-        toolbarTitle.setText(R.string.solo_counter)
-        toolbarBackImg.setOnClickListener {
-            viewModel.users.observe(this) {
-                viewModel.resetAllUsersPoint(it)
-            }
-            finish()
-        }
-        toolbarAdd.setOnClickListener { setDisplayAlertDialogParticipant(null) }
-    }
-
-    private fun setDisplayAlertDialogParticipant(user: User?) {
-        var color = user?.color ?: viewModel.getRandomLightColor()
+    private fun setDisplayAlertDialogParticipant(user: User) {
+        var color = user.color
         val alertDialog = AlertDialog.Builder(this)
         val dialogBinding = AlertDialogParticipantBinding.inflate(layoutInflater)
         alertDialog.setView(dialogBinding.root)
 
         // Populate alert dialog
-        if (user == null) {
-            dialogBinding.cardExampleColor.setCardBackgroundColor(color)
-            dialogBinding.btnGenerateColor.setTextColor(color)
-        } else {
-            dialogBinding.alertDialogTitle.setText(R.string.edit_participant)
-            dialogBinding.editTextEnterName.setText(user.name)
-            dialogBinding.btnGenerateColor.setTextColor(user.color)
-            dialogBinding.cardExampleColor.setCardBackgroundColor(user.color)
-        }
+        dialogBinding.alertDialogTitle.setText(R.string.edit_participant)
+        dialogBinding.editTextEnterName.setText(user.name)
+        dialogBinding.btnGenerateColor.setTextColor(user.color)
+        dialogBinding.cardExampleColor.setCardBackgroundColor(user.color)
 
         val dialog = alertDialog.create()
 
@@ -149,12 +143,7 @@ class CounterSoloActivity : AppCompatActivity() {
 
         // On click button Ok
         dialogBinding.alertDialogButtonOk.setOnClickListener {
-            if (user == null && !TextUtils.isEmpty(dialogBinding.editTextEnterName.text)) {
-                //  Add new guest
-                val newUser = User(0, dialogBinding.editTextEnterName.text.toString(), 0, color)
-                viewModel.addUser(newUser)
-                dialog.dismiss()
-            } else if (user != null && !TextUtils.isEmpty(dialogBinding.editTextEnterName.text)) {
+            if (!TextUtils.isEmpty(dialogBinding.editTextEnterName.text)) {
                 // Update guest
                 viewModel.updateUser(User(user.id, dialogBinding.editTextEnterName.text.toString(), user.score, color))
                 dialog.dismiss()
@@ -189,5 +178,4 @@ class CounterSoloActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         outState.putInt("spinner_position", spinnerPos)
     }
-
 }

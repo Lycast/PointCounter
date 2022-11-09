@@ -12,18 +12,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/guest_item_text_view_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name_of_guest"
-            android:textColor="@color/black"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
             android:layout_marginStart="5dp"
-            android:textSize="8pt"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/user_item_text_view_score"
             app:layout_constraintStart_toEndOf="@id/guest_item_image_view_menu"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/guest_item_text_view_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name_of_guest"
+                android:textColor="@color/black"
+                android:layout_marginStart="5dp"
+                android:textSize="8pt"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+        </LinearLayout>
+
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/user_item_image_view_remove_point"
@@ -41,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
-                app:tint="@color/black"
+                app:tint="@color/gray"
                 android:contentDescription="@string/remove_one_point"
                 android:src="@drawable/_remove_18" />
         </com.google.android.material.card.MaterialCardView>
@@ -53,7 +64,7 @@
             android:paddingBottom="2dp"
             android:paddingHorizontal="10dp"
             android:text="@string/_0"
-            android:textColor="@color/black"
+            android:textColor="@color/gray"
             android:textSize="14pt"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/user_item_image_view_remove_point"
@@ -76,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/menu"
-                app:tint="@color/black"
+                app:tint="@color/gray"
                 android:padding="2dp"
                 android:src="@drawable/_edit_18"/>
         </com.google.android.material.card.MaterialCardView>

@@ -4,30 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
     tools:context=".ui.CounterSoloActivity">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBar"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <include layout="@layout/toolbar_layout"/>
-    </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/solo_activity_card_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        app:cardElevation="5dp"
+        app:cardElevation="0dp"
         app:strokeWidth="1dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -87,17 +77,19 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="1dp"
+        app:cardCornerRadius="10dp"
         android:backgroundTint="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/solo_activity_image_view_remove_point"
-        app:strokeWidth="1dp">
+        app:layout_constraintStart_toEndOf="@id/solo_activity_image_view_remove_point">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginVertical="20dp"
+            android:layout_marginVertical="15dp"
             android:contentDescription="@string/add_one_point"
             android:src="@drawable/_add_48" />
     </com.google.android.material.card.MaterialCardView>
@@ -107,8 +99,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:backgroundTint="@android:color/transparent"
+        app:cardElevation="0dp"
         app:strokeWidth="1dp"
+        app:cardCornerRadius="10dp"
+        android:backgroundTint="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/solo_activity_image_view_add_point">
@@ -117,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginVertical="20dp"
+            android:layout_marginVertical="15dp"
             android:contentDescription="@string/remove_one_point"
             android:src="@drawable/_remove_48" />
     </com.google.android.material.card.MaterialCardView>

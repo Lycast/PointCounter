@@ -6,5 +6,6 @@
     android:layout_height="wrap_content"
     android:textSize="16pt"
     android:ellipsize="marquee"
+    android:textColor="@color/gray"
     android:padding="5dp"
     android:textAlignment="inherit"/>

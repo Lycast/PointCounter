@@ -1,12 +1,19 @@
 package com.example.pointcounter.ui
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.example.pointcounter.R
@@ -30,14 +37,26 @@ class CounterDuoActivity : AppCompatActivity() {
     private var currentParticipantA: User? = null
     private var currentParticipantB: User? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ) {
+            window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES }
+
         binding = ActivityCounterDuoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         if (savedInstanceState != null) {
             spinnerAPos = savedInstanceState.getInt("spinner_a_position", 0)
             spinnerBPos = savedInstanceState.getInt("spinner_b_position", 0)
+        }
+
+        // set immersive mode
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowInsetsControllerCompat(window, binding.root).let {
+            it.hide(WindowInsetsCompat.Type.systemBars())
+            it.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
 
         val dao = UserRoomDatabase.getInstance(application).userDao
@@ -49,18 +68,21 @@ class CounterDuoActivity : AppCompatActivity() {
         initSpinnerSelectParticipantA()
         initSpinnerSelectParticipantB()
         setClickListenerPointView()
-        setToolbar()
         setOnClickEditIcon()
     }
 
     private fun populateViewParticipantA(user: User) {
         binding.duoActivityTextViewScore1.text = user.score.toString()
-        binding.counter1.setBackgroundColor(user.color)
+        binding.duoActivityCardName1.setCardBackgroundColor(user.color)
+        binding.duoActivityImageViewAddPoint1.setCardBackgroundColor(user.color)
+        binding.duoActivityImageViewRemovePoint1.setCardBackgroundColor(user.color)
     }
 
     private fun populateViewParticipantB(user: User) {
         binding.duoActivityTextViewScore2.text = user.score.toString()
-        binding.counter2.setBackgroundColor(user.color)
+        binding.duoActivityCardName2.setCardBackgroundColor(user.color)
+        binding.duoActivityImageViewAddPoint2.setCardBackgroundColor(user.color)
+        binding.duoActivityImageViewRemovePoint2.setCardBackgroundColor(user.color)
     }
 
     private fun initSpinnerSelectParticipantA() {
@@ -149,23 +171,6 @@ class CounterDuoActivity : AppCompatActivity() {
             viewModel.updateUser(currentParticipantB!!)
             return@setOnLongClickListener true
         }
-    }
-
-    private fun setToolbar() {
-        val toolbarBackImg: ImageView = findViewById(R.id.toolbar_image_view_back)
-        val toolbarMenu: ImageView = findViewById(R.id.toolbar_image_view_menu)
-        val toolbarAdd: ImageView = findViewById(R.id.toolbar_image_view_add)
-        val toolbarTitle: TextView = findViewById(R.id.toolbar_title)
-
-        toolbarMenu.isVisible = false
-        toolbarTitle.setText(R.string.duo_counter)
-        toolbarBackImg.setOnClickListener {
-            viewModel.users.observe(this) {
-                viewModel.resetAllUsersPoint(it)
-            }
-            finish()
-        }
-        toolbarAdd.setOnClickListener { setDisplayAlertDialogParticipant(null) }
     }
 
     private fun setDisplayAlertDialogParticipant(user: User?) {

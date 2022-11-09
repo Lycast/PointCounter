@@ -36,8 +36,8 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
             rnd.nextInt(256)/2 + 125)
     }
 
-    fun resetAllUsersPoint(users: List<User>) = viewModelScope.launch {
-        for (element in users) {
+    fun resetAllUsersPoint(list: List<User>) = viewModelScope.launch {
+        for (element in list ) {
             element.score = 0
             updateUser(element)
         }

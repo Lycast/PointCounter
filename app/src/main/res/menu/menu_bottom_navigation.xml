@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/bottom_menu_home"
-        android:title="@string/home_view"
+        android:title="@string/home"
         android:icon="@drawable/_home_24" />
 
     <item
         android:id="@+id/bottom_menu_list"
-        android:title="@string/list_view"
+        android:title="@string/list"
         android:icon="@drawable/_list_24" />
 
     <item
         android:id="@+id/bottom_menu_stats"
-        android:title="@string/stat_view"
+        android:title="@string/stats"
         android:icon="@drawable/_stats_24" />
 
 </menu>

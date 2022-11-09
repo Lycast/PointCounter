@@ -2,16 +2,23 @@
     <!-- Base application theme. -->
     <style name="Theme.PointCounterV2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/very_light_gray</item>
-        <item name="colorPrimaryVariant">@color/green</item>
-        <item name="colorOnPrimary">@color/light_gray</item>
+        <item name="colorPrimaryVariant">@color/gray</item>
+        <item name="colorOnPrimary">@color/gray</item>
 
         <item name="colorSecondary">@color/very_light_gray</item>
-        <item name="colorSecondaryVariant">@color/green</item>
-        <item name="colorOnSecondary">@color/light_gray</item>
+        <item name="colorSecondaryVariant">@color/gray</item>
+        <item name="colorOnSecondary">@color/gray</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
 
-        <item name="android:tint">@color/light_gray</item>
+        <item name="android:tint">@color/gray</item>
+        <item name="strokeColor">@color/gray</item>
 
+        <item name="android:textColor">@color/gray</item>
+
+    </style>
+
+    <style name="custom_background" parent="Theme.MaterialComponents">
+        <item name="android:background">@color/gray</item>
     </style>
 </resources>
