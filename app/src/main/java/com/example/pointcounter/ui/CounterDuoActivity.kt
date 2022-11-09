@@ -1,30 +1,27 @@
 package com.example.pointcounter.ui
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.*
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.example.pointcounter.R
 import com.example.pointcounter.data.UserRoomDatabase
 import com.example.pointcounter.databinding.ActivityCounterDuoBinding
-import com.example.pointcounter.databinding.AlertDialogParticipantBinding
 import com.example.pointcounter.model.entity.User
 import com.example.pointcounter.repository.Repository
+import com.example.pointcounter.ui.dialog.DialogParticipant
 import com.example.pointcounter.viewmodel.SharedViewModel
 import com.example.pointcounter.viewmodel.SharedViewModelFactory
-import com.google.android.material.snackbar.Snackbar
 
 class CounterDuoActivity : AppCompatActivity() {
 
@@ -173,59 +170,14 @@ class CounterDuoActivity : AppCompatActivity() {
         }
     }
 
-    private fun setDisplayAlertDialogParticipant(user: User?) {
-        var color = user?.color ?: viewModel.getRandomLightColor()
-        val alertDialog = AlertDialog.Builder(this)
-        val dialogBinding = AlertDialogParticipantBinding.inflate(layoutInflater)
-        alertDialog.setView(dialogBinding.root)
 
-        // Populate alert dialog
-        if (user == null) {
-            dialogBinding.cardExampleColor.setCardBackgroundColor(color)
-            dialogBinding.btnGenerateColor.setTextColor(color)
-        } else {
-            dialogBinding.alertDialogTitle.setText(R.string.edit_participant)
-            dialogBinding.editTextEnterName.setText(user.name)
-            dialogBinding.btnGenerateColor.setTextColor(user.color)
-            dialogBinding.cardExampleColor.setCardBackgroundColor(user.color)
-        }
-
-        val dialog = alertDialog.create()
-
-        // On click button generate color
-        dialogBinding.btnGenerateColor.setOnClickListener {
-            color = viewModel.getRandomLightColor()
-            dialogBinding.cardExampleColor.setCardBackgroundColor(color)
-            dialogBinding.btnGenerateColor.setTextColor(color)
-        }
-
-        // On click button Ok
-        dialogBinding.alertDialogButtonOk.setOnClickListener {
-            if (user == null && !TextUtils.isEmpty(dialogBinding.editTextEnterName.text)) {
-                //  Add new guest
-                val newUser = User(0, dialogBinding.editTextEnterName.text.toString(), 0, color)
-                viewModel.addUser(newUser)
-                viewModel.users.observe(this) {
-                    spinnerA.setSelection(it.size -1)
-                }
-                dialog.dismiss()
-            } else if (user != null && !TextUtils.isEmpty(dialogBinding.editTextEnterName.text)) {
-                // Update guest
-                viewModel.updateUser(User(user.id, dialogBinding.editTextEnterName.text.toString(), user.score, color))
-                dialog.dismiss()
-            } else {
-                Snackbar.make(dialogBinding.root, "The name must be filled in", Snackbar.LENGTH_SHORT).show()
-            }
-        }
-        dialog.show()
-    }
 
     private fun setOnClickEditIcon() {
         // Set edit click participant A
         binding.duoActivityImageViewMenu1.setOnClickListener {
             val popupMenu = PopupMenu(this, it)
             popupMenu.menu.add("Edit").setOnMenuItemClickListener {
-                setDisplayAlertDialogParticipant(currentParticipantA!!)
+                DialogParticipant(currentParticipantA, viewModel).show(supportFragmentManager, "dialog_user")
                 true
             }
             popupMenu.menu.add("Reset Counter").setOnMenuItemClickListener {
@@ -244,7 +196,7 @@ class CounterDuoActivity : AppCompatActivity() {
         binding.duoActivityImageViewMenu2.setOnClickListener {
             val popupMenu = PopupMenu(this, it)
             popupMenu.menu.add("Edit").setOnMenuItemClickListener {
-                setDisplayAlertDialogParticipant(currentParticipantB!!)
+                if (currentParticipantB != null) DialogParticipant(currentParticipantB, viewModel).show(supportFragmentManager, "dialog_user")
                 true
             }
             popupMenu.menu.add("Reset Counter").setOnMenuItemClickListener {

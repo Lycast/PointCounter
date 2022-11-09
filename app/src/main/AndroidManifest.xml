@@ -16,6 +16,7 @@
         <activity
             android:name=".ui.HomeActivity"
             android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:exported="true" >
             <meta-data
                 android:name="android.app.lib_name"
