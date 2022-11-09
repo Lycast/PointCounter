@@ -8,9 +8,10 @@
         android:id="@+id/color_card"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="2"
+        app:layout_constraintDimensionRatio="3"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/seekbar_red"
         app:layout_constraintStart_toStartOf="parent" />
 
     <SeekBar
@@ -25,6 +26,7 @@
         android:thumbTint="@color/red"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/seekbar_green"
         app:layout_constraintTop_toBottomOf="@id/color_card" />
 
     <SeekBar
@@ -37,6 +39,7 @@
         android:progressTint="@color/green"
         android:thumbTint="@color/green"
         app:layout_constraintTop_toBottomOf="@id/seekbar_red"
+        app:layout_constraintBottom_toTopOf="@id/seekbar_blue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -50,6 +53,7 @@
         android:progressTint="@color/blue"
         android:thumbTint="@color/blue"
         app:layout_constraintTop_toBottomOf="@id/seekbar_green"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
