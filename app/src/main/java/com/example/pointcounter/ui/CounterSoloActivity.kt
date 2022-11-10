@@ -73,6 +73,8 @@ class CounterSoloActivity : AppCompatActivity() {
 
         viewModel.users.observe(this) { list ->
 
+            if (list.isEmpty()) viewModel.addUser( User(0, "Guest", 0, viewModel.getRandomColor())) // change that by list default
+
             // Create an ArrayAdapter using a simple spinner layout and languages array
             val aa = ArrayAdapter(this, R.layout.spinner_item, list)
             // Set layout to use when the list of choices appear

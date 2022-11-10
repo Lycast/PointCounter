@@ -30,7 +30,7 @@ class CounterDuoActivity : AppCompatActivity() {
     private lateinit var spinnerA: Spinner
     private lateinit var spinnerB: Spinner
     private var spinnerAPos = 0
-    private var spinnerBPos = 1
+    private var spinnerBPos = 0
     private var currentParticipantA: User? = null
     private var currentParticipantB: User? = null
 
@@ -38,8 +38,10 @@ class CounterDuoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ) {
-            window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.attributes.layoutInDisplayCutoutMode =
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+        }
 
         binding = ActivityCounterDuoBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -53,7 +55,8 @@ class CounterDuoActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowInsetsControllerCompat(window, binding.root).let {
             it.hide(WindowInsetsCompat.Type.systemBars())
-            it.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            it.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
 
         val dao = UserRoomDatabase.getInstance(application).userDao
@@ -85,6 +88,9 @@ class CounterDuoActivity : AppCompatActivity() {
     private fun initSpinnerSelectParticipantA() {
         viewModel.users.observe(this) {
 
+            if (it.isEmpty()) { viewModel.addUser(User(0, "Guest", 0, viewModel.getRandomColor())) // change that by list default
+            }
+
             spinnerA = binding.duoActivitySpinnerList1
 
             val aa = ArrayAdapter(this, R.layout.spinner_item_duo, it)
@@ -93,11 +99,17 @@ class CounterDuoActivity : AppCompatActivity() {
             spinnerA.setSelection(spinnerAPos)
 
             spinnerA.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long ) {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
                     populateViewParticipantA(it[position])
                     currentParticipantA = it[position]
                     spinnerAPos = position
                 }
+
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
         }
@@ -114,11 +126,17 @@ class CounterDuoActivity : AppCompatActivity() {
             spinnerB.setSelection(spinnerBPos)
 
             spinnerB.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long ) {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
                     populateViewParticipantB(it[position])
                     currentParticipantB = it[position]
                     spinnerBPos = position
                 }
+
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
         }
@@ -131,7 +149,7 @@ class CounterDuoActivity : AppCompatActivity() {
             viewModel.updateUser(currentParticipantA!!)
         }
         binding.duoActivityImageViewAddPoint1.setOnLongClickListener {
-            currentParticipantA!!.score+=10
+            currentParticipantA!!.score += 10
             viewModel.updateUser(currentParticipantA!!)
             return@setOnLongClickListener true
         }
@@ -142,7 +160,7 @@ class CounterDuoActivity : AppCompatActivity() {
             viewModel.updateUser(currentParticipantB!!)
         }
         binding.duoActivityImageViewAddPoint2.setOnLongClickListener {
-            currentParticipantB!!.score+=10
+            currentParticipantB!!.score += 10
             viewModel.updateUser(currentParticipantB!!)
             return@setOnLongClickListener true
         }
@@ -171,13 +189,15 @@ class CounterDuoActivity : AppCompatActivity() {
     }
 
 
-
     private fun setOnClickEditIcon() {
         // Set edit click participant A
         binding.duoActivityImageViewMenu1.setOnClickListener {
             val popupMenu = PopupMenu(this, it)
             popupMenu.menu.add("Edit").setOnMenuItemClickListener {
-                DialogParticipant(currentParticipantA, viewModel).show(supportFragmentManager, "dialog_user")
+                DialogParticipant(currentParticipantA, viewModel).show(
+                    supportFragmentManager,
+                    "dialog_user"
+                )
                 true
             }
             popupMenu.menu.add("Reset Counter").setOnMenuItemClickListener {
@@ -196,7 +216,10 @@ class CounterDuoActivity : AppCompatActivity() {
         binding.duoActivityImageViewMenu2.setOnClickListener {
             val popupMenu = PopupMenu(this, it)
             popupMenu.menu.add("Edit").setOnMenuItemClickListener {
-                if (currentParticipantB != null) DialogParticipant(currentParticipantB, viewModel).show(supportFragmentManager, "dialog_user")
+                if (currentParticipantB != null) DialogParticipant(
+                    currentParticipantB,
+                    viewModel
+                ).show(supportFragmentManager, "dialog_user")
                 true
             }
             popupMenu.menu.add("Reset Counter").setOnMenuItemClickListener {

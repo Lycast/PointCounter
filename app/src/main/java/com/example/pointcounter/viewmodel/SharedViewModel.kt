@@ -40,9 +40,9 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
     fun getRandomColor(): Int {
         val rnd = Random.Default
         return Color.argb(255,
-            rnd.nextInt(256),
-            rnd.nextInt(256),
-            rnd.nextInt(256))
+            (rnd.nextInt(256) / 1.5 + 80).toInt(),
+            (rnd.nextInt(256) / 1.5 + 80).toInt(),
+            (rnd.nextInt(256) / 1.5 + 80).toInt())
     }
 
     fun setColor(red: Int, green: Int, blue: Int ) {

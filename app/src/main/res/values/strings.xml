@@ -25,5 +25,7 @@
     <string name="compact_list">Compact List</string>
     <string name="_return">return</string>
     <string name="solo_counter_example">solo counter example</string>
+    <string name="fragment_list">FRAGMENT LIST</string>
+    <string name="fragment_stats_history">FRAGMENT STATS HISTORY</string>
 
 </resources>

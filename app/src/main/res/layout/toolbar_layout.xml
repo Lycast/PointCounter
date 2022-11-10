@@ -1,33 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+    android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/toolbar_image_view_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:src="@drawable/_back_36"
+            android:src="@drawable/_back_24"
             android:contentDescription="@string/_return" />
-
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:layout_gravity="center"
-            android:paddingHorizontal="25dp"
-            android:textSize="12pt"/>
 
         <ImageView
             android:id="@+id/toolbar_image_view_menu"
@@ -36,7 +20,7 @@
             android:layout_gravity="end"
             android:layout_marginEnd="15dp"
             android:contentDescription="@string/menu"
-            android:src="@drawable/_menu_36"/>
+            android:src="@drawable/_menu_24"/>
 
         <ImageView
             android:id="@+id/toolbar_image_view_add"
@@ -45,9 +29,6 @@
             android:layout_gravity="end"
             android:layout_marginEnd="15dp"
             android:contentDescription="@string/menu"
-            android:src="@drawable/_add_36"/>
+            android:src="@drawable/_add_24"/>
 
-    </androidx.appcompat.widget.Toolbar>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.Toolbar>

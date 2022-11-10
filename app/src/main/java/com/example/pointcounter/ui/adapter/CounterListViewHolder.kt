@@ -5,6 +5,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pointcounter.databinding.CounterListItemBinding
 import com.example.pointcounter.model.entity.User
+import com.example.pointcounter.utils.OnItemClickListener
 import com.example.pointcounter.utils.UserEnum
 
 class CounterListViewHolder(private val context: Context, private val itemBinding: CounterListItemBinding, private val listener: OnItemClickListener): RecyclerView.ViewHolder(itemBinding.root) {

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.pointcounter.databinding.CounterCompactListItemBinding
 import com.example.pointcounter.databinding.CounterListItemBinding
 import com.example.pointcounter.model.entity.User
+import com.example.pointcounter.utils.OnItemClickListener
 import com.example.pointcounter.utils.ViewHolderEnum
 
 class UserAdapter(private val users : List<User>, private val listener: OnItemClickListener, private val enum: ViewHolderEnum) : RecyclerView.Adapter<ViewHolder>() {

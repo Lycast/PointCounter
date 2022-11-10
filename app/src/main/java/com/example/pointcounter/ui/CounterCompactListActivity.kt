@@ -15,7 +15,7 @@ import com.example.pointcounter.data.UserRoomDatabase
 import com.example.pointcounter.databinding.ActivityCounterCompactListBinding
 import com.example.pointcounter.model.entity.User
 import com.example.pointcounter.repository.Repository
-import com.example.pointcounter.ui.adapter.OnItemClickListener
+import com.example.pointcounter.utils.OnItemClickListener
 import com.example.pointcounter.ui.adapter.UserAdapter
 import com.example.pointcounter.ui.dialog.DialogParticipant
 import com.example.pointcounter.utils.UserEnum
@@ -85,6 +85,11 @@ class CounterCompactListActivity : AppCompatActivity(), OnItemClickListener {
         viewModel.users.observe(this) {
             adapter = UserAdapter(it, this, ViewHolderEnum.COMPACT_LIST)
             binding.recyclerViewGuests.adapter = adapter
+
+            if (it.isEmpty())
+                for (i in 1..20) {
+                    viewModel.addUser( User(0, "Guest", 0, viewModel.getRandomColor())) // change that by list default
+                }
 
             var column = 2
             if (this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) { column = 4 }
