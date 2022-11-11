@@ -40,10 +40,6 @@ class ViewHolderCounterList(private val context: Context, private val itemBindin
                 listener.setOnItemClickListener(user, UserEnum.RESET_POINT)
                 true
             }
-            popupMenu.menu.add("Delete").setOnMenuItemClickListener {
-                listener.setOnItemClickListener(user, UserEnum.DELETE)
-                true
-            }
             popupMenu.show()
         }
     }

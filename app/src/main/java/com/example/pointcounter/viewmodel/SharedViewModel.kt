@@ -1,12 +1,13 @@
 package com.example.pointcounter.viewmodel
 
 import android.graphics.Color
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pointcounter.model.entity.User
 import com.example.pointcounter.repository.Repository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -35,11 +36,13 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
         repository.deleteAllUsers()
     }
 
-    fun resetAllUsersPoint(list: List<User>) = viewModelScope.launch {
-        for (element in list ) {
-            element.score = 0
-            updateUser(element)
-        }
+    fun resetAllUsersPoint(list: List<User>) = CoroutineScope(Dispatchers.IO).launch {
+        suspend {
+            for (element in list) {
+                element.score = 0
+                updateUser(element)
+            }
+        }.invoke()
     }
 
     fun getRandomColor(): Int {

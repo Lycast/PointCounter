@@ -1,22 +1,27 @@
 package com.example.pointcounter.ui
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.pointcounter.R
 import com.example.pointcounter.data.UserRoomDatabase
 import com.example.pointcounter.databinding.ActivityCounterListBinding
 import com.example.pointcounter.model.entity.User
 import com.example.pointcounter.repository.Repository
 import com.example.pointcounter.utils.OnItemClickListener
 import com.example.pointcounter.ui.adapter.ParticipantAdapter
+import com.example.pointcounter.ui.dialog.DialogDiceResult
+import com.example.pointcounter.ui.dialog.DialogMenu
 import com.example.pointcounter.ui.dialog.DialogParticipant
 import com.example.pointcounter.utils.UserEnum
 import com.example.pointcounter.utils.ViewHolderEnum
@@ -52,6 +57,7 @@ class CounterListActivity : AppCompatActivity(), OnItemClickListener {
         viewModel = ViewModelProvider(this, factory)[SharedViewModel::class.java]
 
         displayList()
+        setToolbar()
     }
 
     override fun setOnItemClickListener(user: User, enum: UserEnum) {
@@ -89,6 +95,29 @@ class CounterListActivity : AppCompatActivity(), OnItemClickListener {
             var column = 1
             if (this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) { column = 2 }
             binding.recyclerViewGuests.layoutManager = GridLayoutManager( this, column)
+        }
+    }
+
+    private fun setToolbar() {
+        val toolbarBackImg: ImageView = findViewById(R.id.toolbar_image_view_back)
+        val toolbarMenu: ImageView = findViewById(R.id.toolbar_image_view_menu)
+        val toolbarDiceImg: ImageView = findViewById(R.id.toolbar_image_view_dice)
+        val toolbarAdd: ImageView = findViewById(R.id.toolbar_image_add)
+
+        toolbarAdd.setOnClickListener { viewModel.addUser(User(0,"Guest", 0, viewModel.getRandomColor())) }
+
+        toolbarDiceImg.setOnClickListener {
+            viewModel.launchDice()
+            DialogDiceResult(viewModel).show(supportFragmentManager, "dialog_dice")
+        }
+
+        toolbarBackImg.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
+
+        toolbarMenu.setOnClickListener {
+            DialogMenu(viewModel).show(supportFragmentManager, "dialog_menu")
         }
     }
 }

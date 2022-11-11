@@ -1,11 +1,8 @@
 package com.example.pointcounter.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -16,24 +13,18 @@ import com.example.pointcounter.model.entity.User
 import com.example.pointcounter.repository.Repository
 import com.example.pointcounter.ui.adapter.MainViewPagerAdapter
 import com.example.pointcounter.ui.dialog.DialogDiceResult
+import com.example.pointcounter.ui.dialog.DialogMenu
 import com.example.pointcounter.ui.navigation.HomeFragment
 import com.example.pointcounter.ui.navigation.ListFragment
 import com.example.pointcounter.ui.navigation.StatsFragment
-import com.example.pointcounter.ui.dialog.DialogParticipant
 import com.example.pointcounter.viewmodel.SharedViewModel
 import com.example.pointcounter.viewmodel.SharedViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: SharedViewModel
-    private var list = listOf<User>()
-    private val fragments: ArrayList<Fragment> = arrayListOf(HomeFragment(), ListFragment(), StatsFragment())
-    private val viewPagerAdapter = MainViewPagerAdapter(fragments, this)
     private val tabsList = listOf(R.drawable._home_24, R.drawable._list_24, R.drawable._stats_24)
 
 
@@ -42,25 +33,38 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initViewModel()
+        initViewPager()
+        setToolbar()
+    }
+
+    private fun initViewModel() {
         val dao = UserRoomDatabase.getInstance(application).userDao
         val repository = Repository(dao)
         val factory = SharedViewModelFactory(repository)
 
+        viewModel = ViewModelProvider(this, factory)[SharedViewModel::class.java]
+    }
+
+    private fun initViewPager() {
+        val fragments: ArrayList<Fragment> = arrayListOf(HomeFragment(viewModel), ListFragment(), StatsFragment())
+        val viewPagerAdapter = MainViewPagerAdapter(fragments, this)
         binding.mainViewPager.adapter = viewPagerAdapter
         TabLayoutMediator(binding.mainTabLayout, binding.mainViewPager) {
-            tab, position -> tab.icon = ContextCompat.getDrawable(this, tabsList[position])
+                tab, position -> tab.icon = ContextCompat.getDrawable(this, tabsList[position])
         }.attach()
-
-        viewModel = ViewModelProvider(this, factory)[SharedViewModel::class.java]
-        viewModel.users.observe(this) { list = it }
-
-        setToolbar()
     }
 
     private fun setToolbar() {
         val toolbarBackImg: ImageView = findViewById(R.id.toolbar_image_view_back)
         val toolbarMenu: ImageView = findViewById(R.id.toolbar_image_view_menu)
         val toolbarDiceImg: ImageView = findViewById(R.id.toolbar_image_view_dice)
+        val toolbarAdd: ImageView = findViewById(R.id.toolbar_image_add)
+
+        toolbarAdd.setOnClickListener {
+            viewModel.addUser(User(0,"Guest", 0, viewModel.getRandomColor()))
+        }
+
 
         toolbarDiceImg.setOnClickListener {
             viewModel.launchDice()
@@ -68,24 +72,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         toolbarBackImg.setOnClickListener { finish() }
+
         toolbarMenu.setOnClickListener {
-            val popupMenu = PopupMenu(this, it)
-            popupMenu.menu.add("Delete all participants").setOnMenuItemClickListener {
-                viewModel.deleteAllUsers()
-                true
-            }
-            popupMenu.menu.add("Reset all score").setOnMenuItemClickListener {
-                resetAllPoints()
-                true
-            }
-            popupMenu.show()
+            DialogMenu(viewModel).show(supportFragmentManager, "dialog_menu")
         }
     }
-
-    private fun resetAllPoints() = CoroutineScope(Dispatchers.IO).launch {
-        suspend {
-            viewModel.resetAllUsersPoint(list)
-        }.invoke()
-    }
-
 }

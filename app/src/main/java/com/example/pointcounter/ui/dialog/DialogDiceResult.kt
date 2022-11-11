@@ -26,7 +26,6 @@ class DialogDiceResult(private val viewModel: SharedViewModel) : DialogFragment(
                     dialogTextResult.text = result
                     dialogTextResult.setTextColor(color)
                     dialogImgDice.setColorFilter(color)
-                    textRoll.setTextColor(color)
                 }
             }
 
@@ -36,10 +35,16 @@ class DialogDiceResult(private val viewModel: SharedViewModel) : DialogFragment(
                 viewModel.launchDice()
             }
 
-            // On click button Ok
-            dialogBinding.layoutDialogDiceResult.setOnClickListener {
+            // On click dice result text
+            dialogBinding.dialogTextResult.setOnClickListener {
+                color = viewModel.getRandomColor()
+                viewModel.launchDice()
+            }
+
+            dialogBinding.dialogBtnBack.setOnClickListener {
                 dismiss()
             }
+
             alertDialog.create()
 
         }?: throw IllegalStateException("activity is null")

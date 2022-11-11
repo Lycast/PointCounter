@@ -11,6 +11,8 @@
     <color name="green">#00E804</color>
     <color name="blue">#0073FF</color>
     <color name="background">#272727</color>
-    <color name="toolbar">#00FFFFFF</color>
-    <color name="opacity_50">#44000000</color>
+    <color name="opacity_0">#00FFFFFF</color>
+    <color name="opacity_50">#80000000</color>
+    <color name="opacity_25">#40000000</color>
+    <color name="opacity_10">#1A000000</color>
 </resources>

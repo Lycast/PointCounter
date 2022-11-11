@@ -14,7 +14,7 @@ import com.example.pointcounter.databinding.AlertDialogParticipantBinding
 import com.example.pointcounter.model.entity.User
 import com.example.pointcounter.viewmodel.SharedViewModel
 
-class DialogParticipant(private val user: User?, private val viewModel: SharedViewModel) : DialogFragment() {
+class DialogParticipant(private val user: User, private val viewModel: SharedViewModel) : DialogFragment() {
 
     private lateinit var dialogBinding: AlertDialogParticipantBinding
 
@@ -24,7 +24,7 @@ class DialogParticipant(private val user: User?, private val viewModel: SharedVi
             val alertDialog = AlertDialog.Builder(it)
             alertDialog.setView(dialogBinding.root)
 
-            var color = user?.color ?: viewModel.getRandomColor()
+            var color = user.color
 
             viewModel.setColor(color.red, color.green, color.blue)
             viewModel.color.observe(this) { newColor ->
@@ -35,15 +35,9 @@ class DialogParticipant(private val user: User?, private val viewModel: SharedVi
 
             // Populate alert dialog
             dialogBinding.apply {
-                if ( user == null ) {
-                    cardExampleColor.setCardBackgroundColor(color)
-                    btnGenerateColor.setTextColor(color)
-                } else {
-                    alertDialogTitle.setText(R.string.edit_participant)
-                    editTextEnterName.setText(user.name)
-                    btnGenerateColor.setTextColor(user.color)
-                    cardExampleColor.setCardBackgroundColor(user.color)
-                }
+                alertDialogTitle.setText(R.string.edit_participant)
+                btnGenerateColor.setTextColor(user.color)
+                cardExampleColor.setCardBackgroundColor(user.color)
             }
 
             dialogBinding.cardExampleColor.setOnClickListener {
@@ -57,29 +51,19 @@ class DialogParticipant(private val user: User?, private val viewModel: SharedVi
                 dialogBinding.btnGenerateColor.setTextColor(color)
             }
 
-            // On click button Ok
-            dialogBinding.alertDialogButtonOk.setOnClickListener {
-
+            alertDialog.setPositiveButton(R.string.ok) {_,_ ->
                 // Update guest
-                if (user != null && !TextUtils.isEmpty(dialogBinding.editTextEnterName.text)) {
+                if (!TextUtils.isEmpty(dialogBinding.editTextEnterName.text)) {
                     viewModel.updateUser(User(user.id, dialogBinding.editTextEnterName.text.toString(), user.score, color))
                     dismiss()
-                } else if (user != null && TextUtils.isEmpty(dialogBinding.editTextEnterName.text)) {
+                } else if (TextUtils.isEmpty(dialogBinding.editTextEnterName.text)) {
                     viewModel.updateUser(User(user.id, user.name, user.score, color))
                     dismiss()
                 }
-
-                //  Add new guest
-                if (user == null && !TextUtils.isEmpty(dialogBinding.editTextEnterName.text)) {
-                    val newUser = User(0, dialogBinding.editTextEnterName.text.toString(), 0, color)
-                    viewModel.addUser(newUser)
-                    dismiss()
-                } else if (user == null && TextUtils.isEmpty(dialogBinding.editTextEnterName.text)) {
-                    val newUser = User(0, "Guest", 0, color)
-                    viewModel.addUser(newUser)
-                    dismiss()
-                }
             }
+
+            alertDialog.setNegativeButton(R.string.cancel) {_,_ -> dismiss() }
+
             alertDialog.create()
 
         }?: throw IllegalStateException("activity is null")

@@ -1,5 +1,7 @@
 package com.example.pointcounter.ui
 
+import android.content.Intent
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -7,6 +9,8 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
@@ -19,6 +23,8 @@ import com.example.pointcounter.data.UserRoomDatabase
 import com.example.pointcounter.databinding.ActivityCounterDuoBinding
 import com.example.pointcounter.model.entity.User
 import com.example.pointcounter.repository.Repository
+import com.example.pointcounter.ui.dialog.DialogDiceResult
+import com.example.pointcounter.ui.dialog.DialogMenu
 import com.example.pointcounter.ui.dialog.DialogParticipant
 import com.example.pointcounter.viewmodel.SharedViewModel
 import com.example.pointcounter.viewmodel.SharedViewModelFactory
@@ -31,8 +37,8 @@ class CounterDuoActivity : AppCompatActivity() {
     private lateinit var spinnerB: Spinner
     private var spinnerAPos = 0
     private var spinnerBPos = 1
-    private var currentParticipantA: User? = null
-    private var currentParticipantB: User? = null
+    private lateinit var currentParticipantA: User
+    private lateinit var currentParticipantB: User
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,24 +71,24 @@ class CounterDuoActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this, factory)[SharedViewModel::class.java]
 
+        if (this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            binding.duoLinearLayout.orientation = LinearLayout.HORIZONTAL
+
         initSpinnerSelectParticipantA()
         initSpinnerSelectParticipantB()
         setClickListenerPointView()
         setOnClickEditIcon()
+        setToolbar()
     }
 
     private fun populateViewParticipantA(user: User) {
         binding.duoActivityTextViewScore1.text = user.score.toString()
-        binding.duoActivityCardName1.setCardBackgroundColor(user.color)
-        binding.duoActivityImageViewAddPoint1.setCardBackgroundColor(user.color)
-        binding.duoActivityImageViewRemovePoint1.setCardBackgroundColor(user.color)
+        binding.counter1.setBackgroundColor(user.color)
     }
 
     private fun populateViewParticipantB(user: User) {
         binding.duoActivityTextViewScore2.text = user.score.toString()
-        binding.duoActivityCardName2.setCardBackgroundColor(user.color)
-        binding.duoActivityImageViewAddPoint2.setCardBackgroundColor(user.color)
-        binding.duoActivityImageViewRemovePoint2.setCardBackgroundColor(user.color)
+        binding.counter2.setBackgroundColor(user.color)
     }
 
     private fun initSpinnerSelectParticipantA() {
@@ -142,45 +148,45 @@ class CounterDuoActivity : AppCompatActivity() {
     private fun setClickListenerPointView() {
         // Add point participant A
         binding.duoActivityImageViewAddPoint1.setOnClickListener {
-            currentParticipantA!!.score++
-            viewModel.updateUser(currentParticipantA!!)
+            currentParticipantA.score++
+            viewModel.updateUser(currentParticipantA)
         }
         binding.duoActivityImageViewAddPoint1.setOnLongClickListener {
-            currentParticipantA!!.score += 10
-            viewModel.updateUser(currentParticipantA!!)
+            currentParticipantA.score += 10
+            viewModel.updateUser(currentParticipantA)
             return@setOnLongClickListener true
         }
 
         // Add point participant B
         binding.duoActivityImageViewAddPoint2.setOnClickListener {
-            currentParticipantB!!.score++
-            viewModel.updateUser(currentParticipantB!!)
+            currentParticipantB.score++
+            viewModel.updateUser(currentParticipantB)
         }
         binding.duoActivityImageViewAddPoint2.setOnLongClickListener {
-            currentParticipantB!!.score += 10
-            viewModel.updateUser(currentParticipantB!!)
+            currentParticipantB.score += 10
+            viewModel.updateUser(currentParticipantB)
             return@setOnLongClickListener true
         }
 
         // Remove point participant A
         binding.duoActivityImageViewRemovePoint1.setOnClickListener {
-            currentParticipantA!!.score--
-            viewModel.updateUser(currentParticipantA!!)
+            currentParticipantA.score--
+            viewModel.updateUser(currentParticipantA)
         }
         binding.duoActivityImageViewRemovePoint1.setOnLongClickListener {
-            currentParticipantA!!.score -= 10
-            viewModel.updateUser(currentParticipantA!!)
+            currentParticipantA.score -= 10
+            viewModel.updateUser(currentParticipantA)
             return@setOnLongClickListener true
         }
 
         // Remove point participant B
         binding.duoActivityImageViewRemovePoint2.setOnClickListener {
-            currentParticipantB!!.score--
-            viewModel.updateUser(currentParticipantB!!)
+            currentParticipantB.score--
+            viewModel.updateUser(currentParticipantB)
         }
         binding.duoActivityImageViewRemovePoint2.setOnLongClickListener {
-            currentParticipantB!!.score -= 10
-            viewModel.updateUser(currentParticipantB!!)
+            currentParticipantB.score -= 10
+            viewModel.updateUser(currentParticipantB)
             return@setOnLongClickListener true
         }
     }
@@ -198,12 +204,8 @@ class CounterDuoActivity : AppCompatActivity() {
                 true
             }
             popupMenu.menu.add("Reset Counter").setOnMenuItemClickListener {
-                currentParticipantA!!.score = 0
-                viewModel.updateUser(currentParticipantA!!)
-                true
-            }
-            popupMenu.menu.add("Delete").setOnMenuItemClickListener {
-                viewModel.deleteUser(currentParticipantA!!)
+                currentParticipantA.score = 0
+                viewModel.updateUser(currentParticipantA)
                 true
             }
             popupMenu.show()
@@ -213,22 +215,38 @@ class CounterDuoActivity : AppCompatActivity() {
         binding.duoActivityImageViewMenu2.setOnClickListener {
             val popupMenu = PopupMenu(this, it)
             popupMenu.menu.add("Edit").setOnMenuItemClickListener {
-                if (currentParticipantB != null) DialogParticipant(
-                    currentParticipantB,
-                    viewModel
-                ).show(supportFragmentManager, "dialog_user")
+                DialogParticipant(currentParticipantB, viewModel).show(supportFragmentManager, "dialog_user")
                 true
             }
             popupMenu.menu.add("Reset Counter").setOnMenuItemClickListener {
-                currentParticipantB!!.score = 0
-                viewModel.updateUser(currentParticipantB!!)
-                true
-            }
-            popupMenu.menu.add("Delete").setOnMenuItemClickListener {
-                viewModel.deleteUser(currentParticipantB!!)
+                currentParticipantB.score = 0
+                viewModel.updateUser(currentParticipantB)
                 true
             }
             popupMenu.show()
+        }
+    }
+
+    private fun setToolbar() {
+        val toolbarBackImg: ImageView = findViewById(R.id.toolbar_image_view_back)
+        val toolbarMenu: ImageView = findViewById(R.id.toolbar_image_view_menu)
+        val toolbarDiceImg: ImageView = findViewById(R.id.toolbar_image_view_dice)
+        val toolbarAdd: ImageView = findViewById(R.id.toolbar_image_add)
+
+        toolbarAdd.setOnClickListener { viewModel.addUser(User(0,"Guest", 0, viewModel.getRandomColor())) }
+
+        toolbarDiceImg.setOnClickListener {
+            viewModel.launchDice()
+            DialogDiceResult(viewModel).show(supportFragmentManager, "dialog_dice")
+        }
+
+        toolbarBackImg.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
+
+        toolbarMenu.setOnClickListener {
+            DialogMenu(viewModel).show(supportFragmentManager, "dialog_menu")
         }
     }
 

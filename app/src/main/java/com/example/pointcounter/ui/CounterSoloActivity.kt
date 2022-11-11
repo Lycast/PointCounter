@@ -1,5 +1,6 @@
 package com.example.pointcounter.ui
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -21,20 +22,17 @@ import com.example.pointcounter.databinding.ActivityCounterSoloBinding
 import com.example.pointcounter.model.entity.User
 import com.example.pointcounter.repository.Repository
 import com.example.pointcounter.ui.dialog.DialogDiceResult
+import com.example.pointcounter.ui.dialog.DialogMenu
 import com.example.pointcounter.ui.dialog.DialogParticipant
 import com.example.pointcounter.viewmodel.SharedViewModel
 import com.example.pointcounter.viewmodel.SharedViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class CounterSoloActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCounterSoloBinding
     private lateinit var viewModel: SharedViewModel
     private lateinit var spinner: Spinner
-    private var list = listOf<User>()
-    private var currentUser: User? = null
+    private lateinit var currentUser: User
     private var spinnerPos = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +60,6 @@ class CounterSoloActivity : AppCompatActivity() {
         val factory = SharedViewModelFactory(repository)
 
         viewModel = ViewModelProvider(this, factory)[SharedViewModel::class.java]
-        viewModel.users.observe(this) { list = it }
 
         initSpinnerSelectParticipant()
         setClickListenerPointView()
@@ -102,22 +99,22 @@ class CounterSoloActivity : AppCompatActivity() {
 
     private fun setClickListenerPointView() {
         binding.soloActivityImageViewAddPoint.setOnClickListener {
-            currentUser!!.score++
-            viewModel.updateUser(currentUser!!)
+            currentUser.score++
+            viewModel.updateUser(currentUser)
         }
         binding.soloActivityImageViewAddPoint.setOnLongClickListener {
-            currentUser!!.score+=10
-            viewModel.updateUser(currentUser!!)
+            currentUser.score+=10
+            viewModel.updateUser(currentUser)
             return@setOnLongClickListener true
         }
 
         binding.soloActivityImageViewRemovePoint.setOnClickListener {
-            currentUser!!.score--
-            viewModel.updateUser(currentUser!!)
+            currentUser.score--
+            viewModel.updateUser(currentUser)
         }
         binding.soloActivityImageViewRemovePoint.setOnLongClickListener {
-            currentUser!!.score -= 10
-            viewModel.updateUser(currentUser!!)
+            currentUser.score -= 10
+            viewModel.updateUser(currentUser)
             return@setOnLongClickListener true
         }
     }
@@ -130,12 +127,8 @@ class CounterSoloActivity : AppCompatActivity() {
                 true
             }
             popupMenu.menu.add("Reset Counter").setOnMenuItemClickListener {
-                currentUser!!.score = 0
-                viewModel.updateUser(currentUser!!)
-                true
-            }
-            popupMenu.menu.add("Delete").setOnMenuItemClickListener {
-                viewModel.deleteUser(currentUser!!)
+                currentUser.score = 0
+                viewModel.updateUser(currentUser)
                 true
             }
             popupMenu.show()
@@ -146,31 +139,23 @@ class CounterSoloActivity : AppCompatActivity() {
         val toolbarBackImg: ImageView = findViewById(R.id.toolbar_image_view_back)
         val toolbarMenu: ImageView = findViewById(R.id.toolbar_image_view_menu)
         val toolbarDiceImg: ImageView = findViewById(R.id.toolbar_image_view_dice)
+        val toolbarAdd: ImageView = findViewById(R.id.toolbar_image_add)
+
+        toolbarAdd.setOnClickListener { viewModel.addUser(User(0,"Guest", 0, viewModel.getRandomColor())) }
 
         toolbarDiceImg.setOnClickListener {
             viewModel.launchDice()
             DialogDiceResult(viewModel).show(supportFragmentManager, "dialog_dice")
         }
 
-        toolbarBackImg.setOnClickListener { finish() }
-        toolbarMenu.setOnClickListener {
-            val popupMenu = PopupMenu(this, it)
-            popupMenu.menu.add("Delete all participants").setOnMenuItemClickListener {
-                viewModel.deleteAllUsers()
-                true
-            }
-            popupMenu.menu.add("Reset all score").setOnMenuItemClickListener {
-                resetAllPoints()
-                true
-            }
-            popupMenu.show()
+        toolbarBackImg.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
-    }
 
-    private fun resetAllPoints() = CoroutineScope(Dispatchers.IO).launch {
-        suspend {
-            viewModel.resetAllUsersPoint(list)
-        }.invoke()
+        toolbarMenu.setOnClickListener {
+            DialogMenu(viewModel).show(supportFragmentManager, "dialog_menu")
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -8,7 +8,7 @@
     <string name="remove_one_point">remove one point</string>
     <string name="add_one_point">add one point</string>
     <string name="add_new_counter">Add new counter</string>
-    <string name="enter_name">Guest (Enter Name)</string>
+    <string name="enter_name">Enter Name</string>
     <string name="generate_a_color">Generate color</string>
     <string name="delete_all_user">Delete all users</string>
     <string name="a">N</string>
@@ -17,8 +17,8 @@
     <string name="add">Add</string>
     <string name="_0">0</string>
     <string name="empty_string" />
-    <string name="add_new_participant">Add new participant</string>
-    <string name="edit_participant">Edit participant</string>
+    <string name="add_new_participant">New</string>
+    <string name="edit_participant">Edit</string>
     <string name="home">Home</string>
     <string name="stats">Stats</string>
     <string name="solo">Solo</string>
@@ -36,8 +36,15 @@
     <string name="dice">Dice</string>
     <string name="edit_dice">Edit dice</string>
     <string name="image_dice">image dice</string>
-    <string name="roll_dice_again">Roll dice again</string>
+    <string name="roll_dice_again">Roll again</string>
     <string name="alert_add_participant">Add more participant before launch a counter</string>
     <string name="info_all_participant_deleted">All participants deleted</string>
+    <string name="reset_all_score">Reset all score</string>
+    <string name="about_to_me">About to me</string>
+    <string name="contact">Contact</string>
+    <string name="setting_dice">Setting dice</string>
+    <string name="setting_counter">Setting counter</string>
+    <string name="cancel">Cancel</string>
+    <string name="back_button">back button</string>
 
 </resources>

@@ -7,17 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pointcounter.R
-import com.example.pointcounter.data.UserRoomDatabase
 import com.example.pointcounter.databinding.FragmentHomeBinding
 import com.example.pointcounter.model.entity.User
-import com.example.pointcounter.repository.Repository
-import com.example.pointcounter.ui.CounterCompactListActivity
-import com.example.pointcounter.ui.CounterDuoActivity
-import com.example.pointcounter.ui.CounterListActivity
-import com.example.pointcounter.ui.CounterSoloActivity
+import com.example.pointcounter.ui.*
 import com.example.pointcounter.ui.adapter.ParticipantAdapter
 import com.example.pointcounter.ui.dialog.DialogDiceResult
 import com.example.pointcounter.ui.dialog.DialogParticipant
@@ -25,14 +19,12 @@ import com.example.pointcounter.utils.OnItemClickListener
 import com.example.pointcounter.utils.UserEnum
 import com.example.pointcounter.utils.ViewHolderEnum
 import com.example.pointcounter.viewmodel.SharedViewModel
-import com.example.pointcounter.viewmodel.SharedViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 
-class HomeFragment : Fragment(), OnItemClickListener {
+class HomeFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemClickListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: SharedViewModel
     private lateinit var adapter : ParticipantAdapter
     private var listSize = 0
 
@@ -45,12 +37,6 @@ class HomeFragment : Fragment(), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val dao = UserRoomDatabase.getInstance(requireActivity()).userDao
-        val repository = Repository(dao)
-        val factory = SharedViewModelFactory(repository)
-
-        viewModel = ViewModelProvider(this, factory)[SharedViewModel::class.java]
-
         displayList()
         setClickListenerView()
     }
@@ -59,20 +45,29 @@ class HomeFragment : Fragment(), OnItemClickListener {
 
         // On click start counter (check list size before launch counter)
         binding.homeButtonSoloCounter.setOnClickListener {
-            if (listSize > 0) startActivity(Intent(context, CounterSoloActivity::class.java))
+            if (listSize > 0) {
+                startActivity(Intent(context, CounterSoloActivity::class.java))
+                activity?.finish()
+            }
             else snackBar(getString(R.string.alert_add_participant))
         }
         binding.homeButtonListCounter.setOnClickListener {
-            if (listSize > 0) startActivity(Intent(context, CounterListActivity::class.java))
-            else snackBar(getString(R.string.alert_add_participant))
+            if (listSize > 0) {
+                startActivity(Intent(context, CounterListActivity::class.java))
+                activity?.finish()
+            } else snackBar(getString(R.string.alert_add_participant))
         }
         binding.homeButtonCompactListCounter.setOnClickListener {
-            if (listSize > 0) startActivity(Intent(context, CounterCompactListActivity::class.java))
-            else snackBar(getString(R.string.alert_add_participant))
+            if (listSize > 0) {
+                startActivity(Intent(context, CounterCompactListActivity::class.java))
+                activity?.finish()
+            } else snackBar(getString(R.string.alert_add_participant))
         }
         binding.homeButtonDuoCounter.setOnClickListener {
-            if (listSize > 1) startActivity(Intent(context, CounterDuoActivity::class.java))
-            else snackBar(getString(R.string.alert_add_participant))
+            if (listSize > 1) {
+                startActivity(Intent(context, CounterDuoActivity::class.java))
+                activity?.finish()
+            } else snackBar(getString(R.string.alert_add_participant))
         }
 
         // On click image add participant
@@ -99,6 +94,11 @@ class HomeFragment : Fragment(), OnItemClickListener {
         binding.imgDice.setOnClickListener {
             viewModel.launchDice()
             DialogDiceResult(viewModel).show(parentFragmentManager, "dialog_dice")
+        }
+
+        // On click edit dice
+        binding.homeImgAddEmpty.setOnClickListener {
+            snackBar("Not yet implemented")
         }
     }
 

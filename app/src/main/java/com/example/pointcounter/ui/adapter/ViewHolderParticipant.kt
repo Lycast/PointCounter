@@ -17,8 +17,7 @@ class ViewHolderParticipant(private val itemBinding: ItemListHomeBinding, privat
         // binding click
         itemBinding.itemImageViewClear.setOnClickListener { listener.setOnItemClickListener(user, UserEnum.DELETE) }
 
-        itemBinding.itemImageViewEdit.setOnClickListener { listener.setOnItemClickListener(user, UserEnum.EDIT)
-
-        }
+        itemBinding.itemImageViewEdit.setOnClickListener { listener.setOnItemClickListener(user, UserEnum.EDIT) }
+        itemBinding.itemTextViewName.setOnClickListener { listener.setOnItemClickListener(user, UserEnum.EDIT) }
     }
 }
