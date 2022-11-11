@@ -1,4 +1,7 @@
 <resources>
+    <string name="ok">OK</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
     <string name="app_name">Point Counter</string>
     <string name="start_counter">Start counter</string>
     <string name="number_of_guest">Number of guest  (from 1 to 4)</string>
@@ -6,7 +9,6 @@
     <string name="add_one_point">add one point</string>
     <string name="add_new_counter">Add new counter</string>
     <string name="enter_name">Guest (Enter Name)</string>
-    <string name="ok">OK</string>
     <string name="generate_a_color">Generate color</string>
     <string name="delete_all_user">Delete all users</string>
     <string name="a">N</string>
@@ -27,5 +29,15 @@
     <string name="solo_counter_example">solo counter example</string>
     <string name="fragment_list">FRAGMENT LIST</string>
     <string name="fragment_stats_history">FRAGMENT STATS HISTORY</string>
+    <string name="score_counters">Score counters</string>
+    <string name="list_of_participants">List of participants</string>
+    <string name="delete_all_participant_alert">Delete all participants ?</string>
+    <string name="launch_dice">Launch Dice</string>
+    <string name="dice">Dice</string>
+    <string name="edit_dice">Edit dice</string>
+    <string name="image_dice">image dice</string>
+    <string name="roll_dice_again">Roll dice again</string>
+    <string name="alert_add_participant">Add more participant before launch a counter</string>
+    <string name="info_all_participant_deleted">All participants deleted</string>
 
 </resources>

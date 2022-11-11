@@ -16,7 +16,7 @@ import com.example.pointcounter.databinding.ActivityCounterListBinding
 import com.example.pointcounter.model.entity.User
 import com.example.pointcounter.repository.Repository
 import com.example.pointcounter.utils.OnItemClickListener
-import com.example.pointcounter.ui.adapter.UserAdapter
+import com.example.pointcounter.ui.adapter.ParticipantAdapter
 import com.example.pointcounter.ui.dialog.DialogParticipant
 import com.example.pointcounter.utils.UserEnum
 import com.example.pointcounter.utils.ViewHolderEnum
@@ -26,7 +26,7 @@ import com.example.pointcounter.viewmodel.SharedViewModelFactory
 class CounterListActivity : AppCompatActivity(), OnItemClickListener {
 
     private lateinit var binding: ActivityCounterListBinding
-    private lateinit var adapter : UserAdapter
+    private lateinit var adapter : ParticipantAdapter
     private lateinit var viewModel: SharedViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,13 +83,8 @@ class CounterListActivity : AppCompatActivity(), OnItemClickListener {
 
     private fun displayList() {
         viewModel.users.observe(this) {
-            adapter = UserAdapter(it, this, ViewHolderEnum.LIST)
+            adapter = ParticipantAdapter(it, this, ViewHolderEnum.LIST)
             binding.recyclerViewGuests.adapter = adapter
-
-            if (it.isEmpty())
-                for (i in 1..5) {
-                    viewModel.addUser( User(0, "Guest", 0, viewModel.getRandomColor())) // change that by list default
-                }
 
             var column = 1
             if (this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) { column = 2 }

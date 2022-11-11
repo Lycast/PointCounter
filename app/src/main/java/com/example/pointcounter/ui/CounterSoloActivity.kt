@@ -7,6 +7,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
@@ -19,15 +20,20 @@ import com.example.pointcounter.data.UserRoomDatabase
 import com.example.pointcounter.databinding.ActivityCounterSoloBinding
 import com.example.pointcounter.model.entity.User
 import com.example.pointcounter.repository.Repository
+import com.example.pointcounter.ui.dialog.DialogDiceResult
 import com.example.pointcounter.ui.dialog.DialogParticipant
 import com.example.pointcounter.viewmodel.SharedViewModel
 import com.example.pointcounter.viewmodel.SharedViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CounterSoloActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCounterSoloBinding
     private lateinit var viewModel: SharedViewModel
     private lateinit var spinner: Spinner
+    private var list = listOf<User>()
     private var currentUser: User? = null
     private var spinnerPos = 0
 
@@ -39,6 +45,10 @@ class CounterSoloActivity : AppCompatActivity() {
 
         binding = ActivityCounterSoloBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (savedInstanceState != null) {
+            spinnerPos = savedInstanceState.getInt("spinner_position", 0)
+        }
 
         // set immersive mode
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -52,14 +62,12 @@ class CounterSoloActivity : AppCompatActivity() {
         val factory = SharedViewModelFactory(repository)
 
         viewModel = ViewModelProvider(this, factory)[SharedViewModel::class.java]
+        viewModel.users.observe(this) { list = it }
 
         initSpinnerSelectParticipant()
         setClickListenerPointView()
         setOnClickEditIcon()
-
-        if (savedInstanceState != null) {
-            spinnerPos = savedInstanceState.getInt("spinner_position", 0)
-        }
+        setToolbar()
     }
 
     private fun populateView(user: User) {
@@ -72,8 +80,6 @@ class CounterSoloActivity : AppCompatActivity() {
         spinner = binding.soloActivitySpinnerList
 
         viewModel.users.observe(this) { list ->
-
-            if (list.isEmpty()) viewModel.addUser( User(0, "Guest", 0, viewModel.getRandomColor())) // change that by list default
 
             // Create an ArrayAdapter using a simple spinner layout and languages array
             val aa = ArrayAdapter(this, R.layout.spinner_item, list)
@@ -134,6 +140,37 @@ class CounterSoloActivity : AppCompatActivity() {
             }
             popupMenu.show()
         }
+    }
+
+    private fun setToolbar() {
+        val toolbarBackImg: ImageView = findViewById(R.id.toolbar_image_view_back)
+        val toolbarMenu: ImageView = findViewById(R.id.toolbar_image_view_menu)
+        val toolbarDiceImg: ImageView = findViewById(R.id.toolbar_image_view_dice)
+
+        toolbarDiceImg.setOnClickListener {
+            viewModel.launchDice()
+            DialogDiceResult(viewModel).show(supportFragmentManager, "dialog_dice")
+        }
+
+        toolbarBackImg.setOnClickListener { finish() }
+        toolbarMenu.setOnClickListener {
+            val popupMenu = PopupMenu(this, it)
+            popupMenu.menu.add("Delete all participants").setOnMenuItemClickListener {
+                viewModel.deleteAllUsers()
+                true
+            }
+            popupMenu.menu.add("Reset all score").setOnMenuItemClickListener {
+                resetAllPoints()
+                true
+            }
+            popupMenu.show()
+        }
+    }
+
+    private fun resetAllPoints() = CoroutineScope(Dispatchers.IO).launch {
+        suspend {
+            viewModel.resetAllUsersPoint(list)
+        }.invoke()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

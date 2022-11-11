@@ -12,4 +12,5 @@
     <color name="blue">#0073FF</color>
     <color name="background">#272727</color>
     <color name="toolbar">#00FFFFFF</color>
+    <color name="opacity_50">#44000000</color>
 </resources>

@@ -1,7 +1,9 @@
 package com.example.pointcounter.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
@@ -13,6 +15,7 @@ import com.example.pointcounter.databinding.ActivityMainBinding
 import com.example.pointcounter.model.entity.User
 import com.example.pointcounter.repository.Repository
 import com.example.pointcounter.ui.adapter.MainViewPagerAdapter
+import com.example.pointcounter.ui.dialog.DialogDiceResult
 import com.example.pointcounter.ui.navigation.HomeFragment
 import com.example.pointcounter.ui.navigation.ListFragment
 import com.example.pointcounter.ui.navigation.StatsFragment
@@ -57,12 +60,14 @@ class MainActivity : AppCompatActivity() {
     private fun setToolbar() {
         val toolbarBackImg: ImageView = findViewById(R.id.toolbar_image_view_back)
         val toolbarMenu: ImageView = findViewById(R.id.toolbar_image_view_menu)
-        val toolbarAdd: ImageView = findViewById(R.id.toolbar_image_view_add)
+        val toolbarDiceImg: ImageView = findViewById(R.id.toolbar_image_view_dice)
 
-        toolbarBackImg.setOnClickListener {
-            finish()
+        toolbarDiceImg.setOnClickListener {
+            viewModel.launchDice()
+            DialogDiceResult(viewModel).show(supportFragmentManager, "dialog_dice")
         }
-        toolbarAdd.setOnClickListener { DialogParticipant(null, viewModel).show(supportFragmentManager, "dialog_user") }
+
+        toolbarBackImg.setOnClickListener { finish() }
         toolbarMenu.setOnClickListener {
             val popupMenu = PopupMenu(this, it)
             popupMenu.menu.add("Delete all participants").setOnMenuItemClickListener {

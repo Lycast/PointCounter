@@ -1,6 +1,7 @@
 package com.example.pointcounter.viewmodel
 
 import android.graphics.Color
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,8 +12,12 @@ import kotlin.random.Random
 
 class SharedViewModel (private val repository: Repository) : ViewModel() {
 
+    private val rnd = Random.Default
     val users = repository.listUsers
-    val color: MutableLiveData<Int> by lazy { MutableLiveData<Int>() } //= (Color.argb(255,0,0,0))
+    val color: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
+    val diceResult = repository.diceResult
+
+
 
     fun addUser(user: User) = viewModelScope.launch {
         repository.addUser(user)
@@ -38,7 +43,6 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
     }
 
     fun getRandomColor(): Int {
-        val rnd = Random.Default
         return Color.argb(255,
             (rnd.nextInt(256) / 1.5 + 80).toInt(),
             (rnd.nextInt(256) / 1.5 + 80).toInt(),
@@ -48,4 +52,12 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
     fun setColor(red: Int, green: Int, blue: Int ) {
         color.value = Color.argb(255, red, green, blue)
     }
+
+    fun setDice(list: List<String>) {
+        repository.setDice(list)
+    }
+
+    fun launchDice() {
+        repository.launchDice()
+        }
 }

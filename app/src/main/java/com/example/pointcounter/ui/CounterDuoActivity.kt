@@ -30,7 +30,7 @@ class CounterDuoActivity : AppCompatActivity() {
     private lateinit var spinnerA: Spinner
     private lateinit var spinnerB: Spinner
     private var spinnerAPos = 0
-    private var spinnerBPos = 0
+    private var spinnerBPos = 1
     private var currentParticipantA: User? = null
     private var currentParticipantB: User? = null
 
@@ -87,9 +87,6 @@ class CounterDuoActivity : AppCompatActivity() {
 
     private fun initSpinnerSelectParticipantA() {
         viewModel.users.observe(this) {
-
-            if (it.isEmpty()) { viewModel.addUser(User(0, "Guest", 0, viewModel.getRandomColor())) // change that by list default
-            }
 
             spinnerA = binding.duoActivitySpinnerList1
 

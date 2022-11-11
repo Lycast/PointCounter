@@ -12,5 +12,6 @@
     <color name="green">#166500</color>
     <color name="blue">#006398</color>
     <color name="background">#ECECEC</color>
+    <color name="opacity_50">#44000000</color>
 
 </resources>

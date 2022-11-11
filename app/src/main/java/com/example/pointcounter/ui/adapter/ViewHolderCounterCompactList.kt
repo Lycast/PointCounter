@@ -3,17 +3,17 @@ package com.example.pointcounter.ui.adapter
 import android.content.Context
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pointcounter.databinding.CounterCompactListItemBinding
+import com.example.pointcounter.databinding.ItemCounterCompactListBinding
 import com.example.pointcounter.model.entity.User
 import com.example.pointcounter.utils.OnItemClickListener
 import com.example.pointcounter.utils.UserEnum
 
-class CounterCompactListViewHolder (private val context: Context, private val itemBinding: CounterCompactListItemBinding, private val listener: OnItemClickListener): RecyclerView.ViewHolder(itemBinding.root) {
+class ViewHolderCounterCompactList (private val context: Context, private val itemBinding: ItemCounterCompactListBinding, private val listener: OnItemClickListener): RecyclerView.ViewHolder(itemBinding.root) {
 
     fun adapterView(user: User) {
 
         // binding text
-        itemBinding.guestItemTextViewName.text = user.name
+        itemBinding.itemTextViewName.text = user.name
         itemBinding.userItemTextViewScore.text = user.score.toString()
         itemBinding.counterCompactItemCard.setCardBackgroundColor(user.color)
 
@@ -24,13 +24,13 @@ class CounterCompactListViewHolder (private val context: Context, private val it
             return@setOnLongClickListener true
         }
 
-        itemBinding.userItemImageViewRemovePoint.setOnClickListener { listener.setOnItemClickListener(user, UserEnum.REMOVE_1_POINT) }
-        itemBinding.userItemImageViewRemovePoint.setOnLongClickListener {
+        itemBinding.itemImageViewRemovePoint.setOnClickListener { listener.setOnItemClickListener(user, UserEnum.REMOVE_1_POINT) }
+        itemBinding.itemImageViewRemovePoint.setOnLongClickListener {
             listener.setOnItemClickListener(user, UserEnum.REMOVE_10_POINT)
             return@setOnLongClickListener true
         }
 
-        itemBinding.guestItemImageViewMenu.setOnClickListener {
+        itemBinding.itemImageViewEdit.setOnClickListener {
             val popupMenu = PopupMenu(context, it)
             popupMenu.menu.add("Edit").setOnMenuItemClickListener {
                 listener.setOnItemClickListener(user, UserEnum.EDIT)
