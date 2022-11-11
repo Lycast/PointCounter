@@ -36,7 +36,7 @@ class ViewHolderCounterCompactList (private val context: Context, private val it
 
         // Long click
         itemBinding.itemCard.setOnLongClickListener {
-            // todo open set score manually
+            listener.setOnItemClickListener(user, UserEnum.SET_POINT)
             return@setOnLongClickListener true
         }
 

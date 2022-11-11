@@ -31,7 +31,7 @@
         android:textSize="9pt"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/step_10"
+        app:layout_constraintEnd_toStartOf="@id/step_setup"
         app:layout_constraintStart_toEndOf="@id/step_1"/>
 
     <TextView
@@ -46,7 +46,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/step_25"
-        app:layout_constraintStart_toEndOf="@id/step_5"/>
+        app:layout_constraintStart_toEndOf="@id/step_setup"/>
 
     <TextView
         android:id="@+id/step_25"
@@ -59,21 +59,23 @@
         android:textSize="9pt"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/step_50"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/step_10"/>
 
     <TextView
-        android:id="@+id/step_50"
+        android:id="@+id/step_setup"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:padding="2dp"
         android:gravity="center"
         android:layout_weight="1"
-        android:text="@string/_50"
+        android:text="@string/step"
+        android:maxLines="1"
+        android:autoSizeTextType="uniform"
         android:textSize="9pt"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/step_25"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintStart_toEndOf="@id/step_5"
+        app:layout_constraintEnd_toStartOf="@id/step_10"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

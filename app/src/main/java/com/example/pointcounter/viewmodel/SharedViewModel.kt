@@ -13,7 +13,7 @@ import kotlin.random.Random
 
 class SharedViewModel (private val repository: Repository) : ViewModel() {
 
-    val step = MutableLiveData<Int>(1)
+    val step = MutableLiveData(1)
     private val rnd = Random.Default
     val users = repository.listUsers
     val color: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }

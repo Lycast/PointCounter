@@ -41,7 +41,7 @@ class DialogDiceResult(private val viewModel: SharedViewModel) : DialogFragment(
                 viewModel.launchDice()
             }
 
-            dialogBinding.dialogBtnBack.setOnClickListener {
+            dialogBinding.dialogImageBack.setOnClickListener {
                 dismiss()
             }
 

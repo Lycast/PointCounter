@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingVertical="25dp"
+        android:paddingHorizontal="20dp"
         android:inputType="number"
         android:maxLength="4"
         android:hint="@string/enter_score"

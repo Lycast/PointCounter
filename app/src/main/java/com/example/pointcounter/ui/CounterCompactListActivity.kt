@@ -23,8 +23,10 @@ import com.example.pointcounter.repository.Repository
 import com.example.pointcounter.utils.OnItemClickListener
 import com.example.pointcounter.ui.adapter.ParticipantAdapter
 import com.example.pointcounter.ui.dialog.DialogDiceResult
+import com.example.pointcounter.ui.dialog.DialogInput
 import com.example.pointcounter.ui.dialog.DialogMenu
 import com.example.pointcounter.ui.dialog.DialogParticipant
+import com.example.pointcounter.utils.EnumDialogEditText
 import com.example.pointcounter.utils.UserEnum
 import com.example.pointcounter.utils.ViewHolderEnum
 import com.example.pointcounter.viewmodel.SharedViewModel
@@ -87,7 +89,9 @@ class CounterCompactListActivity : AppCompatActivity(), OnItemClickListener {
                 user.score -= step
                 viewModel.updateUser(user)
             }
-            else -> {}
+            UserEnum.SET_POINT -> {
+                DialogInput(user, viewModel, EnumDialogEditText.SCORE_INPUT).show(supportFragmentManager, "dialog_score")
+            }
         }
     }
 
@@ -109,13 +113,19 @@ class CounterCompactListActivity : AppCompatActivity(), OnItemClickListener {
             stepBinding.step5.setBackgroundColor(ContextCompat.getColor(this, R.color.opacity_0))
             stepBinding.step10.setBackgroundColor(ContextCompat.getColor(this, R.color.opacity_0))
             stepBinding.step25.setBackgroundColor(ContextCompat.getColor(this, R.color.opacity_0))
-            stepBinding.step50.setBackgroundColor(ContextCompat.getColor(this, R.color.opacity_0))
+            stepBinding.stepSetup.setBackgroundColor(ContextCompat.getColor(this, R.color.opacity_0))
+            stepBinding.stepSetup.setText(R.string.step)
 
-            if (it == 1 ) stepBinding.step1.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
-            if (it == 5 ) stepBinding.step5.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
-            if (it == 10 ) stepBinding.step10.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
-            if (it == 25 ) stepBinding.step25.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
-            if (it == 50 ) stepBinding.step50.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+            when(it) {
+                1 -> stepBinding.step1.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+                5 -> stepBinding.step5.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+                10 -> stepBinding.step10.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+                25 -> stepBinding.step25.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+                else -> {
+                    stepBinding.stepSetup.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+                    stepBinding.stepSetup.text = it.toString()
+                }
+            }
         }
 
         toolbarBinding.apply {
@@ -138,7 +148,7 @@ class CounterCompactListActivity : AppCompatActivity(), OnItemClickListener {
             step5.setOnClickListener { viewModel.setStep(5) }
             step10.setOnClickListener { viewModel.setStep(10) }
             step25.setOnClickListener { viewModel.setStep(25) }
-            step50.setOnClickListener { viewModel.setStep(50) }
+            stepSetup.setOnClickListener { DialogInput(null, viewModel, EnumDialogEditText.STEP_INPUT).show(supportFragmentManager, "dialog_step") }
         }
     }
 }
