@@ -1,35 +1,35 @@
 package com.example.pointcounter.ui
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.Window
-import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ImageView
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.pointcounter.R
 import com.example.pointcounter.data.UserRoomDatabase
 import com.example.pointcounter.databinding.ActivityCounterSoloBinding
+import com.example.pointcounter.databinding.ToolbarLayoutBinding
+import com.example.pointcounter.databinding.ToolbarLayoutStepBinding
 import com.example.pointcounter.model.entity.User
 import com.example.pointcounter.repository.Repository
 import com.example.pointcounter.ui.dialog.DialogDiceResult
+import com.example.pointcounter.ui.dialog.DialogInputScore
 import com.example.pointcounter.ui.dialog.DialogMenu
 import com.example.pointcounter.ui.dialog.DialogParticipant
+import com.example.pointcounter.utils.EnumDialogEditText
 import com.example.pointcounter.viewmodel.SharedViewModel
 import com.example.pointcounter.viewmodel.SharedViewModelFactory
 
 class CounterSoloActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCounterSoloBinding
+    private lateinit var stepBinding: ToolbarLayoutStepBinding
+    private lateinit var toolbarBinding: ToolbarLayoutBinding
     private lateinit var viewModel: SharedViewModel
     private lateinit var spinner: Spinner
     private lateinit var currentUser: User
@@ -37,22 +37,13 @@ class CounterSoloActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ) {
-            window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES }
-
         binding = ActivityCounterSoloBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        stepBinding = ToolbarLayoutStepBinding.bind(binding.root)
+        toolbarBinding = ToolbarLayoutBinding.bind(binding.root)
 
         if (savedInstanceState != null) {
             spinnerPos = savedInstanceState.getInt("spinner_position", 0)
-        }
-
-        // set immersive mode
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        WindowInsetsControllerCompat(window, binding.root).let {
-            it.hide(WindowInsetsCompat.Type.systemBars())
-            it.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
 
         val dao = UserRoomDatabase.getInstance(application).userDao
@@ -98,23 +89,19 @@ class CounterSoloActivity : AppCompatActivity() {
     }
 
     private fun setClickListenerPointView() {
-        binding.soloActivityImageViewAddPoint.setOnClickListener {
-            currentUser.score++
-            viewModel.updateUser(currentUser)
-        }
-        binding.soloActivityImageViewAddPoint.setOnLongClickListener {
-            currentUser.score+=10
-            viewModel.updateUser(currentUser)
-            return@setOnLongClickListener true
-        }
+        viewModel.step.observe(this) { step ->
+            binding.soloActivityImageViewAddPoint.setOnClickListener {
+                currentUser.score += step
+                viewModel.updateUser(currentUser)
+            }
 
-        binding.soloActivityImageViewRemovePoint.setOnClickListener {
-            currentUser.score--
-            viewModel.updateUser(currentUser)
+            binding.soloActivityImageViewRemovePoint.setOnClickListener {
+                currentUser.score -= step
+                viewModel.updateUser(currentUser)
+            }
         }
-        binding.soloActivityImageViewRemovePoint.setOnLongClickListener {
-            currentUser.score -= 10
-            viewModel.updateUser(currentUser)
+        binding.layoutScore.setOnLongClickListener {
+            DialogInputScore(currentUser, viewModel, EnumDialogEditText.SCORE_INPUT).show(supportFragmentManager, "dialog_score")
             return@setOnLongClickListener true
         }
     }
@@ -136,25 +123,42 @@ class CounterSoloActivity : AppCompatActivity() {
     }
 
     private fun setToolbar() {
-        val toolbarBackImg: ImageView = findViewById(R.id.toolbar_image_view_back)
-        val toolbarMenu: ImageView = findViewById(R.id.toolbar_image_view_menu)
-        val toolbarDiceImg: ImageView = findViewById(R.id.toolbar_image_view_dice)
-        val toolbarAdd: ImageView = findViewById(R.id.toolbar_image_add)
 
-        toolbarAdd.setOnClickListener { viewModel.addUser(User(0,"Guest", 0, viewModel.getRandomColor())) }
+        viewModel.step.observe(this) {
+            stepBinding.step1.setBackgroundColor(ContextCompat.getColor(this, R.color.opacity_0))
+            stepBinding.step5.setBackgroundColor(ContextCompat.getColor(this, R.color.opacity_0))
+            stepBinding.step10.setBackgroundColor(ContextCompat.getColor(this, R.color.opacity_0))
+            stepBinding.step25.setBackgroundColor(ContextCompat.getColor(this, R.color.opacity_0))
+            stepBinding.step50.setBackgroundColor(ContextCompat.getColor(this, R.color.opacity_0))
 
-        toolbarDiceImg.setOnClickListener {
-            viewModel.launchDice()
-            DialogDiceResult(viewModel).show(supportFragmentManager, "dialog_dice")
+            if (it == 1 ) stepBinding.step1.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+            if (it == 5 ) stepBinding.step5.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+            if (it == 10 ) stepBinding.step10.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+            if (it == 25 ) stepBinding.step25.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+            if (it == 50 ) stepBinding.step50.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
         }
 
-        toolbarBackImg.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+        toolbarBinding.apply {
+            toolbarImageAdd.setOnClickListener { viewModel.addUser(User(0,"Guest", 0, viewModel.getRandomColor())) }
+            toolbarImageViewDice.setOnClickListener {
+                viewModel.launchDice()
+                DialogDiceResult(viewModel).show(supportFragmentManager, "dialog_dice")
+            }
+            toolbarImageViewBack.setOnClickListener {
+                startActivity(Intent(this@CounterSoloActivity, MainActivity::class.java))
+                finish()
+            }
+            toolbarImageViewMenu.setOnClickListener {
+                DialogMenu(viewModel).show(supportFragmentManager, "dialog_menu")
+            }
         }
 
-        toolbarMenu.setOnClickListener {
-            DialogMenu(viewModel).show(supportFragmentManager, "dialog_menu")
+        stepBinding.apply {
+            step1.setOnClickListener { viewModel.setStep(1) }
+            step5.setOnClickListener { viewModel.setStep(5) }
+            step10.setOnClickListener { viewModel.setStep(10) }
+            step25.setOnClickListener { viewModel.setStep(25) }
+            step50.setOnClickListener { viewModel.setStep(50) }
         }
     }
 

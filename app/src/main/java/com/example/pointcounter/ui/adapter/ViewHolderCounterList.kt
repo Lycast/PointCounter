@@ -18,19 +18,29 @@ class ViewHolderCounterList(private val context: Context, private val itemBindin
         itemBinding.itemCard.setCardBackgroundColor(user.color)
 
         // binding click
-        itemBinding.itemCard.setOnClickListener { listener.setOnItemClickListener(user, UserEnum.ADD_1_POINT) }
+        // Add point
+        itemBinding.itemImageViewAddPoint.setOnClickListener {
+            listener.setOnItemClickListener(
+                user,
+                UserEnum.ADD_POINT
+            )
+        }
+
+        // Remove point
+        itemBinding.itemImageViewRemovePoint.setOnClickListener {
+            listener.setOnItemClickListener(
+                user,
+                UserEnum.REMOVE_POINT
+            )
+        }
+
+        // Long click
         itemBinding.itemCard.setOnLongClickListener {
-            listener.setOnItemClickListener(user, UserEnum.ADD_10_POINT)
+            // todo open set score manually
             return@setOnLongClickListener true
         }
 
-        itemBinding.itemImageViewRemovePoint.setOnClickListener { listener.setOnItemClickListener(user, UserEnum.REMOVE_1_POINT) }
-        itemBinding.itemImageViewRemovePoint.setOnLongClickListener {
-            listener.setOnItemClickListener(user, UserEnum.REMOVE_10_POINT)
-            return@setOnLongClickListener true
-        }
-
-        itemBinding.itemImageViewEdit.setOnClickListener {
+        itemBinding.itemTextViewName.setOnClickListener {
             val popupMenu = PopupMenu(context, it)
             popupMenu.menu.add("Edit").setOnMenuItemClickListener {
                 listener.setOnItemClickListener(user, UserEnum.EDIT)

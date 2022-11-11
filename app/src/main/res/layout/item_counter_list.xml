@@ -7,78 +7,78 @@
     android:layout_margin="2dp"
     app:cardCornerRadius="5dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/layout_name"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:layout_marginHorizontal="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/user_item_text_view_score"
-            app:layout_constraintStart_toEndOf="@id/item_image_view_edit"
-            app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/item_text_view_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/name_of_guest"
             android:autoSizeTextType="uniform"
+            android:gravity="center"
             android:maxLines="1"
-            android:textColor="@color/black"
-            android:textSize="12pt" />
-        </LinearLayout>
+            android:paddingVertical="2dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="34dp"
+            android:text="@string/name_of_guest"
+            android:textColor="@color/gray"
+            android:textSize="12pt"
+            app:drawableStartCompat="@drawable/_edit_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/opacity_10">
+
+            <TextView
+                android:id="@+id/user_item_text_view_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingHorizontal="10dp"
+                android:paddingBottom="2dp"
+                android:text="@string/_0"
+                android:textColor="@color/gray"
+                android:textSize="24pt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/item_image_view_add_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:contentDescription="@string/add_one_point"
+                android:padding="10dp"
+                android:src="@drawable/_add_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/user_item_text_view_score"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/gray" />
 
             <ImageView
                 android:id="@+id/item_image_view_remove_point"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                app:tint="@color/black"
+                android:layout_marginHorizontal="10dp"
                 android:contentDescription="@string/remove_one_point"
+                android:padding="10dp"
                 android:src="@drawable/_remove_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-        <TextView
-            android:id="@+id/user_item_text_view_score"
-            android:layout_width="65dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingBottom="2dp"
-            android:layout_marginHorizontal="10dp"
-            android:text="@string/_0"
-            android:maxLines="1"
-            android:autoSizeTextType="uniform"
-            android:textColor="@color/black"
-            android:textSize="24pt"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/item_image_view_remove_point"
-            app:layout_constraintStart_toEndOf="@id/layout_name"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-
-
-            <ImageView
-                android:id="@+id/item_image_view_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/menu"
-                app:tint="@color/black"
-                android:padding="8dp"
-                android:src="@drawable/_edit_24"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/layout_name"
+                app:layout_constraintStart_toEndOf="@+id/user_item_text_view_score"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:tint="@color/gray" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

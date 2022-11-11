@@ -13,6 +13,7 @@ import kotlin.random.Random
 
 class SharedViewModel (private val repository: Repository) : ViewModel() {
 
+    val step = MutableLiveData<Int>(1)
     private val rnd = Random.Default
     val users = repository.listUsers
     val color: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
@@ -56,11 +57,15 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
         color.value = Color.argb(255, red, green, blue)
     }
 
-    fun setDice(list: List<String>) {
-        repository.setDice(list)
-    }
+//    fun setDice(list: List<String>) {
+//        repository.setDice(list)
+//    }
 
     fun launchDice() {
         repository.launchDice()
         }
+
+    fun setStep(newStep: Int) {
+        step.value = newStep
+    }
 }

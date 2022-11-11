@@ -6,8 +6,8 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pointcounter.R
 import com.example.pointcounter.data.UserRoomDatabase
 import com.example.pointcounter.databinding.ActivityCounterCompactListBinding
+import com.example.pointcounter.databinding.ToolbarLayoutBinding
+import com.example.pointcounter.databinding.ToolbarLayoutStepBinding
 import com.example.pointcounter.model.entity.User
 import com.example.pointcounter.repository.Repository
 import com.example.pointcounter.utils.OnItemClickListener
@@ -31,8 +33,11 @@ import com.example.pointcounter.viewmodel.SharedViewModelFactory
 class CounterCompactListActivity : AppCompatActivity(), OnItemClickListener {
 
     private lateinit var binding: ActivityCounterCompactListBinding
+    private lateinit var stepBinding: ToolbarLayoutStepBinding
+    private lateinit var toolbarBinding: ToolbarLayoutBinding
     private lateinit var adapter : ParticipantAdapter
     private lateinit var viewModel: SharedViewModel
+    private var step = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +47,8 @@ class CounterCompactListActivity : AppCompatActivity(), OnItemClickListener {
 
         binding = ActivityCounterCompactListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        stepBinding = ToolbarLayoutStepBinding.bind(binding.root)
+        toolbarBinding = ToolbarLayoutBinding.bind(binding.root)
 
         // set immersive mode
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -55,35 +62,32 @@ class CounterCompactListActivity : AppCompatActivity(), OnItemClickListener {
         val factory = SharedViewModelFactory(repository)
 
         viewModel = ViewModelProvider(this, factory)[SharedViewModel::class.java]
+        viewModel.step.observe(this) { step = it }
 
         displayList()
         setToolbar()
     }
 
     override fun setOnItemClickListener(user: User, enum: UserEnum) {
-        when ( enum ) {
+        when (enum) {
             UserEnum.DELETE -> viewModel.deleteUser(user)
-            UserEnum.EDIT -> DialogParticipant(user, viewModel).show(supportFragmentManager, "dialog_user")
+            UserEnum.EDIT -> DialogParticipant(user, viewModel).show(
+                supportFragmentManager,
+                "dialog_user"
+            )
             UserEnum.RESET_POINT -> {
                 user.score = 0
                 viewModel.updateUser(user)
             }
-            UserEnum.ADD_1_POINT -> {
-                user.score ++
+            UserEnum.ADD_POINT -> {
+                user.score += step
                 viewModel.updateUser(user)
             }
-            UserEnum.ADD_10_POINT -> {
-                user.score += 10
+            UserEnum.REMOVE_POINT -> {
+                user.score -= step
                 viewModel.updateUser(user)
             }
-            UserEnum.REMOVE_1_POINT -> {
-                user.score --
-                viewModel.updateUser(user)
-            }
-            UserEnum.REMOVE_10_POINT -> {
-                user.score -= 10
-                viewModel.updateUser(user)
-            }
+            else -> {}
         }
     }
 
@@ -99,25 +103,42 @@ class CounterCompactListActivity : AppCompatActivity(), OnItemClickListener {
     }
 
     private fun setToolbar() {
-        val toolbarBackImg: ImageView = findViewById(R.id.toolbar_image_view_back)
-        val toolbarMenu: ImageView = findViewById(R.id.toolbar_image_view_menu)
-        val toolbarDiceImg: ImageView = findViewById(R.id.toolbar_image_view_dice)
-        val toolbarAdd: ImageView = findViewById(R.id.toolbar_image_add)
 
-        toolbarAdd.setOnClickListener { viewModel.addUser(User(0,"Guest", 0, viewModel.getRandomColor())) }
+        viewModel.step.observe(this) {
+            stepBinding.step1.setBackgroundColor(ContextCompat.getColor(this, R.color.opacity_0))
+            stepBinding.step5.setBackgroundColor(ContextCompat.getColor(this, R.color.opacity_0))
+            stepBinding.step10.setBackgroundColor(ContextCompat.getColor(this, R.color.opacity_0))
+            stepBinding.step25.setBackgroundColor(ContextCompat.getColor(this, R.color.opacity_0))
+            stepBinding.step50.setBackgroundColor(ContextCompat.getColor(this, R.color.opacity_0))
 
-        toolbarDiceImg.setOnClickListener {
-            viewModel.launchDice()
-            DialogDiceResult(viewModel).show(supportFragmentManager, "dialog_dice")
+            if (it == 1 ) stepBinding.step1.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+            if (it == 5 ) stepBinding.step5.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+            if (it == 10 ) stepBinding.step10.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+            if (it == 25 ) stepBinding.step25.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
+            if (it == 50 ) stepBinding.step50.setBackgroundColor(ContextCompat.getColor(this, R.color.light_gray))
         }
 
-        toolbarBackImg.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
+        toolbarBinding.apply {
+            toolbarImageAdd.setOnClickListener { viewModel.addUser(User(0,"Guest", 0, viewModel.getRandomColor())) }
+            toolbarImageViewDice.setOnClickListener {
+                viewModel.launchDice()
+                DialogDiceResult(viewModel).show(supportFragmentManager, "dialog_dice")
+            }
+            toolbarImageViewBack.setOnClickListener {
+                startActivity(Intent(this@CounterCompactListActivity, MainActivity::class.java))
+                finish()
+            }
+            toolbarImageViewMenu.setOnClickListener {
+                DialogMenu(viewModel).show(supportFragmentManager, "dialog_menu")
+            }
         }
 
-        toolbarMenu.setOnClickListener {
-            DialogMenu(viewModel).show(supportFragmentManager, "dialog_menu")
+        stepBinding.apply {
+            step1.setOnClickListener { viewModel.setStep(1) }
+            step5.setOnClickListener { viewModel.setStep(5) }
+            step10.setOnClickListener { viewModel.setStep(10) }
+            step25.setOnClickListener { viewModel.setStep(25) }
+            step50.setOnClickListener { viewModel.setStep(50) }
         }
     }
 }

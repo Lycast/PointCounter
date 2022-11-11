@@ -6,12 +6,15 @@
     <color name="light_gray">#7C7C7C</color>
     <color name="very_light_gray">#ECECEC</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="red">#810303</color>
-    <color name="yellow">#AC9A00</color>
+    <color name="red">#FF0000</color>
+    <color name="yellow">#FFF200</color>
     <color name="light_green">#80BA70</color>
-    <color name="green">#166500</color>
-    <color name="blue">#006398</color>
-    <color name="background">#ECECEC</color>
-    <color name="opacity_50">#44000000</color>
+    <color name="green">#00E804</color>
+    <color name="blue">#0073FF</color>
+    <color name="background">#272727</color>
+    <color name="opacity_0">#00FFFFFF</color>
+    <color name="opacity_50">#80000000</color>
+    <color name="opacity_25">#40000000</color>
+    <color name="opacity_10">#1A000000</color>
 
 </resources>

@@ -15,22 +15,32 @@ class ViewHolderCounterCompactList (private val context: Context, private val it
         // binding text
         itemBinding.itemTextViewName.text = user.name
         itemBinding.userItemTextViewScore.text = user.score.toString()
-        itemBinding.counterCompactItemCard.setCardBackgroundColor(user.color)
+        itemBinding.itemCard.setCardBackgroundColor(user.color)
 
         // binding click
-        itemBinding.counterCompactItemCard.setOnClickListener { listener.setOnItemClickListener(user, UserEnum.ADD_1_POINT) }
-        itemBinding.counterCompactItemCard.setOnLongClickListener {
-            listener.setOnItemClickListener(user, UserEnum.ADD_10_POINT)
+        // Add point
+        itemBinding.itemImageViewAddPoint.setOnClickListener {
+            listener.setOnItemClickListener(
+                user,
+                UserEnum.ADD_POINT
+            )
+        }
+
+        // Remove point
+        itemBinding.itemImageViewRemovePoint.setOnClickListener {
+            listener.setOnItemClickListener(
+                user,
+                UserEnum.REMOVE_POINT
+            )
+        }
+
+        // Long click
+        itemBinding.itemCard.setOnLongClickListener {
+            // todo open set score manually
             return@setOnLongClickListener true
         }
 
-        itemBinding.itemImageViewRemovePoint.setOnClickListener { listener.setOnItemClickListener(user, UserEnum.REMOVE_1_POINT) }
-        itemBinding.itemImageViewRemovePoint.setOnLongClickListener {
-            listener.setOnItemClickListener(user, UserEnum.REMOVE_10_POINT)
-            return@setOnLongClickListener true
-        }
-
-        itemBinding.itemImageViewEdit.setOnClickListener {
+        itemBinding.itemTextViewName.setOnClickListener {
             val popupMenu = PopupMenu(context, it)
             popupMenu.menu.add("Edit").setOnMenuItemClickListener {
                 listener.setOnItemClickListener(user, UserEnum.EDIT)

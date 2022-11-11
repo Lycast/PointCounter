@@ -97,7 +97,7 @@ class HomeFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemC
         }
 
         // On click edit dice
-        binding.homeImgAddEmpty.setOnClickListener {
+        binding.homeImageEditDice.setOnClickListener {
             snackBar("Not yet implemented")
         }
     }
