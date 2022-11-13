@@ -1,8 +1,10 @@
 package com.example.pointcounter.ui
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -15,8 +17,8 @@ import com.example.pointcounter.ui.adapter.MainViewPagerAdapter
 import com.example.pointcounter.ui.dialog.DialogDiceResult
 import com.example.pointcounter.ui.dialog.DialogMenu
 import com.example.pointcounter.ui.navigation.HomeFragment
-import com.example.pointcounter.ui.navigation.ListFragment
-import com.example.pointcounter.ui.navigation.StatsFragment
+import com.example.pointcounter.ui.navigation.GameFragment
+import com.example.pointcounter.ui.navigation.HistoryFragment
 import com.example.pointcounter.viewmodel.SharedViewModel
 import com.example.pointcounter.viewmodel.SharedViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
@@ -25,7 +27,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: SharedViewModel
-    private val tabsList = listOf(R.drawable._home_24, R.drawable._list_24, R.drawable._stats_24)
+    private val tabsList = listOf(R.drawable._home_24, R.drawable._play_arrow_24, R.drawable._history_24)
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +50,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViewPager() {
-        val fragments: ArrayList<Fragment> = arrayListOf(HomeFragment(viewModel), ListFragment(), StatsFragment())
+        val fragments: ArrayList<Fragment> = arrayListOf(HomeFragment(viewModel), GameFragment(viewModel), HistoryFragment(viewModel))
         val viewPagerAdapter = MainViewPagerAdapter(fragments, this)
         binding.mainViewPager.adapter = viewPagerAdapter
         TabLayoutMediator(binding.mainTabLayout, binding.mainViewPager) {
@@ -61,16 +64,10 @@ class MainActivity : AppCompatActivity() {
         val toolbarDiceImg: ImageView = findViewById(R.id.toolbar_image_view_dice)
         val toolbarAdd: ImageView = findViewById(R.id.toolbar_image_add)
 
-        toolbarAdd.setOnClickListener {
-            viewModel.addUser(User(0,"Guest", 0, viewModel.getRandomColor()))
-        }
+        toolbarAdd.visibility = View.GONE
+        toolbarDiceImg.visibility = View.GONE
 
-
-        toolbarDiceImg.setOnClickListener {
-            viewModel.launchDice()
-            DialogDiceResult(viewModel).show(supportFragmentManager, "dialog_dice")
-        }
-
+        toolbarBackImg.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable._close_36))
         toolbarBackImg.setOnClickListener { finish() }
 
         toolbarMenu.setOnClickListener {

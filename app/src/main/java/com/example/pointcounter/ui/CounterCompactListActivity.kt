@@ -26,9 +26,9 @@ import com.example.pointcounter.ui.dialog.DialogDiceResult
 import com.example.pointcounter.ui.dialog.DialogInput
 import com.example.pointcounter.ui.dialog.DialogMenu
 import com.example.pointcounter.ui.dialog.DialogParticipant
-import com.example.pointcounter.utils.EnumDialogEditText
-import com.example.pointcounter.utils.UserEnum
-import com.example.pointcounter.utils.ViewHolderEnum
+import com.example.pointcounter.utils.EnumDialogInput
+import com.example.pointcounter.utils.EnumItem
+import com.example.pointcounter.utils.EnumVHSelect
 import com.example.pointcounter.viewmodel.SharedViewModel
 import com.example.pointcounter.viewmodel.SharedViewModelFactory
 
@@ -70,34 +70,35 @@ class CounterCompactListActivity : AppCompatActivity(), OnItemClickListener {
         setToolbar()
     }
 
-    override fun setOnItemClickListener(user: User, enum: UserEnum) {
+    override fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int) {
         when (enum) {
-            UserEnum.DELETE -> viewModel.deleteUser(user)
-            UserEnum.EDIT -> DialogParticipant(user, viewModel).show(
+            EnumItem.DELETE -> viewModel.deleteUser(user)
+            EnumItem.EDIT -> DialogParticipant(user, viewModel).show(
                 supportFragmentManager,
                 "dialog_user"
             )
-            UserEnum.RESET_POINT -> {
+            EnumItem.RESET_POINT -> {
                 user.score = 0
                 viewModel.updateUser(user)
             }
-            UserEnum.ADD_POINT -> {
+            EnumItem.ADD_POINT -> {
                 user.score += step
                 viewModel.updateUser(user)
             }
-            UserEnum.REMOVE_POINT -> {
+            EnumItem.REMOVE_POINT -> {
                 user.score -= step
                 viewModel.updateUser(user)
             }
-            UserEnum.SET_POINT -> {
-                DialogInput(user, viewModel, EnumDialogEditText.SCORE_INPUT).show(supportFragmentManager, "dialog_score")
+            EnumItem.SET_POINT -> {
+                DialogInput(user, viewModel, EnumDialogInput.SCORE_INPUT).show(supportFragmentManager, "dialog_score")
             }
+            else -> {}
         }
     }
 
     private fun displayList() {
         viewModel.users.observe(this) {
-            adapter = ParticipantAdapter(it, this, ViewHolderEnum.COMPACT_LIST)
+            adapter = ParticipantAdapter(it, this, EnumVHSelect.COMPACT_LIST, null)
             binding.recyclerViewGuests.adapter = adapter
 
             var column = 2
@@ -129,10 +130,10 @@ class CounterCompactListActivity : AppCompatActivity(), OnItemClickListener {
         }
 
         toolbarBinding.apply {
-            toolbarImageAdd.setOnClickListener { viewModel.addUser(User(0,"Guest", 0, viewModel.getRandomColor())) }
+            toolbarImageAdd.setOnClickListener { viewModel.addUser(User(0,viewModel.getRndName(), 0, viewModel.getRndColor())) }
             toolbarImageViewDice.setOnClickListener {
-                viewModel.launchDice()
-                DialogDiceResult(viewModel).show(supportFragmentManager, "dialog_dice")
+                viewModel.launchNormalDice()
+                DialogDiceResult(viewModel, false).show(supportFragmentManager, "dialog_dice")
             }
             toolbarImageViewBack.setOnClickListener {
                 startActivity(Intent(this@CounterCompactListActivity, MainActivity::class.java))
@@ -148,7 +149,7 @@ class CounterCompactListActivity : AppCompatActivity(), OnItemClickListener {
             step5.setOnClickListener { viewModel.setStep(5) }
             step10.setOnClickListener { viewModel.setStep(10) }
             step25.setOnClickListener { viewModel.setStep(25) }
-            stepSetup.setOnClickListener { DialogInput(null, viewModel, EnumDialogEditText.STEP_INPUT).show(supportFragmentManager, "dialog_step") }
+            stepSetup.setOnClickListener { DialogInput(null, viewModel, EnumDialogInput.STEP_INPUT).show(supportFragmentManager, "dialog_step") }
         }
     }
 }

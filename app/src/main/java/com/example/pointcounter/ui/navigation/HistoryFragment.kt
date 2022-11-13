@@ -5,16 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.pointcounter.databinding.FragmentListBinding
+import com.example.pointcounter.databinding.FragmentHistoryBinding
+import com.example.pointcounter.viewmodel.SharedViewModel
 
-class ListFragment : Fragment() {
 
-    private var _binding: FragmentListBinding? = null
+class HistoryFragment(private val viewModel: SharedViewModel) : Fragment() {
+
+    private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentListBinding.inflate(inflater, container, false)
+        _binding = FragmentHistoryBinding.inflate(inflater, container, false)
         return binding.root
     }
 

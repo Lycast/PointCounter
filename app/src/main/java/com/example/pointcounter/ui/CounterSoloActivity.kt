@@ -1,14 +1,20 @@
 package com.example.pointcounter.ui
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.pointcounter.R
 import com.example.pointcounter.data.UserRoomDatabase
@@ -21,7 +27,7 @@ import com.example.pointcounter.ui.dialog.DialogDiceResult
 import com.example.pointcounter.ui.dialog.DialogInput
 import com.example.pointcounter.ui.dialog.DialogMenu
 import com.example.pointcounter.ui.dialog.DialogParticipant
-import com.example.pointcounter.utils.EnumDialogEditText
+import com.example.pointcounter.utils.EnumDialogInput
 import com.example.pointcounter.viewmodel.SharedViewModel
 import com.example.pointcounter.viewmodel.SharedViewModelFactory
 
@@ -37,6 +43,12 @@ class CounterSoloActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.attributes.layoutInDisplayCutoutMode =
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+        }
+
         binding = ActivityCounterSoloBinding.inflate(layoutInflater)
         setContentView(binding.root)
         stepBinding = ToolbarLayoutStepBinding.bind(binding.root)
@@ -44,6 +56,14 @@ class CounterSoloActivity : AppCompatActivity() {
 
         if (savedInstanceState != null) {
             spinnerPos = savedInstanceState.getInt("spinner_position", 0)
+        }
+
+        // set immersive mode
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowInsetsControllerCompat(window, binding.root).let {
+            it.hide(WindowInsetsCompat.Type.systemBars())
+            it.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
 
         val dao = UserRoomDatabase.getInstance(application).userDao
@@ -101,7 +121,7 @@ class CounterSoloActivity : AppCompatActivity() {
             }
         }
         binding.layoutScore.setOnLongClickListener {
-            DialogInput(currentUser, viewModel, EnumDialogEditText.SCORE_INPUT).show(supportFragmentManager, "dialog_score")
+            DialogInput(currentUser, viewModel, EnumDialogInput.SCORE_INPUT).show(supportFragmentManager, "dialog_score")
             return@setOnLongClickListener true
         }
     }
@@ -145,10 +165,10 @@ class CounterSoloActivity : AppCompatActivity() {
         }
 
         toolbarBinding.apply {
-            toolbarImageAdd.setOnClickListener { viewModel.addUser(User(0,"Guest", 0, viewModel.getRandomColor())) }
+            toolbarImageAdd.setOnClickListener { viewModel.addUser(User(0,viewModel.getRndName(), 0, viewModel.getRndColor())) }
             toolbarImageViewDice.setOnClickListener {
-                viewModel.launchDice()
-                DialogDiceResult(viewModel).show(supportFragmentManager, "dialog_dice")
+                viewModel.launchNormalDice()
+                DialogDiceResult(viewModel,false).show(supportFragmentManager, "dialog_dice")
             }
             toolbarImageViewBack.setOnClickListener {
                 startActivity(Intent(this@CounterSoloActivity, MainActivity::class.java))
@@ -164,7 +184,7 @@ class CounterSoloActivity : AppCompatActivity() {
             step5.setOnClickListener { viewModel.setStep(5) }
             step10.setOnClickListener { viewModel.setStep(10) }
             step25.setOnClickListener { viewModel.setStep(25) }
-            stepSetup.setOnClickListener { DialogInput(null, viewModel, EnumDialogEditText.STEP_INPUT).show(supportFragmentManager, "dialog_step") }
+            stepSetup.setOnClickListener { DialogInput(null, viewModel, EnumDialogInput.STEP_INPUT).show(supportFragmentManager, "dialog_step") }
         }
     }
 

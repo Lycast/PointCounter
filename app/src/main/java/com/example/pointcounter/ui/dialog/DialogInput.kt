@@ -8,11 +8,11 @@ import androidx.fragment.app.DialogFragment
 import com.example.pointcounter.R
 import com.example.pointcounter.databinding.AlertDialogInputBinding
 import com.example.pointcounter.model.entity.User
-import com.example.pointcounter.utils.EnumDialogEditText
+import com.example.pointcounter.utils.EnumDialogInput
 import com.example.pointcounter.viewmodel.SharedViewModel
 import com.google.android.material.snackbar.Snackbar
 
-class DialogInput (private var user: User?, private val viewModel: SharedViewModel, private val enum: EnumDialogEditText) : DialogFragment() {
+class DialogInput (private var user: User?, private val viewModel: SharedViewModel, private val enum: EnumDialogInput) : DialogFragment() {
 
     private lateinit var dialogBinding: AlertDialogInputBinding
 
@@ -23,7 +23,7 @@ class DialogInput (private var user: User?, private val viewModel: SharedViewMod
             alertDialog.setView(dialogBinding.root)
 
             when(enum) {
-                EnumDialogEditText.SCORE_INPUT -> {
+                EnumDialogInput.SCORE_INPUT -> {
                     alertDialog.setPositiveButton(R.string.ok) { _, _ ->
                         if (dialogBinding.editText.text.isNotEmpty()) {
                             user?.let { userIt ->
@@ -33,7 +33,7 @@ class DialogInput (private var user: User?, private val viewModel: SharedViewMod
                         } else Snackbar.make(dialogBinding.root, "Enter something", Snackbar.LENGTH_SHORT).show()
                     }
                 }
-                EnumDialogEditText.STEP_INPUT -> {
+                EnumDialogInput.STEP_INPUT -> {
                     dialogBinding.editText.hint = getString(R.string.step)
                     alertDialog.setPositiveButton(R.string.ok) { _, _ ->
                         if (dialogBinding.editText.text.isNotEmpty()) {

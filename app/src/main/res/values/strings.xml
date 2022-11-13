@@ -17,7 +17,7 @@
     <string name="add">Add</string>
     <string name="_0">0</string>
     <string name="empty_string" />
-    <string name="add_new_participant">New</string>
+    <string name="add_new_participant">Add new participant</string>
     <string name="edit_participant">Edit</string>
     <string name="home">Home</string>
     <string name="stats">Stats</string>
@@ -30,7 +30,7 @@
     <string name="fragment_list">FRAGMENT LIST</string>
     <string name="fragment_stats_history">FRAGMENT STATS HISTORY</string>
     <string name="score_counters">Score counters</string>
-    <string name="list_of_participants">List of participants</string>
+    <string name="participants">Participants</string>
     <string name="delete_all_participant_alert">Delete all participants ?</string>
     <string name="launch_dice">Launch Dice</string>
     <string name="dice">Dice</string>
@@ -45,7 +45,7 @@
     <string name="setting_dice">Setting dice</string>
     <string name="setting_counter">Setting counter</string>
     <string name="cancel">Cancel</string>
-    <string name="back_button">back button</string>
+    <string name="back_button">back</string>
     <string name="_1">1</string>
     <string name="_50">50</string>
     <string name="_25">25</string>
@@ -53,5 +53,34 @@
     <string name="_10">10</string>
     <string name="enter_score">Score</string>
     <string name="step">step</string>
+    <string name="start">Start</string>
+    <string name="help">help</string>
+    <string name="round_remaining">Round remaining</string>
+    <string name="ranking">Ranking</string>
+    <string name="rounds">Rounds</string>
+    <string name="score_history">Score history</string>
+    <string name="dice_history">Dice history</string>
+    <string name="game_history">Game history</string>
+    <string name="counter_history">Counter history</string>
+    <string name="finish">Finish</string>
+
+    <string name="help_start">Start a tournament where everyone will play once against every other participant.\nAll scores will be reset at launch.</string>
+    <string name="help_round">The list of duels.\nA long press on the player to validate a victory</string>
+    <string name="help_ranking">The list of the current ranking in the order of accumulated points.</string>
+    <string name="cancel_tournament">Stop the current tournament</string>
+    <string name="dice_config_explanation">You can customize the dice to change the number of sides and roll multiple dice at the same time.</string>
+    <string name="number_of_sides">Number of sides </string>
+    <string name="_1_dice">1 dice</string>
+    <string name="_2_dice">2 dice</string>
+    <string name="_3_dice">3 dice</string>
+    <string name="_4_dice">4 dice</string>
+    <string name="_9_dice">9 dice</string>
+    <string name="_8_dice">8 dice</string>
+    <string name="_7_dice">7 dice</string>
+    <string name="_6_dice">6 dice</string>
+    <string name="_5_dice">5 dice</string>
+    <string name="select_how_many_dice">Select how many dice</string>
+    <string name="_10_dice">10 dice</string>
+    <string name="number_of_dices">Number of dices</string>
 
 </resources>

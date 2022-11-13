@@ -4,6 +4,7 @@
     android:id="@+id/layout_step"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingVertical="2dp"
     android:orientation="horizontal">
 
     <TextView

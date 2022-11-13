@@ -29,7 +29,7 @@ import com.example.pointcounter.ui.dialog.DialogDiceResult
 import com.example.pointcounter.ui.dialog.DialogInput
 import com.example.pointcounter.ui.dialog.DialogMenu
 import com.example.pointcounter.ui.dialog.DialogParticipant
-import com.example.pointcounter.utils.EnumDialogEditText
+import com.example.pointcounter.utils.EnumDialogInput
 import com.example.pointcounter.viewmodel.SharedViewModel
 import com.example.pointcounter.viewmodel.SharedViewModelFactory
 
@@ -120,7 +120,6 @@ class CounterDuoActivity : AppCompatActivity() {
                     currentParticipantA = it[position]
                     spinnerAPos = position
                 }
-
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
         }
@@ -239,10 +238,10 @@ class CounterDuoActivity : AppCompatActivity() {
         }
 
         toolbarBinding.apply {
-            toolbarImageAdd.setOnClickListener { viewModel.addUser(User(0,"Guest", 0, viewModel.getRandomColor())) }
+            toolbarImageAdd.setOnClickListener { viewModel.addUser(User(0,viewModel.getRndName(), 0, viewModel.getRndColor())) }
             toolbarImageViewDice.setOnClickListener {
-                viewModel.launchDice()
-                DialogDiceResult(viewModel).show(supportFragmentManager, "dialog_dice")
+                viewModel.launchNormalDice()
+                DialogDiceResult(viewModel,false).show(supportFragmentManager, "dialog_dice")
             }
             toolbarImageViewBack.setOnClickListener {
                 startActivity(Intent(this@CounterDuoActivity, MainActivity::class.java))
@@ -258,7 +257,7 @@ class CounterDuoActivity : AppCompatActivity() {
             step5.setOnClickListener { viewModel.setStep(5) }
             step10.setOnClickListener { viewModel.setStep(10) }
             step25.setOnClickListener { viewModel.setStep(25) }
-            stepSetup.setOnClickListener { DialogInput(null, viewModel, EnumDialogEditText.STEP_INPUT).show(supportFragmentManager, "dialog_step") }
+            stepSetup.setOnClickListener { DialogInput(null, viewModel, EnumDialogInput.STEP_INPUT).show(supportFragmentManager, "dialog_step") }
         }
     }
 

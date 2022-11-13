@@ -14,10 +14,11 @@ import com.example.pointcounter.model.entity.User
 import com.example.pointcounter.ui.*
 import com.example.pointcounter.ui.adapter.ParticipantAdapter
 import com.example.pointcounter.ui.dialog.DialogDiceResult
+import com.example.pointcounter.ui.dialog.DialogDiceSetup
 import com.example.pointcounter.ui.dialog.DialogParticipant
 import com.example.pointcounter.utils.OnItemClickListener
-import com.example.pointcounter.utils.UserEnum
-import com.example.pointcounter.utils.ViewHolderEnum
+import com.example.pointcounter.utils.EnumItem
+import com.example.pointcounter.utils.EnumVHSelect
 import com.example.pointcounter.viewmodel.SharedViewModel
 import com.google.android.material.snackbar.Snackbar
 
@@ -36,14 +37,13 @@ class HomeFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemC
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         displayList()
         setClickListenerView()
     }
 
     private fun setClickListenerView() {
 
-        // On click start counter (check list size before launch counter)
+        // START COUNTER    (check list size before launch counter)
         binding.homeButtonSoloCounter.setOnClickListener {
             if (listSize > 0) {
                 startActivity(Intent(context, CounterSoloActivity::class.java))
@@ -70,15 +70,15 @@ class HomeFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemC
             } else snackBar(getString(R.string.alert_add_participant))
         }
 
-        // On click image add participant
+        // ADD PARTICIPANT
         binding.homeImgAdd.setOnClickListener {
-            viewModel.addUser(User(0,"Guest",0,viewModel.getRandomColor()))
+            viewModel.addUser(User(0,viewModel.getRndName(),0,viewModel.getRndColor()))
         }
         binding.homeImgAddEmpty.setOnClickListener {
-            viewModel.addUser(User(0,"Guest",0,viewModel.getRandomColor()))
+            viewModel.addUser(User(0,viewModel.getRndName(),0,viewModel.getRndColor()))
         }
 
-        // On click delete all participants
+        // DELETE ALL PARTICIPANT
         binding.homeImgDelete.setOnClickListener {
             val alertDialog = AlertDialog.Builder(context)
             alertDialog.setTitle(R.string.delete_all_participant_alert)
@@ -90,21 +90,19 @@ class HomeFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemC
             alertDialog.create().show()
         }
 
-        // On click image dice
+        // DICE
         binding.imgDice.setOnClickListener {
-            viewModel.launchDice()
-            DialogDiceResult(viewModel).show(parentFragmentManager, "dialog_dice")
+            viewModel.launchNormalDice()
+            DialogDiceResult(viewModel,false).show(parentFragmentManager, "dialog_dice")
         }
-
-        // On click edit dice
         binding.homeImageEditDice.setOnClickListener {
-            snackBar("Not yet implemented")
+            DialogDiceSetup(viewModel).show(parentFragmentManager, "dialog_dice_setup")
         }
     }
 
     private fun displayList() {
         viewModel.users.observe(requireActivity()) {
-            adapter = ParticipantAdapter(it, this, ViewHolderEnum.HOME)
+            adapter = ParticipantAdapter(it, this, EnumVHSelect.HOME, null)
             binding.recyclerViewGuests.adapter = adapter
             binding.recyclerViewGuests.layoutManager = LinearLayoutManager(context)
             listSize = it.size
@@ -119,10 +117,10 @@ class HomeFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemC
         }
     }
 
-    override fun setOnItemClickListener(user: User, enum: UserEnum) {
+    override fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int) {
         when (enum) {
-            UserEnum.DELETE -> viewModel.deleteUser(user)
-            UserEnum.EDIT -> DialogParticipant(user, viewModel).show(parentFragmentManager, "dialog_user")
+            EnumItem.DELETE -> viewModel.deleteUser(user)
+            EnumItem.EDIT -> DialogParticipant(user, viewModel).show(parentFragmentManager, "dialog_user")
             else -> {}
         }
     }

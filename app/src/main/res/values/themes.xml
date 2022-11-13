@@ -21,4 +21,5 @@
     <style name="custom_background" parent="Theme.MaterialComponents">
         <item name="android:background">@color/gray</item>
     </style>
+
 </resources>

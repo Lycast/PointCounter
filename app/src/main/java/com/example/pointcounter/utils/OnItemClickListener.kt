@@ -3,5 +3,5 @@ package com.example.pointcounter.utils
 import com.example.pointcounter.model.entity.User
 
 interface OnItemClickListener {
-    fun setOnItemClickListener(user: User, enum: UserEnum)
+    fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int)
 }

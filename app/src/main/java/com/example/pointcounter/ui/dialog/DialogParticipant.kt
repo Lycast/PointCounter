@@ -46,7 +46,7 @@ class DialogParticipant(private val user: User, private val viewModel: SharedVie
 
             // On click button generate color
             dialogBinding.btnGenerateColor.setOnClickListener {
-                color = viewModel.getRandomColor()
+                color = viewModel.getRndColor()
                 dialogBinding.cardExampleColor.setCardBackgroundColor(color)
                 dialogBinding.btnGenerateColor.setTextColor(color)
             }
