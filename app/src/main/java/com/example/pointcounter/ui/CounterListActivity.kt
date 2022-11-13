@@ -132,8 +132,7 @@ class CounterListActivity : AppCompatActivity(), OnItemClickListener {
         toolbarBinding.apply {
             toolbarImageAdd.setOnClickListener { viewModel.addUser(User(0,viewModel.getRndName(), 0, viewModel.getRndColor())) }
             toolbarImageViewDice.setOnClickListener {
-                viewModel.launchNormalDice()
-                DialogDiceResult(viewModel,false).show(supportFragmentManager, "dialog_dice")
+                DialogDiceResult(viewModel).show(supportFragmentManager, "dialog_dice")
             }
             toolbarImageViewBack.setOnClickListener {
                 startActivity(Intent(this@CounterListActivity, MainActivity::class.java))

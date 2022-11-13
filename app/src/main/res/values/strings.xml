@@ -82,5 +82,8 @@
     <string name="select_how_many_dice">Select how many dice</string>
     <string name="_10_dice">10 dice</string>
     <string name="number_of_dices">Number of dices</string>
+    <string name="total">Total :</string>
+    <string name="edit">Edit</string>
+    <string name="customize">Customize</string>
 
 </resources>

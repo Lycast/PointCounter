@@ -8,8 +8,8 @@ class Repository (private val dao: UserDao) {
 
     val listTournament: MutableLiveData<List<User>> by lazy { MutableLiveData<List<User>>() }
     val listUsers = dao.getUsers()
-    val diceSide = MutableLiveData(10)
-    val diceNumber = MutableLiveData(2)
+    val sideNumber = MutableLiveData(6)
+    val diceNumber = MutableLiveData(1)
 
     suspend fun addUser(user: User) = dao.addUser(user)
 

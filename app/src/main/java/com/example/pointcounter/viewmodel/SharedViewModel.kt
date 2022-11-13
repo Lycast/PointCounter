@@ -17,9 +17,10 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
     private var names = ListOfName().listNames
     val users = repository.listUsers
     val listOfTournament = repository.listTournament
-    var diceResult = MutableLiveData((1..6).random())
     val color: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
     val step = MutableLiveData(1)
+    val sideNumber = repository.sideNumber
+    val diceNumber = repository.diceNumber
 
 
     fun addUser(user: User) = viewModelScope.launch { repository.addUser(user) }
@@ -62,9 +63,13 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
         color.value = Color.argb(255, red, green, blue)
     }
 
-//    fun setDice(list: List<String>) { repository.setDice(list) }
+    // Roll a normal dice
+    fun launchDice(nbOfSide: Int) = (1..nbOfSide).random()
 
-    fun launchNormalDice() { diceResult.value = (1..6).random() }
-
+    // STEP SETUP
     fun setStep(newStep: Int) { step.value = newStep }
+
+    // DICE SETUP
+    fun setDiceNumber(numberOfDice: Int) { diceNumber.value = numberOfDice }
+    fun setSideNumber(numberOfSide: Int) { sideNumber.value = numberOfSide }
 }

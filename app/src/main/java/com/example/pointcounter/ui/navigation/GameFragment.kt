@@ -29,7 +29,6 @@ class GameFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemC
     private var listOfTournament: MutableList<User> = mutableListOf()
     private var gameIsStarted = false
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentGameBinding.inflate(inflater, container, false)
         return binding.root
@@ -70,10 +69,9 @@ class GameFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemC
 
         // DICE
         binding.imgDice.setOnClickListener {
-            viewModel.launchNormalDice()
-            DialogDiceResult(viewModel,false).show(parentFragmentManager, "dialog_dice")
+            DialogDiceResult(viewModel).show(parentFragmentManager, "dialog_dice")
         }
-        binding.gameImageEditDice.setOnClickListener {
+        binding.gameEditDiceImg.setOnClickListener {
             DialogDiceSetup(viewModel).show(parentFragmentManager, "dialog_dice_setup")
         }
 

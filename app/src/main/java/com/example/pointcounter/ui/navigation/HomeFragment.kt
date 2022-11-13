@@ -92,10 +92,9 @@ class HomeFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemC
 
         // DICE
         binding.imgDice.setOnClickListener {
-            viewModel.launchNormalDice()
-            DialogDiceResult(viewModel,false).show(parentFragmentManager, "dialog_dice")
+            DialogDiceResult(viewModel).show(parentFragmentManager, "dialog_dice")
         }
-        binding.homeImageEditDice.setOnClickListener {
+        binding.homeEditDiceImg.setOnClickListener {
             DialogDiceSetup(viewModel).show(parentFragmentManager, "dialog_dice_setup")
         }
     }

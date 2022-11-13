@@ -2,7 +2,9 @@ package com.example.pointcounter.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.example.pointcounter.R
@@ -21,6 +23,18 @@ class DialogInput (private var user: User?, private val viewModel: SharedViewMod
         return activity?.let { it ->
             val alertDialog = AlertDialog.Builder(it)
             alertDialog.setView(dialogBinding.root)
+
+            dialogBinding.editText.requestFocus()
+            dialogBinding.editText.isEnabled = true
+
+            dialogBinding.editText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                    dialogBinding.editText.clearFocus()
+                    dialogBinding.editText.isEnabled = false
+                    return@OnKeyListener true
+                }
+                false
+            })
 
             when(enum) {
                 EnumDialogInput.SCORE_INPUT -> {

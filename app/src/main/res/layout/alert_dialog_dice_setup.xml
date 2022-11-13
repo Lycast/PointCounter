@@ -33,6 +33,42 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:autofillHints="" />
 
+
+    <TextView
+        android:id="@+id/text_seekbar_title_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/number_of_sides"
+        android:textColor="@color/dice_card"
+        app:layout_constraintBottom_toTopOf="@id/seekbar_side"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/text_seekbar_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginStart="10dp"
+        android:text="@string/_10"
+        android:textColor="@color/dice_card"
+        app:layout_constraintTop_toTopOf="@id/text_seekbar_title_side"
+        app:layout_constraintStart_toEndOf="@id/text_seekbar_title_side"
+        app:layout_constraintBottom_toBottomOf="@id/text_seekbar_title_side"/>
+
+    <SeekBar
+        android:id="@+id/seekbar_side"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="30dp"
+        android:min="1"
+        android:max="100"
+        app:layout_constraintTop_toBottomOf="@id/seekbar_dice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
     <TextView
         android:id="@+id/text_seekbar_title"
         android:layout_width="wrap_content"
@@ -60,7 +96,7 @@
         android:id="@+id/seekbar_dice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="30dp"
+        android:layout_marginVertical="60dp"
         android:min="1"
         android:max="10"
         app:layout_constraintTop_toBottomOf="@id/et_nb_side"
