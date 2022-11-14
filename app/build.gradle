@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.pointcounter'
+    namespace 'com.example.scorecounter'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.pointcounter"
+        applicationId "com.example.scorecounter"
         minSdk 26
         targetSdk 33
         versionCode 1

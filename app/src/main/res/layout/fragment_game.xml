@@ -30,7 +30,7 @@
                 android:padding="8dp"
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
-                android:src="@drawable/_help_outline_24"
+                android:src="@drawable/v_help_outline_24"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,6 @@
                 android:id="@+id/game_btn_start"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_marginHorizontal="5pt"
                 android:paddingVertical="10dp"
                 android:text="@string/start"
@@ -59,7 +58,7 @@
                 android:padding="8dp"
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
-                android:src="@drawable/_delete_forever_24"
+                android:src="@drawable/v_delete_forever_24"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/game_btn_start"
@@ -85,7 +84,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/game_help_round"
+                android:id="@+id/iv_help_round"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:elevation="1dp"
@@ -93,19 +92,19 @@
                 android:padding="5dp"
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
-                android:src="@drawable/_help_outline_24"
+                android:src="@drawable/v_help_outline_24"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="@id/game_text_title"
                 app:layout_constraintStart_toStartOf="parent"
                 android:contentDescription="@string/help" />
 
             <TextView
-                android:id="@+id/game_remaining_text"
+                android:id="@+id/tv_round_remaining"
                 android:layout_width="60dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="10dp"
                 android:elevation="1dp"
-                android:text="@string/_0"
+                android:text="@string/number_0"
                 android:gravity="center"
                 android:textSize="10pt"
                 app:layout_constraintTop_toTopOf="parent"
@@ -156,7 +155,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/game_help_result"
+                android:id="@+id/iv_help_ranking"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:elevation="1dp"
@@ -164,7 +163,7 @@
                 android:padding="5dp"
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
-                android:src="@drawable/_help_outline_24"
+                android:src="@drawable/v_help_outline_24"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="@id/game_tv_ranking"
                 app:layout_constraintStart_toStartOf="parent"
@@ -233,7 +232,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/_edit_24"
+                android:src="@drawable/v_edit_24"
                 app:layout_constraintBottom_toTopOf="@id/game_edit_dice_txt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/img_dice"

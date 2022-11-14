@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/item_text_view_name"
+            android:id="@+id/item_tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autoSizeTextType="uniform"
@@ -25,7 +25,7 @@
             android:text="@string/name_of_guest"
             android:textColor="@color/gray"
             android:textSize="12pt"
-            app:drawableStartCompat="@drawable/_edit_24"
+            app:drawableStartCompat="@drawable/v_edit_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,14 +36,14 @@
             android:background="@color/opacity_10">
 
             <TextView
-                android:id="@+id/user_item_text_view_score"
+                android:id="@+id/item_tv_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:maxLines="1"
                 android:paddingHorizontal="10dp"
                 android:paddingBottom="2dp"
-                android:text="@string/_0"
+                android:text="@string/number_0"
                 android:textColor="@color/gray"
                 android:textSize="24pt"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -51,30 +51,30 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/item_image_view_add_point"
+                android:id="@+id/item_iv_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:contentDescription="@string/add_one_point"
                 android:padding="20dp"
-                android:src="@drawable/_add_24"
+                android:src="@drawable/v_add_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/user_item_text_view_score"
+                app:layout_constraintEnd_toStartOf="@+id/item_tv_score"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/gray" />
 
             <ImageView
-                android:id="@+id/item_image_view_remove_point"
+                android:id="@+id/item_iv_remove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:contentDescription="@string/remove_one_point"
                 android:padding="20dp"
-                android:src="@drawable/_remove_24"
+                android:src="@drawable/v_remove_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/user_item_text_view_score"
+                app:layout_constraintStart_toEndOf="@+id/item_tv_score"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/gray" />
         </androidx.constraintlayout.widget.ConstraintLayout>

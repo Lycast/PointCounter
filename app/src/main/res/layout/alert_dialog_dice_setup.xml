@@ -46,12 +46,12 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
-        android:id="@+id/text_seekbar_side"
+        android:id="@+id/tv_seekbar_side"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginStart="10dp"
-        android:text="@string/_10"
+        android:text="@string/number_10"
         android:textColor="@color/dice_card"
         app:layout_constraintTop_toTopOf="@id/text_seekbar_title_side"
         app:layout_constraintStart_toEndOf="@id/text_seekbar_title_side"
@@ -70,7 +70,7 @@
 
 
     <TextView
-        android:id="@+id/text_seekbar_title"
+        android:id="@+id/tv_seekbar_side_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -81,16 +81,16 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
-        android:id="@+id/text_seekbar"
+        android:id="@+id/tv_seekbar_dice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginStart="10dp"
-        android:text="@string/_10"
+        android:text="@string/number_10"
         android:textColor="@color/dice_card"
-        app:layout_constraintTop_toTopOf="@id/text_seekbar_title"
-        app:layout_constraintStart_toEndOf="@id/text_seekbar_title"
-        app:layout_constraintBottom_toBottomOf="@id/text_seekbar_title"/>
+        app:layout_constraintTop_toTopOf="@id/tv_seekbar_side_title"
+        app:layout_constraintStart_toEndOf="@id/tv_seekbar_side_title"
+        app:layout_constraintBottom_toBottomOf="@id/tv_seekbar_side_title"/>
 
     <SeekBar
         android:id="@+id/seekbar_dice"

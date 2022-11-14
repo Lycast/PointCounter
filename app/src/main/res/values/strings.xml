@@ -1,89 +1,77 @@
 <resources>
-    <string name="ok">OK</string>
-    <string name="yes">yes</string>
-    <string name="no">no</string>
-    <string name="app_name">Point Counter</string>
-    <string name="start_counter">Start counter</string>
-    <string name="number_of_guest">Number of guest  (from 1 to 4)</string>
-    <string name="remove_one_point">remove one point</string>
-    <string name="add_one_point">add one point</string>
-    <string name="add_new_counter">Add new counter</string>
+    <string name="app_name">Score Counter</string>
+    <string name="remove_one_point" translatable="false">remove one point</string>
+    <string name="add_one_point" translatable="false">add one point</string>
     <string name="enter_name">Enter Name</string>
     <string name="generate_a_color">Generate color</string>
     <string name="delete_all_user">Delete all users</string>
-    <string name="a">N</string>
-    <string name="name_of_guest">Name of guest</string>
-    <string name="menu">menu</string>
-    <string name="add">Add</string>
-    <string name="_0">0</string>
-    <string name="empty_string" />
-    <string name="add_new_participant">Add new participant</string>
-    <string name="edit_participant">Edit</string>
-    <string name="home">Home</string>
-    <string name="stats">Stats</string>
-    <string name="solo">Solo</string>
-    <string name="duo">Duo</string>
-    <string name="list">List</string>
+    <string name="name_of_guest" translatable="false">Name of guest</string>
     <string name="compact_list">Compact List</string>
-    <string name="_return">return</string>
-    <string name="solo_counter_example">solo counter example</string>
-    <string name="fragment_list">FRAGMENT LIST</string>
-    <string name="fragment_stats_history">FRAGMENT STATS HISTORY</string>
     <string name="score_counters">Score counters</string>
-    <string name="participants">Participants</string>
-    <string name="delete_all_participant_alert">Delete all participants ?</string>
-    <string name="launch_dice">Launch Dice</string>
-    <string name="dice">Dice</string>
-    <string name="edit_dice">Edit dice</string>
-    <string name="image_dice">image dice</string>
-    <string name="roll_dice_again">Roll again</string>
+
+
+    <!--  text view   -->
     <string name="alert_add_participant">Add more participant before launch a counter</string>
     <string name="info_all_participant_deleted">All participants deleted</string>
+    <string name="delete_all_participant_alert">Delete all participants</string>
     <string name="reset_all_score">Reset all score</string>
     <string name="about_to_me">About to me</string>
-    <string name="contact">Contact</string>
     <string name="setting_dice">Setting dice</string>
-    <string name="setting_counter">Setting counter</string>
-    <string name="cancel">Cancel</string>
+    <string name="setting_counter">counters settings</string>
     <string name="back_button">back</string>
-    <string name="_1">1</string>
-    <string name="_50">50</string>
-    <string name="_25">25</string>
-    <string name="_5">5</string>
-    <string name="_10">10</string>
-    <string name="enter_score">Score</string>
-    <string name="step">step</string>
-    <string name="start">Start</string>
-    <string name="help">help</string>
+    <string name="enter_score" translatable="false">Score</string>
     <string name="round_remaining">Round remaining</string>
-    <string name="ranking">Ranking</string>
-    <string name="rounds">Rounds</string>
-    <string name="score_history">Score history</string>
     <string name="dice_history">Dice history</string>
     <string name="game_history">Game history</string>
     <string name="counter_history">Counter history</string>
-    <string name="finish">Finish</string>
+    <string name="alert_game">You need 3 participants for launch a tournament</string>
+    <string name="cancel_tournament">Stop the current tournament</string>
+    <string name="number_of_sides">Number of sides </string>
+    <string name="number_of_dices">Number of dices</string>
+    <string name="roll_again">Roll again</string>
 
-    <string name="help_start">Start a tournament where everyone will play once against every other participant.\nAll scores will be reset at launch.</string>
+
+    <!--  message   -->
+    <string name="help_start">Start a tournament where each player will face the other players once.\nAll scores will be reset at launch.</string>
     <string name="help_round">The list of duels.\nA long press on the player to validate a victory</string>
     <string name="help_ranking">The list of the current ranking in the order of accumulated points.</string>
-    <string name="cancel_tournament">Stop the current tournament</string>
     <string name="dice_config_explanation">You can customize the dice to change the number of sides and roll multiple dice at the same time.</string>
-    <string name="number_of_sides">Number of sides </string>
-    <string name="_1_dice">1 dice</string>
-    <string name="_2_dice">2 dice</string>
-    <string name="_3_dice">3 dice</string>
-    <string name="_4_dice">4 dice</string>
-    <string name="_9_dice">9 dice</string>
-    <string name="_8_dice">8 dice</string>
-    <string name="_7_dice">7 dice</string>
-    <string name="_6_dice">6 dice</string>
-    <string name="_5_dice">5 dice</string>
-    <string name="select_how_many_dice">Select how many dice</string>
-    <string name="_10_dice">10 dice</string>
-    <string name="number_of_dices">Number of dices</string>
-    <string name="total">Total :</string>
-    <string name="edit">Edit</string>
-    <string name="customize">Customize</string>
 
+
+    <!--  one word   -->
+    <string name="ok" translatable="false">OK</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="menu">menu</string>
+    <string name="solo" translatable="false">Solo</string>
+    <string name="duo" translatable="false">Duo</string>
+    <string name="list">List</string>
+    <string name="step">step</string>
+    <string name="start">Start</string>
+    <string name="contact" translatable="false">Contact</string>
+    <string name="dice">Dice</string>
+    <string name="return_text">return</string>
+    <string name="edit">Edit</string>
+    <string name="ranking">Ranking</string>
+    <string name="rounds">Rounds</string>
+    <string name="help">help</string>
+    <string name="cancel">Cancel</string>
+    <string name="total" translatable="false">Total :</string>
+    <string name="customize">Customize</string>
+    <string name="finish">Finish</string>
+    <string name="participants" translatable="false">Participants</string>
+
+
+    <!--  description   -->
+    <string name="image_crown" translatable="false">image crown</string>
+    <string name="add_new_participant">Add new participant</string>
+    <string name="image_dice" translatable="false">image dice</string>
+
+
+    <!--  numbers   -->
+    <string name="number_0" translatable="false">0</string>
+    <string name="number_1" translatable="false">1</string>
+    <string name="number_5" translatable="false">5</string>
+    <string name="number_10" translatable="false">10</string>
+    <string name="number_25" translatable="false">25</string>
 </resources>
