@@ -2,6 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="gray">#272727</color>
+    <color name="night_day">#ECECEC</color>
+    <color name="day_night">#272727</color>
     <color name="light_gray">#7C7C7C</color>
     <color name="dice_card">#686868</color>
     <color name="dice_txt">#E9E9E9</color>

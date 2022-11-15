@@ -1,20 +1,17 @@
 package com.example.scorecounter.ui.navigation
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scorecounter.R
 import com.example.scorecounter.databinding.FragmentHomeBinding
 import com.example.scorecounter.model.entity.User
-import com.example.scorecounter.ui.*
-import com.example.scorecounter.ui.adapter.ParticipantAdapter
-import com.example.scorecounter.ui.dialog.DialogDiceResult
-import com.example.scorecounter.ui.dialog.DialogDiceSetup
+import com.example.scorecounter.ui.adapter.nav.RVNavAdapter
 import com.example.scorecounter.ui.dialog.DialogParticipant
 import com.example.scorecounter.utils.OnItemClickListener
 import com.example.scorecounter.utils.EnumItem
@@ -22,13 +19,13 @@ import com.example.scorecounter.utils.EnumVHSelect
 import com.example.scorecounter.viewmodel.SharedViewModel
 import com.google.android.material.snackbar.Snackbar
 
-class HomeFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemClickListener {
+class HomeFragment : Fragment(), OnItemClickListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter : ParticipantAdapter
+    private lateinit var adapter : RVNavAdapter
     private var listSize = 0
-
+    val viewModel by activityViewModels<SharedViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -37,39 +34,12 @@ class HomeFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemC
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         displayList()
         setClickListenerView()
     }
 
     private fun setClickListenerView() {
-
-        // START COUNTER    (check list size before launch counter)
-        binding.homeButtonSoloCounter.setOnClickListener {
-            if (listSize > 0) {
-                startActivity(Intent(context, CounterSoloActivity::class.java))
-                activity?.finish()
-            }
-            else snackBar(getString(R.string.alert_add_participant))
-        }
-        binding.homeButtonListCounter.setOnClickListener {
-            if (listSize > 0) {
-                startActivity(Intent(context, CounterListActivity::class.java))
-                activity?.finish()
-            } else snackBar(getString(R.string.alert_add_participant))
-        }
-        binding.homeButtonCompactListCounter.setOnClickListener {
-            if (listSize > 0) {
-                startActivity(Intent(context, CounterCompactListActivity::class.java))
-                activity?.finish()
-            } else snackBar(getString(R.string.alert_add_participant))
-        }
-        binding.homeButtonDuoCounter.setOnClickListener {
-            if (listSize > 1) {
-                startActivity(Intent(context, CounterDuoActivity::class.java))
-                activity?.finish()
-            } else snackBar(getString(R.string.alert_add_participant))
-        }
-
         // ADD PARTICIPANT
         binding.ivAdd.setOnClickListener {
             viewModel.addUser(User(0,viewModel.getRndName(),0,viewModel.getRndColor()))
@@ -89,19 +59,11 @@ class HomeFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemC
             alertDialog.setNegativeButton(R.string.no) {_,_ -> alertDialog.create().dismiss()}
             alertDialog.create().show()
         }
-
-        // DICE
-        binding.imgDice.setOnClickListener {
-            DialogDiceResult(viewModel).show(parentFragmentManager, "dialog_dice")
-        }
-        binding.homeEditDiceImg.setOnClickListener {
-            DialogDiceSetup(viewModel).show(parentFragmentManager, "dialog_dice_setup")
-        }
     }
 
     private fun displayList() {
         viewModel.users.observe(requireActivity()) {
-            adapter = ParticipantAdapter(it, this, EnumVHSelect.HOME, null)
+            adapter = RVNavAdapter(it, this, EnumVHSelect.HOME, null)
             binding.recyclerViewGuests.adapter = adapter
             binding.recyclerViewGuests.layoutManager = LinearLayoutManager(context)
             listSize = it.size
@@ -117,9 +79,10 @@ class HomeFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemC
     }
 
     override fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int) {
+        viewModel.currentUser = user
         when (enum) {
             EnumItem.DELETE -> viewModel.deleteUser(user)
-            EnumItem.EDIT -> DialogParticipant(user, viewModel).show(parentFragmentManager, "dialog_user")
+            EnumItem.EDIT -> DialogParticipant().show(parentFragmentManager, "dialog_user")
             else -> {}
         }
     }

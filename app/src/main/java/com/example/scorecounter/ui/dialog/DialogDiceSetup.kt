@@ -4,24 +4,26 @@ import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.SeekBar
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.example.scorecounter.R
 import com.example.scorecounter.databinding.AlertDialogDiceSetupBinding
 import com.example.scorecounter.viewmodel.SharedViewModel
 
-class DialogDiceSetup(private val viewModel: SharedViewModel) : DialogFragment() {
+class DialogDiceSetup : DialogFragment() {
 
     private lateinit var dialogBinding: AlertDialogDiceSetupBinding
+    val viewModel by activityViewModels<SharedViewModel>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        dialogBinding = AlertDialogDiceSetupBinding.inflate(LayoutInflater.from(context))
+        dialogBinding = AlertDialogDiceSetupBinding.inflate(layoutInflater)
         return activity?.let { it ->
             val alertDialog = AlertDialog.Builder(it)
             alertDialog.setView(dialogBinding.root)
+
 
             // NUMBER DICE
             viewModel.diceNumber.observe(requireActivity()) {
@@ -51,7 +53,8 @@ class DialogDiceSetup(private val viewModel: SharedViewModel) : DialogFragment()
                     else dialogBinding.seekbarSide.progress = it.toInt()
             }
 
-            alertDialog.setPositiveButton(R.string.ok)  { _, _ -> dismiss() }
+            alertDialog.setPositiveButton(R.string.ok)  { _, _ ->
+                DialogDiceResult().show(parentFragmentManager, "dialog_dice") }
 
             alertDialog.create()
 

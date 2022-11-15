@@ -6,13 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.scorecounter.R
 import com.example.scorecounter.databinding.FragmentGameBinding
 import com.example.scorecounter.model.entity.User
-import com.example.scorecounter.ui.adapter.ParticipantAdapter
-import com.example.scorecounter.ui.dialog.DialogDiceResult
-import com.example.scorecounter.ui.dialog.DialogDiceSetup
+import com.example.scorecounter.ui.adapter.nav.RVNavAdapter
 import com.example.scorecounter.ui.dialog.DialogParticipant
 import com.example.scorecounter.ui.dialog.DialogPodium
 import com.example.scorecounter.utils.OnItemClickListener
@@ -21,13 +20,14 @@ import com.example.scorecounter.utils.EnumVHSelect
 import com.example.scorecounter.viewmodel.SharedViewModel
 import com.google.android.material.snackbar.Snackbar
 
-class GameFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemClickListener {
+class GameFragment : Fragment(), OnItemClickListener {
 
     private var _binding: FragmentGameBinding? = null
     private val binding get() = _binding!!
+    val viewModel by activityViewModels<SharedViewModel>()
 
-    private lateinit var adapterRound : ParticipantAdapter
-    private lateinit var adapterRank : ParticipantAdapter
+    private lateinit var adapterRound : RVNavAdapter
+    private lateinit var adapterRank : RVNavAdapter
 
     private var listParticipant = listOf<User>()
     private var listOfTournament: MutableList<User> = mutableListOf()
@@ -74,14 +74,6 @@ class GameFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemC
             alertDialog.create().show()
         }
 
-        // DICE
-        binding.imgDice.setOnClickListener {
-            DialogDiceResult(viewModel).show(parentFragmentManager, "dialog_dice")
-        }
-        binding.gameEditDiceImg.setOnClickListener {
-            DialogDiceSetup(viewModel).show(parentFragmentManager, "dialog_dice_setup")
-        }
-
         // HELPER TEXT
         binding.ivHelpRanking.setOnClickListener {
             displayAlertDialogInfo(R.string.help_ranking)
@@ -110,7 +102,7 @@ class GameFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemC
             }
 
             // RV Round
-            adapterRound = ParticipantAdapter(it, this, EnumVHSelect.ROUND, null)
+            adapterRound = RVNavAdapter(it, this, EnumVHSelect.ROUND, null)
             binding.recyclerViewRound.adapter = adapterRound
             binding.recyclerViewRound.layoutManager = GridLayoutManager( requireActivity(), 2)
             // Display match remaining
@@ -121,16 +113,17 @@ class GameFragment(private val viewModel: SharedViewModel) : Fragment(), OnItemC
     private fun initParticipantsRV() {
         viewModel.users.observe(requireActivity()) {
             // RV Rank
-            adapterRank = ParticipantAdapter(it.sortedByDescending { user -> user.score }, this, EnumVHSelect.RANKING, gameIsStarted)
+            adapterRank = RVNavAdapter(it.sortedByDescending { user -> user.score }, this, EnumVHSelect.RANKING, gameIsStarted)
             binding.recyclerViewRanking.adapter = adapterRank
             listParticipant = it
         }
     }
 
     override fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int) {
+        viewModel.currentUser = user
         when (enum) {
             EnumItem.ROUND_WIN -> setWinRoundListener(user, pos)
-            EnumItem.EDIT -> DialogParticipant(user, viewModel).show(parentFragmentManager, "dialog_user")
+            EnumItem.EDIT -> DialogParticipant().show(parentFragmentManager, "dialog_user")
             else -> {}
         }
     }

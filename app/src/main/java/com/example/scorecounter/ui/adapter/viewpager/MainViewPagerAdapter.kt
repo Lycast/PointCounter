@@ -1,4 +1,4 @@
-package com.example.scorecounter.ui.adapter
+package com.example.scorecounter.ui.adapter.viewpager
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

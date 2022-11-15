@@ -4,7 +4,10 @@
     <string name="enter_name">Nom</string>
     <string name="generate_a_color">Couleur aléatoire</string>
     <string name="delete_all_user">Supprimer tous les participants</string>
-    <string name="compact_list">Liste Compacte</string>
+    <string name="compact_list">Liste compacte</string>
+    <string name="list_counter">Liste</string>
+    <string name="solo_counter">Solo</string>
+    <string name="duo_counter">Duo</string>
     <string name="score_counters">Compteurs de points</string>
     <string name="alert_add_participant">Ajouter plus de participants pour ouvrir le compteur de points</string>
     <string name="info_all_participant_deleted">Tous les participants ont été supprimés</string>
@@ -22,7 +25,7 @@
     <string name="cancel_tournament">Arrêter le tournoi actuel</string>
     <string name="number_of_sides">Nombre de cotés</string>
     <string name="number_of_dices">Nombre de dés</string>
-    <string name="roll_again">Relancer</string>
+    <string name="roll">Lancer</string>
     <string name="help_start">Commencer un tournoi ou chaque joueur affrontera les autres joueurs une fois. \nTous les scores seront remis à zero au lancement.</string>
     <string name="help_round">La liste des match.\nUn appui long sur un des deux joueurs pour valider une victoire.</string>
     <string name="help_ranking">La liste des participants dans l\'ordre des points accumulés.</string>
@@ -30,7 +33,6 @@
     <string name="yes">Oui</string>
     <string name="no">Non</string>
     <string name="menu">Menu</string>
-    <string name="list">Liste</string>
     <string name="step">Points</string>
     <string name="start">Début</string>
     <string name="dice">Dés</string>
@@ -43,4 +45,7 @@
     <string name="customize">Personnaliser</string>
     <string name="finish">Fin</string>
     <string name="add_new_participant">Ajouter un participant</string>
+    <string name="close">Quitter</string>
+    <string name="selected">Selection</string>
+    <string name="delete_counter">Supprimer ce compteur</string>
 </resources>

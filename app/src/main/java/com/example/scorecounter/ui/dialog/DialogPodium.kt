@@ -2,7 +2,6 @@ package com.example.scorecounter.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
@@ -15,7 +14,7 @@ class DialogPodium(private val list: List<User>) : DialogFragment() {
     private lateinit var dialogBinding: AlertDialogWinnersBinding
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        dialogBinding = AlertDialogWinnersBinding.inflate(LayoutInflater.from(context))
+        dialogBinding = AlertDialogWinnersBinding.inflate(layoutInflater)
         return activity?.let { it ->
             val alertDialog = AlertDialog.Builder(it)
             alertDialog.setView(dialogBinding.root)

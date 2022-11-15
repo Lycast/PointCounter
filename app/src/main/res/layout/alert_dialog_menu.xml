@@ -45,16 +45,16 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:text="@string/about_to_me"
         app:layout_constraintTop_toBottomOf="@+id/dialog_btn_setting_counter"
-        app:layout_constraintBottom_toTopOf="@id/dialog_btn_contact"
+        app:layout_constraintBottom_toTopOf="@id/dialog_btn_exit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
-        android:id="@+id/dialog_btn_contact"
+        android:id="@+id/dialog_btn_exit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:text="@string/contact"
+        android:text="@string/close"
         app:layout_constraintTop_toBottomOf="@id/dialog_btn_about_to_me"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

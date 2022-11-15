@@ -15,32 +15,18 @@ import kotlin.random.Random
 class SharedViewModel (private val repository: Repository) : ViewModel() {
 
     private var names = ListOfName().listNames
-    val users = repository.listUsers
+    lateinit var currentUser: User
+    val rvSize = MutableLiveData(0)
     val listOfTournament = repository.listTournament
     val color: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
     val step = MutableLiveData(1)
-    val sideNumber = repository.sideNumber
-    val diceNumber = repository.diceNumber
-
-
-    fun addUser(user: User) = viewModelScope.launch { repository.addUser(user) }
-
-    fun updateUser(user: User) = viewModelScope.launch { repository.updateUser(user) }
-
-    fun deleteUser(user: User) = viewModelScope.launch { repository.deleteUser(user) }
-
-    fun deleteAllUsers() = viewModelScope.launch { repository.deleteAllUsers() }
-
-    fun resetAllUsersPoint(list: List<User>) = CoroutineScope(Dispatchers.IO).launch {
-        suspend {
-            for (element in list) {
-                element.score = 0
-                updateUser(element)
-            }
-        }.invoke()
-    }
 
     fun updateListOfTournament(list: List<User>) { repository.updateListOfTournament(list) }
+
+    fun updateRVSize(size: Int) {
+        if (rvSize.value != size) rvSize.value = size }
+
+    fun updateListDicesResult(list: List<Int>) { repository.updateListDicesResult(list) }
 
     fun getRndName(): String {
         if (names.size != 0) {
@@ -63,13 +49,37 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
         color.value = Color.argb(255, red, green, blue)
     }
 
-    // Roll a normal dice
-    fun launchDice(nbOfSide: Int) = (1..nbOfSide).random()
-
-    // STEP SETUP
     fun setStep(newStep: Int) { step.value = newStep }
 
-    // DICE SETUP
+
+//          ----- DICE -----
+    val listDicesResult = repository.listDicesResult
+    val sideNumber = repository.sideNumber
+    val diceNumber = repository.diceNumber
+
+    fun launchDice(nbOfSide: Int) = (1..nbOfSide).random()
+
     fun setDiceNumber(numberOfDice: Int) { diceNumber.value = numberOfDice }
+
     fun setSideNumber(numberOfSide: Int) { sideNumber.value = numberOfSide }
+
+//          ----- DAO -----
+    val users = repository.listUsers
+
+    fun addUser(user: User) = viewModelScope.launch { repository.addUser(user) }
+
+    fun updateUser(user: User) = viewModelScope.launch { repository.updateUser(user) }
+
+    fun deleteUser(user: User) = viewModelScope.launch { repository.deleteUser(user) }
+
+    fun deleteAllUsers() = viewModelScope.launch { repository.deleteAllUsers() }
+
+    fun resetAllUsersPoint(list: List<User>) = CoroutineScope(Dispatchers.IO).launch {
+        suspend {
+            for (element in list) {
+                element.score = 0
+                updateUser(element)
+            }
+        }.invoke()
+    }
 }

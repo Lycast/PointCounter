@@ -3,8 +3,6 @@
 
     <color name="black">#FF000000</color>
     <color name="gray">#272727</color>
-    <color name="dice_card">#E9E9E9</color>
-    <color name="dice_txt">#686868</color>
     <color name="light_gray">#7C7C7C</color>
     <color name="very_light_gray">#ECECEC</color>
     <color name="red">#FF0000</color>
@@ -14,5 +12,10 @@
     <color name="opacity_0">#00FFFFFF</color>
     <color name="opacity_25">#40000000</color>
     <color name="opacity_10">#1A000000</color>
+
+    <color name="dice_card">#E9E9E9</color>
+    <color name="dice_txt">#686868</color>
+    <color name="night_day">#272727</color>
+    <color name="day_night">#ECECEC</color>
 
 </resources>

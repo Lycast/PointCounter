@@ -1,53 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/toolbar_image_view_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
-            android:src="@drawable/v_home_36"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:contentDescription="@string/return_text" />
-
-        <ImageView
-            android:id="@+id/toolbar_image_view_dice"
-            android:layout_width="65dp"
-            android:layout_height="28dp"
-            android:layout_marginStart="10dp"
-            android:src="@drawable/dice"
-            app:layout_constraintStart_toEndOf="@id/toolbar_image_view_back"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:contentDescription="@string/dice" />
-
-        <ImageView
-            android:id="@+id/toolbar_image_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/v_add_36"
-            android:paddingHorizontal="20dp"
-            app:layout_constraintEnd_toStartOf="@id/toolbar_image_view_menu"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:contentDescription="@string/add_new_participant" />
+    android:layout_height="40dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="3dp">
 
         <ImageView
             android:id="@+id/toolbar_image_view_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:paddingHorizontal="20dp"
             android:contentDescription="@string/menu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/v_menu_36"/>
+
+        <ImageView
+            android:id="@+id/toolbar_image_view_dice"
+            android:layout_width="80dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="10dp"
+            android:contentDescription="@string/dice"
+            android:src="@drawable/dice"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/toolbar_image_add"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.55" />
+
+        <ImageView
+            android:id="@+id/toolbar_image_add"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="15dp"
+            android:src="@drawable/v_add_48"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/v_menu_36"
-            tools:ignore="RtlSymmetry" />
+            android:contentDescription="@string/add_new_participant" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

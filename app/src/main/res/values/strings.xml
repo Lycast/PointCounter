@@ -11,6 +11,7 @@
 
 
     <!--  text view   -->
+    <string name="delete_counter">Delete this counter</string>
     <string name="alert_add_participant">Add more participant before launch a counter</string>
     <string name="info_all_participant_deleted">All participants deleted</string>
     <string name="delete_all_participant_alert">Delete all participants</string>
@@ -28,7 +29,7 @@
     <string name="cancel_tournament">Stop the current tournament</string>
     <string name="number_of_sides">Number of sides </string>
     <string name="number_of_dices">Number of dices</string>
-    <string name="roll_again">Roll again</string>
+    <string name="roll">Roll</string>
 
 
     <!--  message   -->
@@ -43,9 +44,9 @@
     <string name="yes">yes</string>
     <string name="no">no</string>
     <string name="menu">menu</string>
-    <string name="solo" translatable="false">Solo</string>
-    <string name="duo" translatable="false">Duo</string>
-    <string name="list">List</string>
+    <string name="solo_counter">Solo counter</string>
+    <string name="duo_counter">Duo counter</string>
+    <string name="list_counter">List counter</string>
     <string name="step">step</string>
     <string name="start">Start</string>
     <string name="contact" translatable="false">Contact</string>
@@ -59,6 +60,7 @@
     <string name="total" translatable="false">Total :</string>
     <string name="customize">Customize</string>
     <string name="finish">Finish</string>
+    <string name="close">Close</string>
     <string name="participants" translatable="false">Participants</string>
 
 
@@ -74,4 +76,6 @@
     <string name="number_5" translatable="false">5</string>
     <string name="number_10" translatable="false">10</string>
     <string name="number_25" translatable="false">25</string>
+    <string name="selected">Selected</string>
+    <string name="image_edit_step" translatable="false">image edit step</string>
 </resources>

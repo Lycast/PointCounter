@@ -7,9 +7,18 @@ import com.example.scorecounter.model.entity.User
 class Repository (private val dao: UserDao) {
 
     val listTournament: MutableLiveData<List<User>> by lazy { MutableLiveData<List<User>>() }
-    val listUsers = dao.getUsers()
+    val listDicesResult: MutableLiveData<List<Int>> by lazy { MutableLiveData<List<Int>>() }
     val sideNumber = MutableLiveData(6)
     val diceNumber = MutableLiveData(1)
+
+    fun updateListOfTournament(list: List<User>) { listTournament.value = list }
+
+    fun updateListDicesResult(list: List<Int>) { listDicesResult.value = list }
+
+
+
+//                   ------ DAO ------
+    val listUsers = dao.getUsers()
 
     suspend fun addUser(user: User) = dao.addUser(user)
 
@@ -18,6 +27,4 @@ class Repository (private val dao: UserDao) {
     suspend fun deleteUser(user: User) = dao.deleteUser(user)
 
     suspend fun deleteAllUsers() = dao.deleteAllUsers()
-
-    fun updateListOfTournament(list: List<User>) { listTournament.value = list }
 }
