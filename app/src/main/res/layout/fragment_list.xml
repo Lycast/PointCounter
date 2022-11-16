@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.navigation.HomeFragment">
+    tools:context=".ui.navigation.ListFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/home_card_list_participant"
@@ -23,7 +23,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/iv_add"
+                android:id="@+id/iv_research"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:elevation="1dp"
@@ -31,7 +31,7 @@
                 android:padding="5dp"
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
-                android:src="@drawable/v_add_24"
+                android:src="@drawable/search_24"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="@id/home_text_list"
@@ -61,7 +61,7 @@
                 android:padding="2dp"
                 android:text="@string/list_counter"
                 android:textSize="12pt"
-                app:layout_constraintBottom_toTopOf="@id/recycler_view_guests"
+                app:layout_constraintBottom_toTopOf="@id/rv_list_counter"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -91,13 +91,12 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_guests"
+                android:id="@+id/rv_list_counter"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/home_text_list"
                 tools:listitem="@layout/item_style_compact" />
@@ -107,8 +106,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/game_card_start"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="200dp"
+        android:layout_height="0dp"
         android:layout_marginHorizontal="2dp"
         android:layout_marginBottom="2dp"
         app:strokeWidth="1dp"
@@ -123,7 +121,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/home_text_title"
+                android:id="@+id/tv_selected"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
@@ -134,6 +132,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_selected"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_selected"
+                tools:listitem="@layout/item_style_compact" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

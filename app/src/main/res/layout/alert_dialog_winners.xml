@@ -22,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/name_of_guest"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/img_second"
         app:layout_constraintStart_toStartOf="@id/img_second"
         app:layout_constraintEnd_toEndOf="@id/img_second"/>
@@ -45,6 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/name_of_guest"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/img_first"
         app:layout_constraintStart_toStartOf="@id/img_first"
         app:layout_constraintEnd_toEndOf="@id/img_first"/>
@@ -68,6 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/name_of_guest"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/img_third"
         app:layout_constraintStart_toStartOf="@id/img_third"
         app:layout_constraintEnd_toEndOf="@id/img_third"/>

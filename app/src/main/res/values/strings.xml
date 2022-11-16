@@ -8,6 +8,7 @@
     <string name="name_of_guest" translatable="false">Name of guest</string>
     <string name="compact_list">Compact List</string>
     <string name="score_counters">Score counters</string>
+    <string name="by_default">By default</string>
 
 
     <!--  text view   -->
@@ -33,7 +34,7 @@
 
 
     <!--  message   -->
-    <string name="help_start">Start a tournament where each player will face the other players once.\nAll scores will be reset at launch.</string>
+    <string name="help_start">Start a tournament where each player will face the other players once.</string>
     <string name="help_round">The list of duels.\nA long press on the player to validate a victory</string>
     <string name="help_ranking">The list of the current ranking in the order of accumulated points.</string>
     <string name="dice_config_explanation">You can customize the dice to change the number of sides and roll multiple dice at the same time.</string>

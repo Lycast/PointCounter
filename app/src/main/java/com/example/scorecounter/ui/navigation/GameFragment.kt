@@ -30,8 +30,8 @@ class GameFragment : Fragment(), OnItemClickListener {
     private lateinit var adapterRank : RVNavAdapter
 
     private var listParticipant = listOf<User>()
-    private var listOfTournament: MutableList<User> = mutableListOf()
-
+    private var listOfRanking: MutableList<User> = mutableListOf()
+    private var listOfRound: MutableList<User> = mutableListOf()
     private var gameIsStarted = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -41,7 +41,9 @@ class GameFragment : Fragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initParticipantsRV()
+        viewModel.users.observe(requireActivity()) { listParticipant = it }
+
+        initRankingRV()
         initRoundRV()
         setClickListenerView()
     }
@@ -52,9 +54,13 @@ class GameFragment : Fragment(), OnItemClickListener {
         binding.gameBtnStart.setOnClickListener {
             if (listParticipant.size >= 3) {
                 gameIsStarted = true
-                initParticipantsRV()
-                listOfTournament.clear()
-                viewModel.resetAllUsersPoint(listParticipant)
+                listOfRanking.clear()
+                listOfRanking.addAll(listParticipant)
+                for (i in 0 until listOfRanking.size) {
+                    listOfRanking[i].score = 0
+                }
+                viewModel.updateListOfRanking(listOfRanking)
+                listOfRound.clear()
                 generateTournament(listParticipant)
                 binding.gameTvRanking.setText(R.string.ranking)
             } else Snackbar.make(binding.root, getString(R.string.alert_game) , Snackbar.LENGTH_SHORT).show()
@@ -65,9 +71,12 @@ class GameFragment : Fragment(), OnItemClickListener {
             val alertDialog = AlertDialog.Builder(requireActivity())
             alertDialog.setMessage(getString(R.string.cancel_tournament))
             alertDialog.setPositiveButton(R.string.ok) {_,_ ->
-                listOfTournament.clear()
-                viewModel.updateListOfTournament(listOfTournament)
-                viewModel.resetAllUsersPoint(listParticipant)
+                gameIsStarted = false
+                listOfRound.clear()
+                viewModel.updateListOfRound(listOfRound)
+                listOfRanking.clear()
+                listOfRanking.addAll(listParticipant)
+                viewModel.updateListOfRanking(listOfRanking)
                 alertDialog.create().dismiss()
             }
             alertDialog.setNegativeButton(R.string.cancel) {_,_ -> alertDialog.create().dismiss()}
@@ -90,32 +99,21 @@ class GameFragment : Fragment(), OnItemClickListener {
     }
 
     private fun initRoundRV() {
-        viewModel.listOfTournament.observe(requireActivity()) {
-            if (it.isEmpty() && gameIsStarted) {
-                gameIsStarted = false
-
-                // display dialog podium
-                DialogPodium(listParticipant).show(parentFragmentManager, "dialog_podium")
-
-                // int rv for update game end
-                initParticipantsRV()
-            }
-
+        viewModel.listOfRound.observe(requireActivity()) {
             // RV Round
             adapterRound = RVNavAdapter(it, this, EnumVHSelect.ROUND, null)
             binding.recyclerViewRound.adapter = adapterRound
             binding.recyclerViewRound.layoutManager = GridLayoutManager( requireActivity(), 2)
             // Display match remaining
-            binding.tvRoundRemaining.text = (listOfTournament.size / 2).toString()
+            binding.tvRoundRemaining.text = (listOfRound.size / 2).toString()
         }
     }
 
-    private fun initParticipantsRV() {
-        viewModel.users.observe(requireActivity()) {
+    private fun initRankingRV() {
+        viewModel.listOfRanking.observe(requireActivity()) {
             // RV Rank
             adapterRank = RVNavAdapter(it.sortedByDescending { user -> user.score }, this, EnumVHSelect.RANKING, gameIsStarted)
             binding.recyclerViewRanking.adapter = adapterRank
-            listParticipant = it
         }
     }
 
@@ -129,12 +127,21 @@ class GameFragment : Fragment(), OnItemClickListener {
     }
 
     private fun setWinRoundListener(user: User, pos: Int) {
-        user.score += 1
-        viewModel.updateUser(user)
+        val i = listOfRanking.indexOf(user)
+        user.score ++
+        listOfRanking[i] = user
+        viewModel.updateListOfRanking(listOfRanking)
+
         if ((pos+1) % 2 == 1) {
             clearRound(pos, pos)
         } else clearRound(pos, pos - 1)
-        viewModel.updateListOfTournament(listOfTournament)
+        viewModel.updateListOfRound(listOfRound)
+
+        // display dialog podium, game end
+        if (listOfRound.isEmpty()) {
+            DialogPodium().show(parentFragmentManager, "dialog_podium")
+            gameIsStarted = false
+        }
     }
 
     private fun generateTournament(list: List<User>) {
@@ -150,15 +157,15 @@ class GameFragment : Fragment(), OnItemClickListener {
         }
         // is here for randomize list
         for (i in listA.indices) {
-            listOfTournament.add(listA[i])
-            listOfTournament.add(listB[i])
+            listOfRound.add(listA[i])
+            listOfRound.add(listB[i])
         }
-        viewModel.updateListOfTournament(listOfTournament)
+        viewModel.updateListOfRound(listOfRound)
     }
 
     private fun clearRound(posA: Int, posB: Int){
-        listOfTournament.removeAt(posA)
-        listOfTournament.removeAt(posB)
+        listOfRound.removeAt(posA)
+        listOfRound.removeAt(posB)
     }
 
     private fun displayAlertDialogInfo(textId: Int) {
@@ -170,8 +177,4 @@ class GameFragment : Fragment(), OnItemClickListener {
         alertDialog.create().show()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
 }

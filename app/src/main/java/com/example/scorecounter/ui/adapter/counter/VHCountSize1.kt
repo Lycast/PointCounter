@@ -40,6 +40,10 @@ class VHCountSize1(private val context: Context, private val listener: OnItemCli
                     listener.setOnItemClickListener(user, EnumItem.RESET_POINT, pos)
                     true
                 }
+                popupMenu.menu.add("Delete").setOnMenuItemClickListener {
+                    listener.setOnItemClickListener(user, EnumItem.DELETE, pos)
+                    true
+                }
                 popupMenu.show()
             }
 

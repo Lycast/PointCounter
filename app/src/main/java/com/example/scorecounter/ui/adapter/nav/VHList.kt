@@ -9,7 +9,7 @@ import com.example.scorecounter.model.entity.User
 import com.example.scorecounter.utils.EnumItem
 import com.example.scorecounter.utils.OnItemClickListener
 
-class ViewHolderHomeList(private val context: Context, private val itemBinding: ItemStyleCompactBinding, private val listener: OnItemClickListener): RecyclerView.ViewHolder(itemBinding.root) {
+class VHList(private val context: Context, private val itemBinding: ItemStyleCompactBinding, private val listener: OnItemClickListener): RecyclerView.ViewHolder(itemBinding.root) {
 
     fun adapterView(user: User, pos: Int) {
 
@@ -31,8 +31,8 @@ class ViewHolderHomeList(private val context: Context, private val itemBinding: 
                     listener.setOnItemClickListener(user, EnumItem.EDIT, pos)
                     true
                 }
-                popupMenu.menu.add("Reset Counter").setOnMenuItemClickListener {
-                    listener.setOnItemClickListener(user, EnumItem.RESET_POINT, pos)
+                popupMenu.menu.add("Delete").setOnMenuItemClickListener {
+                    listener.setOnItemClickListener(user, EnumItem.DELETE, pos)
                     true
                 }
                 popupMenu.show()
@@ -43,7 +43,12 @@ class ViewHolderHomeList(private val context: Context, private val itemBinding: 
                 return@setOnLongClickListener true
             }
 
-            llScore.visibility = View.GONE
+            itemIvAdd.setOnClickListener { listener.setOnItemClickListener(user, EnumItem.SELECT, pos) }
+
+            itemIvRemove.visibility = View.GONE
+            itemTvScore.visibility = View.GONE
+
+            llScore.layoutParams.width =  250
         }
     }
 }

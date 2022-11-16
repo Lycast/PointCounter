@@ -2,6 +2,7 @@ package com.example.scorecounter.ui.navigation
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scorecounter.R
-import com.example.scorecounter.databinding.FragmentHomeBinding
+import com.example.scorecounter.databinding.FragmentListBinding
 import com.example.scorecounter.model.entity.User
 import com.example.scorecounter.ui.adapter.nav.RVNavAdapter
 import com.example.scorecounter.ui.dialog.DialogParticipant
@@ -19,16 +20,17 @@ import com.example.scorecounter.utils.EnumVHSelect
 import com.example.scorecounter.viewmodel.SharedViewModel
 import com.google.android.material.snackbar.Snackbar
 
-class HomeFragment : Fragment(), OnItemClickListener {
+class ListFragment : Fragment(), OnItemClickListener {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter : RVNavAdapter
+    private lateinit var adapterAll : RVNavAdapter
+    private lateinit var adapterSelected: RVNavAdapter
     private var listSize = 0
     val viewModel by activityViewModels<SharedViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -41,9 +43,6 @@ class HomeFragment : Fragment(), OnItemClickListener {
 
     private fun setClickListenerView() {
         // ADD PARTICIPANT
-        binding.ivAdd.setOnClickListener {
-            viewModel.addUser(User(0,viewModel.getRndName(),0,viewModel.getRndColor()))
-        }
         binding.homeImgAddEmpty.setOnClickListener {
             viewModel.addUser(User(0,viewModel.getRndName(),0,viewModel.getRndColor()))
         }
@@ -63,9 +62,9 @@ class HomeFragment : Fragment(), OnItemClickListener {
 
     private fun displayList() {
         viewModel.users.observe(requireActivity()) {
-            adapter = RVNavAdapter(it, this, EnumVHSelect.HOME, null)
-            binding.recyclerViewGuests.adapter = adapter
-            binding.recyclerViewGuests.layoutManager = LinearLayoutManager(context)
+            adapterAll = RVNavAdapter(it, this, EnumVHSelect.HOME, null)
+            binding.rvListCounter.adapter = adapterAll
+            binding.rvListCounter.layoutManager = LinearLayoutManager(context)
             listSize = it.size
 
             if (it.isEmpty()) {
@@ -75,6 +74,12 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 binding.homeImgAddEmpty.visibility = View.GONE
                 binding.tvAddEmpty.visibility = View.GONE
             }
+        }
+        viewModel.listUserSelected.observe(requireActivity()) {
+            Log.e("MY-LOG", "frag list it: $it")
+            adapterSelected = RVNavAdapter(it, this, EnumVHSelect.HOME, null)
+            binding.rvSelected.adapter = adapterSelected
+            binding.rvSelected.layoutManager = LinearLayoutManager(context)
         }
     }
 
@@ -87,8 +92,15 @@ class HomeFragment : Fragment(), OnItemClickListener {
                 alertDialog.setPositiveButton(R.string.yes) { _, _ ->
                     viewModel.deleteUser(user)
                 }
+                alertDialog.setNegativeButton(R.string.no) {_,_ -> alertDialog.create().dismiss()}
+                alertDialog.create().show()
             }
             EnumItem.EDIT -> DialogParticipant().show(parentFragmentManager, "dialog_user")
+            EnumItem.SELECT -> {
+                viewModel.addSelectedUser(user.id)
+                Log.e("MY-LOG", "add $user")
+            }
+            //EnumItem.UNSELECT -> viewModel.removeSelectedUser(user)
             else -> {}
         }
     }

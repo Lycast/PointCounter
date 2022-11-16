@@ -17,7 +17,7 @@ class RVNavAdapter(private val users : List<User>, private val listener: OnItemC
         return when ( enum ) {
             EnumVHSelect.HOME -> {
                 bindingItem = ItemStyleCompactBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                ViewHolderHomeList(parent.context, bindingItem, listener)
+                VHList(parent.context, bindingItem, listener)
             }
             EnumVHSelect.ROUND -> {
                 bindingItem = ItemStyleCompactBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -33,7 +33,7 @@ class RVNavAdapter(private val users : List<User>, private val listener: OnItemC
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (enum) {
-            EnumVHSelect.HOME -> (holder as ViewHolderHomeList).adapterView(users[position], position)
+            EnumVHSelect.HOME -> (holder as VHList).adapterView(users[position], position)
             EnumVHSelect.ROUND -> (holder as VHRound).adapterView(users[position], position)
             EnumVHSelect.RANKING -> (holder as VHRanking).adapterView(users[position], position)
             else -> {}

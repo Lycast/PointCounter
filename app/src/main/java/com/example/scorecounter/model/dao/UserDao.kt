@@ -27,4 +27,6 @@ interface UserDao {
     @Query ("SELECT * FROM table_guest ")
     fun getUsers() : LiveData<List<User>>
 
+    @Query ("SELECT * FROM table_guest WHERE id_guest IN (:list) ")
+    suspend fun getUsersSelected(list: MutableList<Int>) : List<User>
 }

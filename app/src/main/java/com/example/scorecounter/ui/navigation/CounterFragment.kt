@@ -46,8 +46,6 @@ class CounterFragment : Fragment(), OnItemClickListener {
 
         initRecyclerView()
         initObserverViewModel()
-
-        binding.ivAddCount.setOnClickListener { viewModel.addUser(User(0,viewModel.getRndName(),0,viewModel.getRndColor())) }
     }
 
     private fun setData() {
@@ -74,11 +72,7 @@ class CounterFragment : Fragment(), OnItemClickListener {
         }
         viewModel.users.observe(requireActivity()) {
             listAdapter = it
-            if ( it.isEmpty()) {
-                binding.llCounters.visibility = View.GONE
-                binding.ivAddCount.visibility = View.VISIBLE
-            } else binding.ivAddCount.visibility = View.GONE
-
+            if ( it.isEmpty()) { viewModel.addUser(User(0,viewModel.getRndName(),0,viewModel.getRndColor())) }
             if ( it.size in 1..2) setCounter1(it[0])
             if ( it.size == 2) setCounter2(it[1])
             if ( it.size < 3) viewModel.updateDynamicalRVSize(0)
@@ -147,6 +141,16 @@ class CounterFragment : Fragment(), OnItemClickListener {
                 viewModel.updateUser(user)
                 true
             }
+            popupMenu.menu.add("Delete").setOnMenuItemClickListener {
+                val alertDialog = AlertDialog.Builder(context)
+                alertDialog.setTitle(R.string.delete_counter)
+                alertDialog.setPositiveButton(R.string.yes) { _, _ ->
+                    viewModel.deleteUser(user)
+                }
+                alertDialog.setNegativeButton(R.string.no) {_,_ -> alertDialog.create().dismiss()}
+                alertDialog.create().show()
+                true
+            }
             popupMenu.show()
         }
         binding.itemTvName1.setOnLongClickListener {
@@ -190,6 +194,16 @@ class CounterFragment : Fragment(), OnItemClickListener {
             popupMenu.menu.add("Reset Counter").setOnMenuItemClickListener {
                 user.score = 0
                 viewModel.updateUser(user)
+                true
+            }
+            popupMenu.menu.add("Delete").setOnMenuItemClickListener {
+                val alertDialog = AlertDialog.Builder(context)
+                alertDialog.setTitle(R.string.delete_counter)
+                alertDialog.setPositiveButton(R.string.yes) { _, _ ->
+                    viewModel.deleteUser(user)
+                }
+                alertDialog.setNegativeButton(R.string.no) {_,_ -> alertDialog.create().dismiss()}
+                alertDialog.create().show()
                 true
             }
             popupMenu.show()

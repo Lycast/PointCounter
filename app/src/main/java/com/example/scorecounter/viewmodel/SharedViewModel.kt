@@ -1,7 +1,6 @@
 package com.example.scorecounter.viewmodel
 
 import android.graphics.Color
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,12 +17,10 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
     private var names = ListOfName().listNames
     lateinit var currentUser: User
     val rvSizeDynamic = MutableLiveData(0)
-    val listOfTournament = repository.listTournament
     val color: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
     val listOfStep = MutableLiveData(listOf(1,2,5,10))
     val step = MutableLiveData(1)
 
-    fun updateListOfTournament(list: List<User>) { repository.updateListOfTournament(list) }
 
     fun updateListOfStep(list: List<Int>) { listOfStep.value = list }
 
@@ -66,8 +63,34 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
 
     fun setSideNumber(numberOfSide: Int) { sideNumber.value = numberOfSide }
 
+
+//          ----- TOURNAMENT -----
+    val listOfRound = repository.listRound
+    val listOfRanking = repository.listRanking
+
+    fun updateListOfRound(list: List<User>) { repository.updateListOfRound(list) }
+
+    fun updateListOfRanking(list: MutableList<User>) { repository.updateListOfRanking(list) }
+
+
 //          ----- DAO -----
     val users = repository.listUsers
+    private val usersSelected: MutableList<Int> = mutableListOf()
+    val listUserSelected = repository.listUserSelected
+
+    private fun updateUsersSelected() = viewModelScope.launch {
+            repository.updateUsersSelected(usersSelected)
+    }
+
+    fun addSelectedUser(id: Int) {
+        usersSelected.add(id)
+        updateUsersSelected()
+    }
+
+//    fun removeSelectedUser(id: Int) {
+//        usersSelected.remove(id)
+//        updateUsersSelected(usersSelected)
+//    }
 
     fun addUser(user: User) = viewModelScope.launch { repository.addUser(user) }
 

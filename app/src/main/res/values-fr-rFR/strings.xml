@@ -26,7 +26,7 @@
     <string name="number_of_sides">Nombre de cotés</string>
     <string name="number_of_dices">Nombre de dés</string>
     <string name="roll">Lancer</string>
-    <string name="help_start">Commencer un tournoi ou chaque joueur affrontera les autres joueurs une fois. \nTous les scores seront remis à zero au lancement.</string>
+    <string name="help_start">Commencer un tournoi ou chaque joueur affrontera les autres joueurs une fois.</string>
     <string name="help_round">La liste des match.\nUn appui long sur un des deux joueurs pour valider une victoire.</string>
     <string name="help_ranking">La liste des participants dans l\'ordre des points accumulés.</string>
     <string name="dice_config_explanation">Personnalisez vos dés en changeant le nombre de cotés et le nombre de dés lancés.</string>
@@ -50,4 +50,5 @@
     <string name="delete_counter">Supprimer ce compteur</string>
     <string name="not_yet_implemented">Pas encore implementé</string>
     <string name="display_style">Style d\'affichage</string>
+    <string name="by_default">Reset</string>
 </resources>

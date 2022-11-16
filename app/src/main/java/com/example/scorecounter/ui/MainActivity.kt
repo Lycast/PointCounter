@@ -25,7 +25,7 @@ import com.example.scorecounter.ui.dialog.DialogMenu
 import com.example.scorecounter.ui.navigation.CounterFragment
 import com.example.scorecounter.ui.navigation.GameFragment
 import com.example.scorecounter.ui.navigation.ContactFragment
-import com.example.scorecounter.ui.navigation.HomeFragment
+import com.example.scorecounter.ui.navigation.ListFragment
 import com.example.scorecounter.viewmodel.SharedViewModel
 import com.example.scorecounter.viewmodel.SharedViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViewPager() {
         val fragments: ArrayList<Fragment> =
-            arrayListOf(CounterFragment(), HomeFragment(), GameFragment(), ContactFragment())
+            arrayListOf(CounterFragment(), ListFragment(), GameFragment(), ContactFragment())
         val viewPagerAdapter = MainViewPagerAdapter(fragments, this)
         binding.mainViewPager.adapter = viewPagerAdapter
         TabLayoutMediator(binding.mainTabLayout, binding.mainViewPager) { tab, position ->
@@ -84,31 +84,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun setToolbar() {
         toolbarBinding.apply {
-            viewModel.step.observe(this@MainActivity) {
-                tvStep.text = it.toString()
-            }
 
-            toolbarImageAdd.setOnClickListener {
-                viewModel.addUser(User(0, viewModel.getRndName(), 0, viewModel.getRndColor()))
-            }
-
-            toolbarImageViewDice.setOnClickListener { DialogDiceResult().show(supportFragmentManager, "dialog_dice")
-            }
-
-            toolbarImageViewMenu.setOnClickListener {
-                DialogMenu().show(supportFragmentManager, "dialog_menu")
-            }
+            viewModel.step.observe(this@MainActivity) { tvStep.text = it.toString() }
+            toolbarImageAdd.setOnClickListener { viewModel.addUser(User(0, viewModel.getRndName(), 0, viewModel.getRndColor())) }
+            toolbarImageViewDice.setOnClickListener { DialogDiceResult().show(supportFragmentManager, "dialog_dice") }
+            toolbarImageViewMenu.setOnClickListener { DialogMenu().show(supportFragmentManager, "dialog_menu") }
 
             tvStep.setOnClickListener {
-                DialogInputStep().show(supportFragmentManager, "dialog_step")
-            }
-
-            tvStep.setOnLongClickListener {
                 var listOfStep = listOf<Int>()
+
                 viewModel.listOfStep.observe(this@MainActivity) { list -> listOfStep = list }
 
                 val popupMenu = PopupMenu(this@MainActivity, it)
 
+                popupMenu.menu.add(listOfStep[0].toString()).setOnMenuItemClickListener {
+                    viewModel.setStep(listOfStep[0])
+                    true
+                }
                 popupMenu.menu.add(listOfStep[1].toString()).setOnMenuItemClickListener {
                     viewModel.setStep(listOfStep[1])
                     true
@@ -121,11 +113,15 @@ class MainActivity : AppCompatActivity() {
                     viewModel.setStep(listOfStep[3])
                     true
                 }
-                popupMenu.menu.add("by default").setOnMenuItemClickListener {
-                    viewModel.setStep(listOfStep[0])
+                popupMenu.menu.add("Edit").setOnMenuItemClickListener {
+                    DialogInputStep().show(supportFragmentManager, "dialog_step")
                     true
                 }
                 popupMenu.show()
+            }
+
+            tvStep.setOnLongClickListener {
+                DialogInputStep().show(supportFragmentManager, "dialog_step")
                 return@setOnLongClickListener true
             }
         }

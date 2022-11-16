@@ -25,7 +25,11 @@ class DialogInputStep : DialogFragment() {
             setView()
 
             alertDialog.setPositiveButton(R.string.ok) { _, _ -> setNewStep() }
-            alertDialog.setNegativeButton(R.string.cancel) { _, _ -> dismiss() }
+            alertDialog.setNegativeButton(R.string.by_default) { _, _ ->
+                viewModel.updateListOfStep(listOf(1, 2, 5, 10))
+                viewModel.setStep(1)
+                dismiss()
+            }
 
             alertDialog.create()
 
@@ -35,9 +39,10 @@ class DialogInputStep : DialogFragment() {
     private fun setView() {
         viewModel.listOfStep.observe(requireActivity()) {
             dialogBinding.apply {
-                tfStep1.hint = it[1].toString()
-                tfStep2.hint = it[2].toString()
-                tfStep3.hint = it[3].toString()
+                tfStep1.hint = it[0].toString()
+                tfStep2.hint = it[1].toString()
+                tfStep3.hint = it[2].toString()
+                tfStep4.hint = it[3].toString()
                 Log.e("MY-TAG", "vm observer list = $it")
             }
         }
@@ -45,15 +50,15 @@ class DialogInputStep : DialogFragment() {
 
     private fun setNewStep() {
         dialogBinding.apply {
-            val step0 = 1; var step1 = 2; var step2 = 5; var step3 = 10
+            var step1 = 1; var step2 = 2; var step3 = 5; var step4 = 10
 
             if (etStep1.text?.isNotEmpty() == true) step1 = etStep1.text.toString().toInt()
             if (etStep2.text?.isNotEmpty() == true) step2 = etStep2.text.toString().toInt()
             if (etStep3.text?.isNotEmpty() == true) step3 = etStep3.text.toString().toInt()
+            if (etStep4.text?.isNotEmpty() == true) step4 = etStep4.text.toString().toInt()
 
-            Log.e("MY-TAG", "step 1 setNewStep = $step1")
-
-            viewModel.updateListOfStep(listOf(step0, step1, step2, step3))
+            viewModel.updateListOfStep(listOf(step1, step2, step3, step4))
+            viewModel.setStep(step1)
         }
     }
 }
