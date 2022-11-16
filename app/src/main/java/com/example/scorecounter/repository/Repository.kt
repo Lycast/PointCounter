@@ -16,7 +16,6 @@ class Repository (private val dao: UserDao) {
     fun updateListDicesResult(list: List<Int>) { listDicesResult.value = list }
 
 
-
 //                   ------ DAO ------
     val listUsers = dao.getUsers()
 

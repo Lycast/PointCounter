@@ -15,7 +15,7 @@
     <string name="reset_all_score">Réinitialiser les scores</string>
     <string name="about_to_me">A propos de moi</string>
     <string name="setting_dice">Paramètres des dés</string>
-    <string name="setting_counter">paramètres des compteurs</string>
+    <string name="setting_counter">Paramètres des compteurs</string>
     <string name="back_button">Retour</string>
     <string name="round_remaining">Match restant</string>
     <string name="dice_history">Historique de lancé de dés</string>
@@ -48,4 +48,6 @@
     <string name="close">Quitter</string>
     <string name="selected">Selection</string>
     <string name="delete_counter">Supprimer ce compteur</string>
+    <string name="not_yet_implemented">Pas encore implementé</string>
+    <string name="display_style">Style d\'affichage</string>
 </resources>

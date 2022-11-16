@@ -81,7 +81,13 @@ class HomeFragment : Fragment(), OnItemClickListener {
     override fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int) {
         viewModel.currentUser = user
         when (enum) {
-            EnumItem.DELETE -> viewModel.deleteUser(user)
+            EnumItem.DELETE -> {
+                val alertDialog = AlertDialog.Builder(context)
+                alertDialog.setTitle(R.string.delete_counter)
+                alertDialog.setPositiveButton(R.string.yes) { _, _ ->
+                    viewModel.deleteUser(user)
+                }
+            }
             EnumItem.EDIT -> DialogParticipant().show(parentFragmentManager, "dialog_user")
             else -> {}
         }

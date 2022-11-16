@@ -14,11 +14,11 @@
     <string name="delete_counter">Delete this counter</string>
     <string name="alert_add_participant">Add more participant before launch a counter</string>
     <string name="info_all_participant_deleted">All participants deleted</string>
-    <string name="delete_all_participant_alert">Delete all participants</string>
+    <string name="delete_all_participant_alert">Delete all counters</string>
     <string name="reset_all_score">Reset all score</string>
     <string name="about_to_me">About to me</string>
     <string name="setting_dice">Setting dice</string>
-    <string name="setting_counter">counters settings</string>
+    <string name="setting_counter">Counters settings</string>
     <string name="back_button">back</string>
     <string name="enter_score" translatable="false">Score</string>
     <string name="round_remaining">Round remaining</string>
@@ -37,6 +37,7 @@
     <string name="help_round">The list of duels.\nA long press on the player to validate a victory</string>
     <string name="help_ranking">The list of the current ranking in the order of accumulated points.</string>
     <string name="dice_config_explanation">You can customize the dice to change the number of sides and roll multiple dice at the same time.</string>
+    <string name="message_step_input" translatable="false">You can custom the number of point attributed by click.\nA long click on step number for selected an other step</string>
 
 
     <!--  one word   -->
@@ -78,4 +79,11 @@
     <string name="number_25" translatable="false">25</string>
     <string name="selected">Selected</string>
     <string name="image_edit_step" translatable="false">image edit step</string>
+    <string name="step_1" translatable="false">Step 1</string>
+    <string name="step_4" translatable="false">Step 4</string>
+    <string name="step_3" translatable="false">Step 3</string>
+    <string name="step_2" translatable="false">Step 2</string>
+    <string name="style_large" translatable="false">style large</string>
+    <string name="display_style">Display style</string>
+    <string name="not_yet_implemented">Not yet implemented</string>
 </resources>

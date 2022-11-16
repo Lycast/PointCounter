@@ -1,6 +1,7 @@
 package com.example.scorecounter.viewmodel
 
 import android.graphics.Color
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,17 +17,17 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
 
     private var names = ListOfName().listNames
     lateinit var currentUser: User
-    val rvSize = MutableLiveData(0)
+    val rvSizeDynamic = MutableLiveData(0)
     val listOfTournament = repository.listTournament
     val color: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
+    val listOfStep = MutableLiveData(listOf(1,2,5,10))
     val step = MutableLiveData(1)
 
     fun updateListOfTournament(list: List<User>) { repository.updateListOfTournament(list) }
 
-    fun updateRVSize(size: Int) {
-        if (rvSize.value != size) rvSize.value = size }
+    fun updateListOfStep(list: List<Int>) { listOfStep.value = list }
 
-    fun updateListDicesResult(list: List<Int>) { repository.updateListDicesResult(list) }
+    fun updateDynamicalRVSize(size: Int) { if (rvSizeDynamic.value != size) rvSizeDynamic.value = size }
 
     fun getRndName(): String {
         if (names.size != 0) {
@@ -56,6 +57,8 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
     val listDicesResult = repository.listDicesResult
     val sideNumber = repository.sideNumber
     val diceNumber = repository.diceNumber
+
+    fun updateListDicesResult(list: List<Int>) { repository.updateListDicesResult(list) }
 
     fun launchDice(nbOfSide: Int) = (1..nbOfSide).random()
 

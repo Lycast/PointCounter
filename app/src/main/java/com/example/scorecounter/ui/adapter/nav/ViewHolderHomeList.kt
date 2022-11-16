@@ -44,8 +44,6 @@ class ViewHolderHomeList(private val context: Context, private val itemBinding: 
             }
 
             llScore.visibility = View.GONE
-
-
         }
     }
 }
