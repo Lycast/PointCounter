@@ -1,4 +1,4 @@
-package com.example.scorecounter.ui.adapter.nav
+package com.example.scorecounter.ui.adapter.game
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,16 +9,12 @@ import com.example.scorecounter.model.entity.User
 import com.example.scorecounter.utils.OnItemClickListener
 import com.example.scorecounter.utils.EnumVHSelect
 
-class RVNavAdapter(private val users : List<User>, private val listener: OnItemClickListener, private val enum: EnumVHSelect, private val game: Boolean?) : RecyclerView.Adapter<ViewHolder>() {
+class RVGameAdapter(private val users : List<User>, private val listener: OnItemClickListener, private val enum: EnumVHSelect, private val game: Boolean?) : RecyclerView.Adapter<ViewHolder>() {
 
     private lateinit var bindingItem: ItemStyleCompactBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return when ( enum ) {
-            EnumVHSelect.HOME -> {
-                bindingItem = ItemStyleCompactBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                VHList(parent.context, bindingItem, listener)
-            }
             EnumVHSelect.ROUND -> {
                 bindingItem = ItemStyleCompactBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 VHRound(bindingItem, listener)
@@ -33,7 +29,6 @@ class RVNavAdapter(private val users : List<User>, private val listener: OnItemC
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (enum) {
-            EnumVHSelect.HOME -> (holder as VHList).adapterView(users[position], position)
             EnumVHSelect.ROUND -> (holder as VHRound).adapterView(users[position], position)
             EnumVHSelect.RANKING -> (holder as VHRanking).adapterView(users[position], position)
             else -> {}

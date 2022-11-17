@@ -1,4 +1,4 @@
-package com.example.scorecounter.ui.adapter.nav
+package com.example.scorecounter.ui.adapter.game
 
 import android.view.View
 import android.view.ViewGroup

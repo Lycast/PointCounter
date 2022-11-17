@@ -35,8 +35,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toolbarBinding: ToolbarLayoutBinding
     private lateinit var viewModel: SharedViewModel
     private val tabsList = listOf(
-        R.drawable.v_home_24,
         R.drawable.svg_counter,
+        R.drawable.playlist_add_24,
         R.drawable.crown,
         R.drawable.contact_support_24
     )

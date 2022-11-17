@@ -7,7 +7,7 @@
     tools:context=".ui.navigation.GameFragment">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/game_card_start"
+        android:id="@+id/card_list_select"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -74,7 +74,7 @@
         android:layout_marginHorizontal="2dp"
         app:strokeWidth="1dp"
         android:elevation="0dp"
-        app:layout_constraintTop_toBottomOf="@id/game_card_start"
+        app:layout_constraintTop_toBottomOf="@id/card_list_select"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/game_card_result">

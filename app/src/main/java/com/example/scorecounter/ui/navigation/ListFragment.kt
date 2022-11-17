@@ -2,21 +2,18 @@ package com.example.scorecounter.ui.navigation
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scorecounter.R
 import com.example.scorecounter.databinding.FragmentListBinding
 import com.example.scorecounter.model.entity.User
-import com.example.scorecounter.ui.adapter.nav.RVNavAdapter
+import com.example.scorecounter.ui.adapter.list.RVListAdapter
 import com.example.scorecounter.ui.dialog.DialogParticipant
 import com.example.scorecounter.utils.OnItemClickListener
 import com.example.scorecounter.utils.EnumItem
-import com.example.scorecounter.utils.EnumVHSelect
 import com.example.scorecounter.viewmodel.SharedViewModel
 import com.google.android.material.snackbar.Snackbar
 
@@ -24,9 +21,8 @@ class ListFragment : Fragment(), OnItemClickListener {
 
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapterAll : RVNavAdapter
-    private lateinit var adapterSelected: RVNavAdapter
-    private var listSize = 0
+    private lateinit var adapterAll : RVListAdapter
+    private lateinit var adapterSelected: RVListAdapter
     val viewModel by activityViewModels<SharedViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -37,16 +33,12 @@ class ListFragment : Fragment(), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        displayList()
+        initRecyclerViewAll()
+        initRecyclerViewSelected()
         setClickListenerView()
     }
 
     private fun setClickListenerView() {
-        // ADD PARTICIPANT
-        binding.homeImgAddEmpty.setOnClickListener {
-            viewModel.addUser(User(0,viewModel.getRndName(),0,viewModel.getRndColor()))
-        }
-
         // DELETE ALL PARTICIPANT
         binding.ivDeleteAll.setOnClickListener {
             val alertDialog = AlertDialog.Builder(context)
@@ -60,30 +52,29 @@ class ListFragment : Fragment(), OnItemClickListener {
         }
     }
 
-    private fun displayList() {
-        viewModel.users.observe(requireActivity()) {
-            adapterAll = RVNavAdapter(it, this, EnumVHSelect.HOME, null)
-            binding.rvListCounter.adapter = adapterAll
-            binding.rvListCounter.layoutManager = LinearLayoutManager(context)
-            listSize = it.size
-
-            if (it.isEmpty()) {
-                binding.homeImgAddEmpty.visibility = View.VISIBLE
-                binding.tvAddEmpty.visibility = View.VISIBLE
-            } else {
-                binding.homeImgAddEmpty.visibility = View.GONE
-                binding.tvAddEmpty.visibility = View.GONE
-            }
-        }
-        viewModel.listUserSelected.observe(requireActivity()) {
-            Log.e("MY-LOG", "frag list it: $it")
-            adapterSelected = RVNavAdapter(it, this, EnumVHSelect.HOME, null)
-            binding.rvSelected.adapter = adapterSelected
-            binding.rvSelected.layoutManager = LinearLayoutManager(context)
-        }
+    private fun setDataAll() {
+        viewModel.users.observe(requireActivity()) { adapterAll.setDataAll(it) }
     }
 
-    override fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int) {
+    private fun setDataSelected() {
+        viewModel.listUserSelected.observe(requireActivity()) { adapterSelected.setDataSelected(it) }
+    }
+
+    private fun initRecyclerViewAll() {
+        adapterAll = RVListAdapter(this, true)
+        binding.rvListCounter.adapter = adapterAll
+        setDataAll()
+    }
+
+    private fun initRecyclerViewSelected() {
+        adapterSelected = RVListAdapter(this, false)
+        binding.rvSelected.adapter = adapterSelected
+        setDataSelected()
+    }
+
+
+
+    override fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int?) {
         viewModel.currentUser = user
         when (enum) {
             EnumItem.DELETE -> {
@@ -96,11 +87,8 @@ class ListFragment : Fragment(), OnItemClickListener {
                 alertDialog.create().show()
             }
             EnumItem.EDIT -> DialogParticipant().show(parentFragmentManager, "dialog_user")
-            EnumItem.SELECT -> {
-                viewModel.addSelectedUser(user.id)
-                Log.e("MY-LOG", "add $user")
-            }
-            //EnumItem.UNSELECT -> viewModel.removeSelectedUser(user)
+            EnumItem.SELECT -> viewModel.addSelectedUser(user.id)
+            EnumItem.UNSELECT -> viewModel.removeSelectedUser(user.id)
             else -> {}
         }
     }

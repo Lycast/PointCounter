@@ -1,5 +1,6 @@
 package com.example.scorecounter.repository
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.scorecounter.model.dao.UserDao
 import com.example.scorecounter.model.entity.User
@@ -15,12 +16,10 @@ class Repository (private val dao: UserDao) {
 
 
 //                   ------ DAO ------
-    val listUsers = dao.getUsers()
-    val listUserSelected: MutableLiveData<List<User>> by lazy { MutableLiveData<List<User>>() }
+    val listUsers: LiveData<List<User>> = dao.getUsers()
+    val listUserSelected = MutableLiveData<List<User>>()
 
-    suspend fun updateUsersSelected(ids: MutableList<Int>) {
-        listUserSelected.value = dao.getUsersSelected(ids)
-    }
+    suspend fun updateUsersSelected(ids: MutableList<Int>) { listUserSelected.value = dao.getUsersSelected(ids) }
 
     suspend fun addUser(user: User) = dao.addUser(user)
 

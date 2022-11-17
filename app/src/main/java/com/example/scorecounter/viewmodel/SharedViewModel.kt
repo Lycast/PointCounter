@@ -1,6 +1,8 @@
 package com.example.scorecounter.viewmodel
 
 import android.graphics.Color
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -74,23 +76,40 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
 
 
 //          ----- DAO -----
-    val users = repository.listUsers
     private val usersSelected: MutableList<Int> = mutableListOf()
-    val listUserSelected = repository.listUserSelected
 
-    private fun updateUsersSelected() = viewModelScope.launch {
-            repository.updateUsersSelected(usersSelected)
+    val users = repository.listUsers
+    val listUserSelected = repository.listUserSelected
+    var listDisplay: MediatorLiveData<List<User>> = MediatorLiveData()
+
+    init {
+        listDisplay.addSource(users) {
+            combine(it, listUserSelected.value)
+        }
+        listDisplay.addSource(listUserSelected) {
+            combine(users.value, it)
+        }
     }
+
+    private fun combine(listAll: List<User>?, listSelected: List<User>?) {
+        if (listAll == null && listSelected == null) return
+        if (listSelected == null || listSelected.isEmpty()) listDisplay.value = users.value
+        else listDisplay.value = listUserSelected.value
+    }
+
+    fun listDisplay() : LiveData<List<User>> { return listDisplay }
+
+    private fun updateUsersSelected() = viewModelScope.launch { repository.updateUsersSelected(usersSelected) }
 
     fun addSelectedUser(id: Int) {
         usersSelected.add(id)
         updateUsersSelected()
     }
 
-//    fun removeSelectedUser(id: Int) {
-//        usersSelected.remove(id)
-//        updateUsersSelected(usersSelected)
-//    }
+    fun removeSelectedUser(id: Int) {
+        usersSelected.remove(id)
+        updateUsersSelected()
+    }
 
     fun addUser(user: User) = viewModelScope.launch { repository.addUser(user) }
 

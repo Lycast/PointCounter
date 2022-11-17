@@ -10,8 +10,6 @@ import com.example.scorecounter.utils.OnItemClickListener
 
 class RVCountAdapter(private val listener: OnItemClickListener, private var enumSelected: EnumVHSelect) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
-
     private lateinit var bindingS1: ItemCounterMediumBinding
     private lateinit var bindingS2: ItemStyleCompactBinding
     private lateinit var bindingS3: ItemCounterSmallBinding

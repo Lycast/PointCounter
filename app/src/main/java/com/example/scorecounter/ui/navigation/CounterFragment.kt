@@ -30,11 +30,11 @@ class CounterFragment : Fragment(), OnItemClickListener {
     val viewModel by activityViewModels<SharedViewModel>()
 
     private lateinit var adapter : RVCountAdapter
-    private var listAdapter: List<User> = arrayListOf()
     private var step = 1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentCounterBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -44,13 +44,25 @@ class CounterFragment : Fragment(), OnItemClickListener {
         if (this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
             binding.llCounters.orientation = LinearLayout.HORIZONTAL
 
+        initSizeView()
         initRecyclerView()
-        initObserverViewModel()
+        initStepViewModel()
     }
 
     private fun setData() {
-        viewModel.users.observe(requireActivity()) {
+        viewModel.listDisplay().observe(requireActivity()) {
             adapter.setData(it)
+        }
+    }
+
+    private fun initSizeView() {
+        viewModel.listDisplay().observe(requireActivity()) {
+                if ( it.size in 1..2) setCounter1(it[0])
+                if ( it.size == 2) setCounter2(it[1])
+                if ( it.size < 3) viewModel.updateDynamicalRVSize(0)
+                if ( it.size in 3..8) viewModel.updateDynamicalRVSize(1)
+                if ( it.size in 9..15) viewModel.updateDynamicalRVSize(2)
+                if ( it.size > 15) viewModel.updateDynamicalRVSize(3)
         }
     }
 
@@ -66,23 +78,14 @@ class CounterFragment : Fragment(), OnItemClickListener {
         }
     }
 
-    private fun initObserverViewModel() {
-        viewModel.step.observe(requireActivity()) {
-            step = it
-        }
+    private fun initStepViewModel() {
+        viewModel.step.observe(requireActivity()) { step = it }
         viewModel.users.observe(requireActivity()) {
-            listAdapter = it
-            if ( it.isEmpty()) { viewModel.addUser(User(0,viewModel.getRndName(),0,viewModel.getRndColor())) }
-            if ( it.size in 1..2) setCounter1(it[0])
-            if ( it.size == 2) setCounter2(it[1])
-            if ( it.size < 3) viewModel.updateDynamicalRVSize(0)
-            if ( it.size in 3..8) viewModel.updateDynamicalRVSize(1)
-            if ( it.size in 9..15) viewModel.updateDynamicalRVSize(2)
-            if ( it.size > 15) viewModel.updateDynamicalRVSize(3)
+            if ( it.isEmpty()) viewModel.addUser(User(0,viewModel.getRndName(),0,viewModel.getRndColor()))
         }
     }
 
-    override fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int) {
+    override fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int?) {
         viewModel.currentUser = user
         when (enum) {
             EnumItem.RESET_POINT -> {

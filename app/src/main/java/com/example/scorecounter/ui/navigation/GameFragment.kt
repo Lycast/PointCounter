@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.scorecounter.R
 import com.example.scorecounter.databinding.FragmentGameBinding
 import com.example.scorecounter.model.entity.User
-import com.example.scorecounter.ui.adapter.nav.RVNavAdapter
+import com.example.scorecounter.ui.adapter.game.RVGameAdapter
 import com.example.scorecounter.ui.dialog.DialogParticipant
 import com.example.scorecounter.ui.dialog.DialogPodium
 import com.example.scorecounter.utils.OnItemClickListener
@@ -26,8 +26,8 @@ class GameFragment : Fragment(), OnItemClickListener {
     private val binding get() = _binding!!
     val viewModel by activityViewModels<SharedViewModel>()
 
-    private lateinit var adapterRound : RVNavAdapter
-    private lateinit var adapterRank : RVNavAdapter
+    private lateinit var adapterRound : RVGameAdapter
+    private lateinit var adapterRank : RVGameAdapter
 
     private var listParticipant = listOf<User>()
     private var listOfRanking: MutableList<User> = mutableListOf()
@@ -101,7 +101,7 @@ class GameFragment : Fragment(), OnItemClickListener {
     private fun initRoundRV() {
         viewModel.listOfRound.observe(requireActivity()) {
             // RV Round
-            adapterRound = RVNavAdapter(it, this, EnumVHSelect.ROUND, null)
+            adapterRound = RVGameAdapter(it, this, EnumVHSelect.ROUND, null)
             binding.recyclerViewRound.adapter = adapterRound
             binding.recyclerViewRound.layoutManager = GridLayoutManager( requireActivity(), 2)
             // Display match remaining
@@ -112,15 +112,15 @@ class GameFragment : Fragment(), OnItemClickListener {
     private fun initRankingRV() {
         viewModel.listOfRanking.observe(requireActivity()) {
             // RV Rank
-            adapterRank = RVNavAdapter(it.sortedByDescending { user -> user.score }, this, EnumVHSelect.RANKING, gameIsStarted)
+            adapterRank = RVGameAdapter(it.sortedByDescending { user -> user.score }, this, EnumVHSelect.RANKING, gameIsStarted)
             binding.recyclerViewRanking.adapter = adapterRank
         }
     }
 
-    override fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int) {
+    override fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int?) {
         viewModel.currentUser = user
         when (enum) {
-            EnumItem.ROUND_WIN -> setWinRoundListener(user, pos)
+            EnumItem.ROUND_WIN -> setWinRoundListener(user, pos!!)
             EnumItem.EDIT -> DialogParticipant().show(parentFragmentManager, "dialog_user")
             else -> {}
         }
