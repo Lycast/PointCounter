@@ -7,7 +7,7 @@ import com.example.scorecounter.model.entity.User
 
 class Repository (private val dao: UserDao) {
 
-//                   ------ DICE ------
+    //          ------ DICE ------
     val listDicesResult: MutableLiveData<List<Int>> by lazy { MutableLiveData<List<Int>>() }
     val sideNumber = MutableLiveData(6)
     val diceNumber = MutableLiveData(1)
@@ -15,11 +15,12 @@ class Repository (private val dao: UserDao) {
     fun updateListDicesResult(list: List<Int>) { listDicesResult.value = list }
 
 
-//                   ------ DAO ------
-    val listUsers: LiveData<List<User>> = dao.getUsers()
-    val listUserSelected = MutableLiveData<List<User>>()
+    //          ------ DAO ------
+    val liveDataListUser: LiveData<List<User>> = dao.getLiveDataListUser()
 
-    suspend fun updateUsersSelected(ids: MutableList<Int>) { listUserSelected.value = dao.getUsersSelected(ids) }
+    suspend  fun getListUserSelected(ids: MutableList<Int>): MutableList<User> = dao.getUsersSelected(ids)
+
+    suspend fun getListUser(): MutableList<User> = dao.getListUser()
 
     suspend fun addUser(user: User) = dao.addUser(user)
 
@@ -28,13 +29,4 @@ class Repository (private val dao: UserDao) {
     suspend fun deleteUser(user: User) = dao.deleteUser(user)
 
     suspend fun deleteAllUsers() = dao.deleteAllUsers()
-
-
-//                 ------ TOURNAMENT ------
-    val listRound: MutableLiveData<List<User>> by lazy { MutableLiveData<List<User>>() }
-    val listRanking: MutableLiveData<MutableList<User>> by lazy { MutableLiveData<MutableList<User>>() }
-
-    fun updateListOfRound(list: List<User>) { listRound.value = list }
-
-    fun updateListOfRanking(list: MutableList<User>) { listRanking.value = list }
 }

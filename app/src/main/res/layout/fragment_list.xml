@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.navigation.ListFragment">
 
@@ -10,48 +12,14 @@
         android:id="@+id/home_card_list_participant"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="1.5"
         android:layout_margin="2dp"
         app:strokeWidth="1dp"
-        android:elevation="0dp"
-        app:layout_constraintBottom_toTopOf="@id/card_list_select"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:elevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <!--
-            <ImageView
-                android:id="@+id/iv_research"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:elevation="1dp"
-                android:layout_marginEnd="10dp"
-                android:padding="5dp"
-                android:scaleType="fitXY"
-                android:adjustViewBounds="true"
-                android:src="@drawable/search_24"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/home_text_list"
-                android:contentDescription="@string/add_new_participant" /> -->
-
-            <ImageView
-                android:id="@+id/iv_delete_all"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:elevation="1dp"
-                android:layout_marginStart="5dp"
-                android:padding="6dp"
-                android:scaleType="fitXY"
-                android:adjustViewBounds="true"
-                android:src="@drawable/v_delete_forever_24"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/home_text_list"
-                android:contentDescription="@string/delete_all_user" />
 
             <TextView
                 android:id="@+id/home_text_list"
@@ -61,7 +29,7 @@
                 android:gravity="center"
                 android:padding="2dp"
                 android:text="@string/list_counter"
-                android:textSize="12pt"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@id/rv_list_counter"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -73,7 +41,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="2dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,14 +53,11 @@
         android:id="@+id/card_list_select"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginHorizontal="2dp"
         android:layout_marginBottom="2dp"
         app:strokeWidth="1dp"
-        android:elevation="0dp"
-        app:layout_constraintTop_toBottomOf="@id/home_card_list_participant"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:elevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -106,7 +70,7 @@
                 android:padding="2dp"
                 android:gravity="center_horizontal"
                 android:background="@color/opacity_25"
-                android:textSize="12pt"
+                android:textSize="16sp"
                 android:text="@string/selected"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +81,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="2dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -128,4 +91,4 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

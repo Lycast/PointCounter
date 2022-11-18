@@ -19,7 +19,7 @@ class VHRound(private val itemBinding: ItemStyleCompactBinding, private val list
             itemCard.setCardBackgroundColor(user.color)
             llScore.visibility = View.GONE
 
-            itemCard.layoutParams.height -= 25
+            itemCard.layoutParams.height = 100
             itemCard.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 bottomMargin = 50
             }

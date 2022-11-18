@@ -1,6 +1,7 @@
 package com.example.scorecounter.ui.navigation
 
 import android.app.AlertDialog
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -41,7 +42,14 @@ class GameFragment : Fragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.users.observe(requireActivity()) { listParticipant = it }
+        viewModel.listDisplay().observe(requireActivity()) {
+            listParticipant = it
+            if (!gameIsStarted) {
+                listOfRanking.clear()
+                listOfRanking.addAll(listParticipant)
+                viewModel.updateListOfRanking(listOfRanking)
+            }
+        }
 
         initRankingRV()
         initRoundRV()
@@ -49,7 +57,6 @@ class GameFragment : Fragment(), OnItemClickListener {
     }
 
     private fun setClickListenerView() {
-
         // START TOURNAMENT
         binding.gameBtnStart.setOnClickListener {
             if (listParticipant.size >= 3) {
@@ -113,6 +120,9 @@ class GameFragment : Fragment(), OnItemClickListener {
         viewModel.listOfRanking.observe(requireActivity()) {
             // RV Rank
             adapterRank = RVGameAdapter(it.sortedByDescending { user -> user.score }, this, EnumVHSelect.RANKING, gameIsStarted)
+            var column = 1
+            if (this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) { column = 2 }
+            binding.recyclerViewRanking.layoutManager = GridLayoutManager( requireActivity(), column)
             binding.recyclerViewRanking.adapter = adapterRank
         }
     }

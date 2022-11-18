@@ -4,10 +4,10 @@
     <path android:fillColor="#00000000"
         android:pathData="M256,166.96l-60.75,79.19l-56.95,-48.28l19.53,110.65l196.34,0l19.53,-110.65l-56.95,48.28l-60.75,-79.19z"
         android:strokeColor="#083b43" android:strokeLineCap="round"
-        android:strokeLineJoin="round" android:strokeWidth="20"/>
+        android:strokeLineJoin="round" android:strokeWidth="15"/>
     <path android:fillColor="#00000000"
         android:pathData="M360.14,345.04l-5.97,-36.52l-196.34,0l-5.97,36.52l208.28,0z"
         android:strokeColor="#083b43" android:strokeLineCap="round"
-        android:strokeLineJoin="round" android:strokeWidth="20"/>
+        android:strokeLineJoin="round" android:strokeWidth="15"/>
     <path android:fillColor="#083b43" android:pathData="M256,278.43l-19.89,-19.89l19.89,-31.47l19.89,31.47l-19.89,19.89z"/>
 </vector>

@@ -80,8 +80,8 @@ class CounterFragment : Fragment(), OnItemClickListener {
 
     private fun initStepViewModel() {
         viewModel.step.observe(requireActivity()) { step = it }
-        viewModel.users.observe(requireActivity()) {
-            if ( it.isEmpty()) viewModel.addUser(User(0,viewModel.getRndName(),0,viewModel.getRndColor()))
+        viewModel.liveDataListUser.observe(requireActivity()) {
+            if (it.isEmpty()) viewModel.addUser(User(0,viewModel.getRndName(),0,viewModel.getRndColor()))
         }
     }
 

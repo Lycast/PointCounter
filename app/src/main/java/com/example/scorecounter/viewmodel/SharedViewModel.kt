@@ -23,11 +23,8 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
     val listOfStep = MutableLiveData(listOf(1,2,5,10))
     val step = MutableLiveData(1)
 
-
     fun updateListOfStep(list: List<Int>) { listOfStep.value = list }
-
     fun updateDynamicalRVSize(size: Int) { if (rvSizeDynamic.value != size) rvSizeDynamic.value = size }
-
     fun getRndName(): String {
         if (names.size != 0) {
             val pos = (0 until names.size).random()
@@ -38,87 +35,87 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
         names = ListOfName().listNames
         return "Olaf"
     }
-
     fun getRndColor(): Int {
         val rnd = Random.Default
         return Color.argb(255, (rnd.nextInt(256) / 1.5 + 80).toInt(),
             (rnd.nextInt(256) / 1.5 + 80).toInt(), (rnd.nextInt(256) / 1.5 + 80).toInt())
     }
-
     fun setColor(red: Int, green: Int, blue: Int ) {
         color.value = Color.argb(255, red, green, blue)
     }
-
     fun setStep(newStep: Int) { step.value = newStep }
 
-
-//          ----- DICE -----
+    //          ----- DICE -----
     val listDicesResult = repository.listDicesResult
     val sideNumber = repository.sideNumber
     val diceNumber = repository.diceNumber
 
     fun updateListDicesResult(list: List<Int>) { repository.updateListDicesResult(list) }
-
     fun launchDice(nbOfSide: Int) = (1..nbOfSide).random()
-
     fun setDiceNumber(numberOfDice: Int) { diceNumber.value = numberOfDice }
-
     fun setSideNumber(numberOfSide: Int) { sideNumber.value = numberOfSide }
 
+    //          ----- TOURNAMENT -----
+    val listOfRound = MutableLiveData<List<User>>()
+    val listOfRanking = MutableLiveData<List<User>>()
 
-//          ----- TOURNAMENT -----
-    val listOfRound = repository.listRound
-    val listOfRanking = repository.listRanking
+    fun updateListOfRound(list: List<User>) { listOfRound.value = list }
+    fun updateListOfRanking(list: MutableList<User>) { listOfRanking.value = list }
 
-    fun updateListOfRound(list: List<User>) { repository.updateListOfRound(list) }
-
-    fun updateListOfRanking(list: MutableList<User>) { repository.updateListOfRanking(list) }
-
-
-//          ----- DAO -----
+    //          ----- DAO -----
     private val usersSelected: MutableList<Int> = mutableListOf()
+    val liveDataListUser = repository.liveDataListUser
+    val listUserSelected = MutableLiveData<List<User>>()
+    val listUserUnselected = MutableLiveData<List<User>>()
+    private var listDisplay: MediatorLiveData<List<User>> = MediatorLiveData()
 
-    val users = repository.listUsers
-    val listUserSelected = repository.listUserSelected
-    var listDisplay: MediatorLiveData<List<User>> = MediatorLiveData()
+
 
     init {
-        listDisplay.addSource(users) {
-            combine(it, listUserSelected.value)
+        listDisplay.addSource(liveDataListUser) {
+            combineListDisplayed(it, listUserSelected.value)
         }
         listDisplay.addSource(listUserSelected) {
-            combine(users.value, it)
+            combineListDisplayed(liveDataListUser.value, it)
         }
     }
 
-    private fun combine(listAll: List<User>?, listSelected: List<User>?) {
+    private fun combineListDisplayed(listAll: List<User>?, listSelected: List<User>?) {
         if (listAll == null && listSelected == null) return
-        if (listSelected == null || listSelected.isEmpty()) listDisplay.value = users.value
+        if (listSelected == null || listSelected.isEmpty()) listDisplay.value = liveDataListUser.value
         else listDisplay.value = listUserSelected.value
+    }
+
+    fun updateListUnselected() {
+        viewModelScope.launch {
+            val newList = repository.getListUser()
+            for (i in repository.getListUserSelected(usersSelected)) {
+                newList.remove(i)
+            }
+            listUserUnselected.value = newList
+        }
     }
 
     fun listDisplay() : LiveData<List<User>> { return listDisplay }
 
-    private fun updateUsersSelected() = viewModelScope.launch { repository.updateUsersSelected(usersSelected) }
+    private fun updateUsersSelected() = viewModelScope.launch {
+        listUserSelected.value = repository.getListUserSelected(usersSelected)
+    }
 
     fun addSelectedUser(id: Int) {
         usersSelected.add(id)
         updateUsersSelected()
+        updateListUnselected()
     }
-
     fun removeSelectedUser(id: Int) {
         usersSelected.remove(id)
         updateUsersSelected()
+        updateListUnselected()
     }
-
     fun addUser(user: User) = viewModelScope.launch { repository.addUser(user) }
-
     fun updateUser(user: User) = viewModelScope.launch { repository.updateUser(user) }
-
     fun deleteUser(user: User) = viewModelScope.launch { repository.deleteUser(user) }
-
     fun deleteAllUsers() = viewModelScope.launch { repository.deleteAllUsers() }
-
     fun resetAllUsersPoint(list: List<User>) = CoroutineScope(Dispatchers.IO).launch {
         suspend {
             for (element in list) {

@@ -48,7 +48,7 @@
     <string name="close">Quitter</string>
     <string name="selected">Selection</string>
     <string name="delete_counter">Supprimer ce compteur</string>
-    <string name="not_yet_implemented">Pas encore implementé</string>
+    <string name="not_yet_implemented">Bientôt</string>
     <string name="display_style">Style d\'affichage</string>
     <string name="by_default">Reset</string>
 </resources>

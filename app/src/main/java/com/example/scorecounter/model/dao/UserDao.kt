@@ -25,8 +25,11 @@ interface UserDao {
     suspend fun deleteAllUsers() : Int
 
     @Query ("SELECT * FROM table_guest ")
-    fun getUsers() : LiveData<List<User>>
+    fun getLiveDataListUser() : LiveData<List<User>>
+
+    @Query ("SELECT * FROM table_guest ")
+    suspend fun getListUser() : MutableList<User>
 
     @Query ("SELECT * FROM table_guest WHERE id_guest IN (:list) ")
-    suspend fun getUsersSelected(list: MutableList<Int>) : List<User>
+    suspend fun getUsersSelected(list: MutableList<Int>) : MutableList<User>
 }

@@ -45,7 +45,7 @@ class VHList(private val context: Context, private val itemBinding: ItemStyleCom
             itemIvAdd.setOnClickListener { listener.setOnItemClickListener(user, EnumItem.SELECT, null) }
             itemIvRemove.visibility = View.GONE
             itemTvScore.visibility = View.GONE
-            llScore.layoutParams.width =  300
+            llScore.layoutParams.width =  250
         }
     }
 }

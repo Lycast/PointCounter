@@ -33,7 +33,7 @@ class RVListAdapter(private val listener: OnItemClickListener, private var all: 
             }
             false -> {
                 bindingItem = ItemStyleCompactBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                VHListSelected(parent.context, bindingItem, listener)
+                VHListSelected(bindingItem, listener)
             }
         }
     }

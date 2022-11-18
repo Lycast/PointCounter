@@ -1,7 +1,9 @@
 package com.example.scorecounter.ui
 
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -37,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     private val tabsList = listOf(
         R.drawable.svg_counter,
         R.drawable.playlist_add_24,
-        R.drawable.crown,
+        R.drawable.crown_24,
         R.drawable.contact_support_24
     )
 
@@ -58,6 +60,10 @@ class MainActivity : AppCompatActivity() {
             it.systemBarsBehavior =
                 WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
+
+        if (this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.mainTabLayout.visibility = View.GONE
+        } else binding.mainTabLayout.visibility = View.VISIBLE
 
         toolbarBinding = ToolbarLayoutBinding.bind(binding.root)
         initViewModel()

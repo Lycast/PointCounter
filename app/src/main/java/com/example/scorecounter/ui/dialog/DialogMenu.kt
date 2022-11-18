@@ -23,7 +23,7 @@ class DialogMenu : DialogFragment() {
             val alertDialog = AlertDialog.Builder(activity)
             alertDialog.setView(dialogBinding.root)
 
-            viewModel.users.observe(this) { list = it }
+            viewModel.liveDataListUser.observe(this) { list = it }
 
 
             alertDialog.setPositiveButton(R.string.back_button)  { _, _ -> dismiss() }
