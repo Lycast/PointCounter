@@ -23,7 +23,6 @@
             android:maxLines="1"
             android:paddingVertical="2dp"
             android:paddingHorizontal="10dp"
-            android:text="@string/name_of_guest"
             android:textColor="@color/gray"
             android:textSize="20sp"
             app:drawableStartCompat="@drawable/v_edit_24"
@@ -56,7 +55,6 @@
                 android:autoSizeTextType="uniform"
                 android:maxLines="1"
                 android:paddingBottom="2dp"
-                android:text="@string/number_0"
                 android:textColor="@color/gray"/>
 
             <ImageView

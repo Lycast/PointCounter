@@ -1,7 +1,6 @@
 package com.example.scorecounter.ui.navigation
 
 import android.app.AlertDialog
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.scorecounter.R
 import com.example.scorecounter.databinding.FragmentGameBinding
 import com.example.scorecounter.model.entity.User
@@ -20,6 +20,7 @@ import com.example.scorecounter.utils.EnumItem
 import com.example.scorecounter.utils.EnumVHSelect
 import com.example.scorecounter.viewmodel.SharedViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlin.random.Random
 
 class GameFragment : Fragment(), OnItemClickListener {
 
@@ -75,28 +76,26 @@ class GameFragment : Fragment(), OnItemClickListener {
 
         // CANCEL TOURNAMENT
         binding.gameDelete.setOnClickListener {
-            val alertDialog = AlertDialog.Builder(requireActivity())
-            alertDialog.setMessage(getString(R.string.cancel_tournament))
-            alertDialog.setPositiveButton(R.string.ok) {_,_ ->
-                gameIsStarted = false
-                listOfRound.clear()
-                viewModel.updateListOfRound(listOfRound)
-                listOfRanking.clear()
-                listOfRanking.addAll(listParticipant)
-                viewModel.updateListOfRanking(listOfRanking)
-                alertDialog.create().dismiss()
+            if (gameIsStarted) {
+                val alertDialog = AlertDialog.Builder(requireActivity())
+                alertDialog.setMessage(getString(R.string.cancel_tournament))
+                alertDialog.setPositiveButton(R.string.ok) { _, _ ->
+                    gameIsStarted = false
+                    listOfRound.clear()
+                    viewModel.updateListOfRound(listOfRound)
+                    listOfRanking.clear()
+                    listOfRanking.addAll(listParticipant)
+                    viewModel.updateListOfRanking(listOfRanking)
+                    alertDialog.create().dismiss()
+                }
+                alertDialog.setNegativeButton(R.string.cancel) { _, _ ->
+                    alertDialog.create().dismiss()
+                }
+                alertDialog.create().show()
             }
-            alertDialog.setNegativeButton(R.string.cancel) {_,_ -> alertDialog.create().dismiss()}
-            alertDialog.create().show()
         }
 
         // HELPER TEXT
-        binding.ivHelpRanking.setOnClickListener {
-            displayAlertDialogInfo(R.string.help_ranking)
-        }
-        binding.ivHelpRound.setOnClickListener {
-            displayAlertDialogInfo(R.string.help_round)
-        }
         binding.gameHelpStart.setOnClickListener {
             displayAlertDialogInfo(R.string.help_start)
         }
@@ -120,23 +119,13 @@ class GameFragment : Fragment(), OnItemClickListener {
         viewModel.listOfRanking.observe(requireActivity()) {
             // RV Rank
             adapterRank = RVGameAdapter(it.sortedByDescending { user -> user.score }, this, EnumVHSelect.RANKING, gameIsStarted)
-            var column = 1
-            if (this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) { column = 2 }
-            binding.recyclerViewRanking.layoutManager = GridLayoutManager( requireActivity(), column)
+
+            binding.recyclerViewRanking.layoutManager = LinearLayoutManager( requireActivity())
             binding.recyclerViewRanking.adapter = adapterRank
         }
     }
 
-    override fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int?) {
-        viewModel.currentUser = user
-        when (enum) {
-            EnumItem.ROUND_WIN -> setWinRoundListener(user, pos!!)
-            EnumItem.EDIT -> DialogParticipant().show(parentFragmentManager, "dialog_user")
-            else -> {}
-        }
-    }
-
-    private fun setWinRoundListener(user: User, pos: Int) {
+    private fun setWinRound(user: User, pos: Int) {
         val i = listOfRanking.indexOf(user)
         user.score ++
         listOfRanking[i] = user
@@ -165,11 +154,24 @@ class GameFragment : Fragment(), OnItemClickListener {
                 }
             }
         }
-        // is here for randomize list
+
+        val indexListA = mutableListOf<User>()
+        indexListA.addAll(listA)
+        val indexListB = mutableListOf<User>()
+        indexListB.addAll(listB)
+
         for (i in listA.indices) {
-            listOfRound.add(listA[i])
-            listOfRound.add(listB[i])
+            val randomIndex = Random.nextInt(indexListA.size)
+            listOfRound.add(indexListA[randomIndex])
+            listOfRound.add(indexListB[randomIndex])
+            indexListA.removeAt(randomIndex)
+            indexListB.removeAt(randomIndex)
         }
+        // is here for randomize list
+//        for (i in listA.indices) {
+//            listOfRound.add(listA[i])
+//            listOfRound.add(listB[i])
+//        }
         viewModel.updateListOfRound(listOfRound)
     }
 
@@ -187,4 +189,17 @@ class GameFragment : Fragment(), OnItemClickListener {
         alertDialog.create().show()
     }
 
+    override fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int?) {
+        viewModel.currentUser = user
+        when (enum) {
+            EnumItem.ROUND_WIN -> setWinRound(user, pos!!)
+            EnumItem.EDIT -> DialogParticipant().show(parentFragmentManager, "dialog_user")
+            else -> {}
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }

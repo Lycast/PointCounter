@@ -59,6 +59,7 @@ class ListFragment : Fragment(), OnItemClickListener {
         if (this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) { column = 2 }
         binding.rvListCounter.layoutManager = GridLayoutManager( requireActivity(), column)
 
+
         setDataUnselected()
     }
 
@@ -67,13 +68,11 @@ class ListFragment : Fragment(), OnItemClickListener {
         binding.rvSelected.adapter = adapterSelected
 
         var column = 2
-        if (this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) { column = 4 }
+        if (this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) { column = 1 }
         binding.rvSelected.layoutManager = GridLayoutManager( requireActivity(), column)
 
         setDataSelected()
     }
-
-
 
     override fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int?) {
         viewModel.currentUser = user

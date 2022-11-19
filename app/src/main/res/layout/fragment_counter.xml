@@ -68,7 +68,6 @@
                             android:maxLines="1"
                             android:paddingHorizontal="10dp"
                             android:paddingVertical="8dp"
-                            android:text="@string/name_of_guest"
                             android:textColor="@color/gray"
                             android:textSize="14pt"
                             app:drawableStartCompat="@drawable/v_edit_24"
@@ -101,7 +100,6 @@
                                 android:gravity="center"
                                 android:maxLines="1"
                                 android:paddingBottom="2dp"
-                                android:text="@string/number_0"
                                 android:textColor="@color/gray" />
 
                             <ImageView
@@ -148,7 +146,6 @@
                             android:maxLines="1"
                             android:paddingHorizontal="10dp"
                             android:paddingVertical="8dp"
-                            android:text="@string/name_of_guest"
                             android:textColor="@color/gray"
                             android:textSize="14pt"
                             app:drawableStartCompat="@drawable/v_edit_24"
@@ -181,7 +178,6 @@
                                 android:gravity="center"
                                 android:maxLines="1"
                                 android:paddingBottom="2dp"
-                                android:text="@string/number_0"
                                 android:textColor="@color/gray" />
 
                             <ImageView

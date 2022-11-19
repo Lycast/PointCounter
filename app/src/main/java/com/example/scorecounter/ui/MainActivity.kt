@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         R.drawable.svg_counter,
         R.drawable.playlist_add_24,
         R.drawable.crown_24,
-        R.drawable.contact_support_24
+        R.drawable.info_24
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

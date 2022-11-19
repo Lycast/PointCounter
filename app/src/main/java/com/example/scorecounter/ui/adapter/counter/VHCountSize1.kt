@@ -2,7 +2,9 @@ package com.example.scorecounter.ui.adapter.counter
 
 import android.content.Context
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.scorecounter.R
 import com.example.scorecounter.databinding.ItemCounterMediumBinding
 import com.example.scorecounter.model.entity.User
 import com.example.scorecounter.utils.EnumItem
@@ -32,15 +34,15 @@ class VHCountSize1(private val context: Context, private val listener: OnItemCli
 
             itemTvName.setOnClickListener {
                 val popupMenu = PopupMenu(context, it)
-                popupMenu.menu.add("Edit").setOnMenuItemClickListener {
+                popupMenu.menu.add(context.getString(R.string.edit)).setOnMenuItemClickListener {
                     listener.setOnItemClickListener(user, EnumItem.EDIT, pos)
                     true
                 }
-                popupMenu.menu.add("Reset Counter").setOnMenuItemClickListener {
+                popupMenu.menu.add(context.getString(R.string.reset_counter)).setOnMenuItemClickListener {
                     listener.setOnItemClickListener(user, EnumItem.RESET_POINT, pos)
                     true
                 }
-                popupMenu.menu.add("Delete").setOnMenuItemClickListener {
+                popupMenu.menu.add(context.getString(R.string.delete_counter)).setOnMenuItemClickListener {
                     listener.setOnItemClickListener(user, EnumItem.DELETE, pos)
                     true
                 }

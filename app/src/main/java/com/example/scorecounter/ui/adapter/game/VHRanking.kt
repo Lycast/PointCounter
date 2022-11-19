@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
+import com.example.scorecounter.R
 import com.example.scorecounter.databinding.ItemStyleCompactBinding
 import com.example.scorecounter.model.entity.User
 import com.example.scorecounter.utils.EnumItem
@@ -31,11 +32,11 @@ class VHRanking(
             if (!game) {
                 itemTvName.setOnClickListener {
                     val popupMenu = PopupMenu(context, it)
-                    popupMenu.menu.add("Edit").setOnMenuItemClickListener {
+                    popupMenu.menu.add(context.getString(R.string.edit)).setOnMenuItemClickListener {
                         listener.setOnItemClickListener(user, EnumItem.EDIT, pos)
                         true
                     }
-                    popupMenu.menu.add("Reset Counter").setOnMenuItemClickListener {
+                    popupMenu.menu.add(context.getString(R.string.reset_counter)).setOnMenuItemClickListener {
                         listener.setOnItemClickListener(user, EnumItem.RESET_POINT, pos)
                         true
                     }

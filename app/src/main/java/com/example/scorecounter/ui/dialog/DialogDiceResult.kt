@@ -89,7 +89,7 @@ class DialogDiceResult : DialogFragment() {
     private fun setView() {
         dialogBinding.apply {
             // check if dice is used
-            if (tvResultDice1.text.equals("")) card1.visibility = View.GONE
+            if (tvResultDice1.text.equals("")) card1.visibility = View.INVISIBLE
             else card1.visibility = View.VISIBLE
             if (tvResultDice2.text.equals("")) card2.visibility = View.GONE
             else card2.visibility = View.VISIBLE

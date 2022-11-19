@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
+import com.example.scorecounter.R
 import com.example.scorecounter.databinding.ItemStyleCompactBinding
 import com.example.scorecounter.model.entity.User
 import com.example.scorecounter.utils.EnumItem
@@ -26,11 +27,11 @@ class VHList(private val context: Context, private val itemBinding: ItemStyleCom
 
             itemTvName.setOnClickListener {
                 val popupMenu = PopupMenu(context, it)
-                popupMenu.menu.add("Edit").setOnMenuItemClickListener {
+                popupMenu.menu.add(context.getString(R.string.edit)).setOnMenuItemClickListener {
                     listener.setOnItemClickListener(user, EnumItem.EDIT, null)
                     true
                 }
-                popupMenu.menu.add("Delete").setOnMenuItemClickListener {
+                popupMenu.menu.add(context.getString(R.string.delete_counter)).setOnMenuItemClickListener {
                     listener.setOnItemClickListener(user, EnumItem.DELETE, null)
                     true
                 }

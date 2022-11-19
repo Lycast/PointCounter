@@ -85,33 +85,6 @@ class CounterFragment : Fragment(), OnItemClickListener {
         }
     }
 
-    override fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int?) {
-        viewModel.currentUser = user
-        when (enum) {
-            EnumItem.RESET_POINT -> {
-                user.score = 0
-                viewModel.updateUser(user) }
-            EnumItem.ADD_POINT -> {
-                user.score += step
-                viewModel.updateUser(user) }
-            EnumItem.REMOVE_POINT -> {
-                user.score -= step
-                viewModel.updateUser(user) }
-            EnumItem.DELETE -> {
-                val alertDialog = AlertDialog.Builder(context)
-                alertDialog.setTitle(R.string.delete_counter)
-                alertDialog.setPositiveButton(R.string.yes) { _, _ ->
-                    viewModel.deleteUser(user)
-                }
-                alertDialog.setNegativeButton(R.string.no) {_,_ -> alertDialog.create().dismiss()}
-                alertDialog.create().show()
-            }
-            EnumItem.EDIT -> DialogParticipant().show(parentFragmentManager, "dialog_user")
-            EnumItem.SET_POINT -> DialogInputScore().show(parentFragmentManager, "dialog_score")
-            else -> {}
-        }
-    }
-
     private fun setCounter1(user: User) {
         binding.llCounters.visibility = View.VISIBLE
         binding.rvCounters.visibility = View.GONE
@@ -121,11 +94,11 @@ class CounterFragment : Fragment(), OnItemClickListener {
         binding.itemTvScore1.text = user.score.toString()
         binding.itemCard1.setCardBackgroundColor(user.color)
         binding.itemIvAdd1.setOnClickListener {
-            user.score++
+            user.score += step
             viewModel.updateUser(user)
         }
         binding.itemIvRemove1.setOnClickListener {
-            user.score--
+            user.score -= step
             viewModel.updateUser(user)
         }
         binding.itemTvScore1.setOnClickListener {
@@ -135,16 +108,17 @@ class CounterFragment : Fragment(), OnItemClickListener {
 
         binding.itemTvName1.setOnClickListener {
             val popupMenu = PopupMenu(requireActivity(), it)
-            popupMenu.menu.add("Edit").setOnMenuItemClickListener {
+            popupMenu.menu.add(getString(R.string.edit)).setOnMenuItemClickListener {
+                viewModel.currentUser = user
                 DialogParticipant().show(parentFragmentManager, "dialog_user")
                 true
             }
-            popupMenu.menu.add("Reset Counter").setOnMenuItemClickListener {
+            popupMenu.menu.add(getString(R.string.reset_counter)).setOnMenuItemClickListener {
                 user.score = 0
                 viewModel.updateUser(user)
                 true
             }
-            popupMenu.menu.add("Delete").setOnMenuItemClickListener {
+            popupMenu.menu.add(getString(R.string.delete_counter)).setOnMenuItemClickListener {
                 val alertDialog = AlertDialog.Builder(context)
                 alertDialog.setTitle(R.string.delete_counter)
                 alertDialog.setPositiveButton(R.string.yes) { _, _ ->
@@ -175,10 +149,10 @@ class CounterFragment : Fragment(), OnItemClickListener {
         binding.itemTvScore2.text = user.score.toString()
         binding.itemCard2.setCardBackgroundColor(user.color)
         binding.itemIvAdd2.setOnClickListener {
-            user.score++
+            user.score += step
             viewModel.updateUser(user) }
         binding.itemIvRemove2.setOnClickListener {
-            user.score--
+            user.score -= step
             viewModel.updateUser(user) }
         binding.itemTvScore2.setOnClickListener {
             viewModel.currentUser = user
@@ -190,16 +164,17 @@ class CounterFragment : Fragment(), OnItemClickListener {
 
         binding.itemTvName2.setOnClickListener {
             val popupMenu = PopupMenu(requireActivity(), it)
-            popupMenu.menu.add("Edit").setOnMenuItemClickListener {
+            popupMenu.menu.add(getString(R.string.edit)).setOnMenuItemClickListener {
+                viewModel.currentUser = user
                 DialogParticipant().show(parentFragmentManager, "dialog_user")
                 true
             }
-            popupMenu.menu.add("Reset Counter").setOnMenuItemClickListener {
+            popupMenu.menu.add(getString(R.string.reset_counter)).setOnMenuItemClickListener {
                 user.score = 0
                 viewModel.updateUser(user)
                 true
             }
-            popupMenu.menu.add("Delete").setOnMenuItemClickListener {
+            popupMenu.menu.add(getString(R.string.delete_counter)).setOnMenuItemClickListener {
                 val alertDialog = AlertDialog.Builder(context)
                 alertDialog.setTitle(R.string.delete_counter)
                 alertDialog.setPositiveButton(R.string.yes) { _, _ ->
@@ -248,5 +223,37 @@ class CounterFragment : Fragment(), OnItemClickListener {
         if (this.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) { column = 4 }
         binding.rvCounters.layoutManager = GridLayoutManager( requireActivity(), column)
         setData()
+    }
+
+    override fun setOnItemClickListener(user: User, enum: EnumItem, pos: Int?) {
+        viewModel.currentUser = user
+        when (enum) {
+            EnumItem.RESET_POINT -> {
+                user.score = 0
+                viewModel.updateUser(user) }
+            EnumItem.ADD_POINT -> {
+                user.score += step
+                viewModel.updateUser(user) }
+            EnumItem.REMOVE_POINT -> {
+                user.score -= step
+                viewModel.updateUser(user) }
+            EnumItem.DELETE -> {
+                val alertDialog = AlertDialog.Builder(context)
+                alertDialog.setTitle(R.string.delete_counter)
+                alertDialog.setPositiveButton(R.string.yes) { _, _ ->
+                    viewModel.deleteUser(user)
+                }
+                alertDialog.setNegativeButton(R.string.no) {_,_ -> alertDialog.create().dismiss()}
+                alertDialog.create().show()
+            }
+            EnumItem.EDIT -> DialogParticipant().show(parentFragmentManager, "dialog_user")
+            EnumItem.SET_POINT -> DialogInputScore().show(parentFragmentManager, "dialog_score")
+            else -> {}
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

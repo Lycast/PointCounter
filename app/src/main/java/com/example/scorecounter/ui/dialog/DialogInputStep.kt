@@ -2,7 +2,6 @@ package com.example.scorecounter.ui.dialog
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
@@ -43,7 +42,6 @@ class DialogInputStep : DialogFragment() {
                 tfStep2.hint = it[1].toString()
                 tfStep3.hint = it[2].toString()
                 tfStep4.hint = it[3].toString()
-                Log.e("MY-TAG", "vm observer list = $it")
             }
         }
     }

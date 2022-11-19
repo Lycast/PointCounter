@@ -24,15 +24,10 @@ class DialogMenu : DialogFragment() {
             alertDialog.setView(dialogBinding.root)
 
             viewModel.liveDataListUser.observe(this) { list = it }
-
-
             alertDialog.setPositiveButton(R.string.back_button)  { _, _ -> dismiss() }
-
-
             dialogBinding.dialogBtnResetScore.setOnClickListener { viewModel.resetAllUsersPoint(list) }
             dialogBinding.dialogBtnDeleteAllCounter.setOnClickListener { viewModel.deleteAllUsers() }
             dialogBinding.dialogBtnExit.setOnClickListener { activity.finishAndRemoveTask() }
-
 
             alertDialog.create()
 

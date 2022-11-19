@@ -12,6 +12,7 @@ import com.example.scorecounter.repository.Repository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import kotlin.random.Random
 
 class SharedViewModel (private val repository: Repository) : ViewModel() {
@@ -22,12 +23,14 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
     val color: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
     val listOfStep = MutableLiveData(listOf(1,2,5,10))
     val step = MutableLiveData(1)
+    private val seed: Int = (Calendar.getInstance().get(Calendar.SECOND) + Calendar.getInstance().get(Calendar.MINUTE))
+    private val rnd = Random(seed)
 
     fun updateListOfStep(list: List<Int>) { listOfStep.value = list }
     fun updateDynamicalRVSize(size: Int) { if (rvSizeDynamic.value != size) rvSizeDynamic.value = size }
     fun getRndName(): String {
         if (names.size != 0) {
-            val pos = (0 until names.size).random()
+            val pos = rnd.nextInt(names.size)
             val name = names[pos]
             names.removeAt(pos)
             return name
@@ -35,10 +38,10 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
         names = ListOfName().listNames
         return "Olaf"
     }
+
     fun getRndColor(): Int {
-        val rnd = Random.Default
-        return Color.argb(255, (rnd.nextInt(256) / 1.5 + 80).toInt(),
-            (rnd.nextInt(256) / 1.5 + 80).toInt(), (rnd.nextInt(256) / 1.5 + 80).toInt())
+        return Color.argb(255, (rnd.nextInt(256)  / 1.5 + 80).toInt(),
+            (rnd.nextInt(256)  / 1.5 + 80).toInt(), (rnd.nextInt(256)  / 1.5 + 80).toInt())
     }
     fun setColor(red: Int, green: Int, blue: Int ) {
         color.value = Color.argb(255, red, green, blue)
@@ -51,7 +54,7 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
     val diceNumber = repository.diceNumber
 
     fun updateListDicesResult(list: List<Int>) { repository.updateListDicesResult(list) }
-    fun launchDice(nbOfSide: Int) = (1..nbOfSide).random()
+    fun launchDice(nbOfSide: Int) = rnd.nextInt(nbOfSide)
     fun setDiceNumber(numberOfDice: Int) { diceNumber.value = numberOfDice }
     fun setSideNumber(numberOfSide: Int) { sideNumber.value = numberOfSide }
 
@@ -115,7 +118,10 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
     fun addUser(user: User) = viewModelScope.launch { repository.addUser(user) }
     fun updateUser(user: User) = viewModelScope.launch { repository.updateUser(user) }
     fun deleteUser(user: User) = viewModelScope.launch { repository.deleteUser(user) }
-    fun deleteAllUsers() = viewModelScope.launch { repository.deleteAllUsers() }
+    fun deleteAllUsers() = viewModelScope.launch {
+        repository.deleteAllUsers()
+        updateUsersSelected()
+    }
     fun resetAllUsersPoint(list: List<User>) = CoroutineScope(Dispatchers.IO).launch {
         suspend {
             for (element in list) {
