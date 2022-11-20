@@ -43,7 +43,7 @@
                 android:layout_weight="1"
                 android:scaleType="center"
                 android:contentDescription="@string/add_one_point"
-                android:src="@drawable/v_add_18"
+                android:src="@drawable/add_18"
                 app:tint="@color/gray"
                 tools:ignore="NestedWeights" />
 
@@ -65,7 +65,7 @@
                 android:layout_weight="1"
                 android:scaleType="center"
                 android:contentDescription="@string/remove_one_point"
-                android:src="@drawable/v_remove_18"
+                android:src="@drawable/remove_18"
                 app:tint="@color/gray" />
         </LinearLayout>
     </LinearLayout>

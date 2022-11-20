@@ -30,7 +30,7 @@
                 android:padding="8dp"
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true"
-                android:src="@drawable/v_help_outline_24"
+                android:src="@drawable/help_outline_24"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -46,22 +46,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/game_help_start"
-                app:layout_constraintEnd_toStartOf="@id/game_delete"/>
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-            <ImageView
-                android:id="@+id/game_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginEnd="5dp"
-                android:padding="8dp"
-                android:scaleType="fitXY"
-                android:adjustViewBounds="true"
-                android:src="@drawable/v_clear_24"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/game_btn_start"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:contentDescription="@string/help" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 

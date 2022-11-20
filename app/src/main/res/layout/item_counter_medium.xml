@@ -25,7 +25,7 @@
             android:paddingHorizontal="10dp"
             android:textColor="@color/gray"
             android:textSize="20sp"
-            app:drawableStartCompat="@drawable/v_edit_24"
+            app:drawableStartCompat="@drawable/edit_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -43,7 +43,7 @@
                 android:layout_weight="1"
                 android:scaleType="center"
                 android:contentDescription="@string/add_one_point"
-                android:src="@drawable/v_add_24"
+                android:src="@drawable/add_24"
                 app:tint="@color/gray" />
 
             <TextView
@@ -64,7 +64,7 @@
                 android:layout_weight="1"
                 android:scaleType="center"
                 android:contentDescription="@string/remove_one_point"
-                android:src="@drawable/v_remove_24"
+                android:src="@drawable/remove_24"
                 app:tint="@color/gray" />
         </LinearLayout>
 

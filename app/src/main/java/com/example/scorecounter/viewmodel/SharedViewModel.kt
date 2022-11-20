@@ -23,10 +23,12 @@ class SharedViewModel (private val repository: Repository) : ViewModel() {
     val color: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
     val listOfStep = MutableLiveData(listOf(1,2,5,10))
     val step = MutableLiveData(1)
+    val gameIsStarted = MutableLiveData(false)
     private val seed: Int = (Calendar.getInstance().get(Calendar.SECOND) + Calendar.getInstance().get(Calendar.MINUTE))
     private val rnd = Random(seed)
 
     fun updateListOfStep(list: List<Int>) { listOfStep.value = list }
+    fun updateGameIsStarted(isStart: Boolean) { gameIsStarted.value = isStart }
     fun updateDynamicalRVSize(size: Int) { if (rvSizeDynamic.value != size) rvSizeDynamic.value = size }
     fun getRndName(): String {
         if (names.size != 0) {

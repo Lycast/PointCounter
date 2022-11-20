@@ -43,6 +43,18 @@ class GameFragment : Fragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.gameIsStarted.observe(requireActivity()) {
+            gameIsStarted = it
+            if (!it) {
+                binding.gameBtnStart.text = getString(R.string.start)
+                binding.gameTvRanking.setText(R.string.participants)
+            }
+            else {
+                binding.gameBtnStart.text = getString(R.string.stop)
+                binding.gameTvRanking.setText(R.string.ranking)
+            }
+        }
+
         viewModel.listDisplay().observe(requireActivity()) {
             listParticipant = it
             if (!gameIsStarted) {
@@ -60,27 +72,11 @@ class GameFragment : Fragment(), OnItemClickListener {
     private fun setClickListenerView() {
         // START TOURNAMENT
         binding.gameBtnStart.setOnClickListener {
-            if (listParticipant.size >= 3) {
-                gameIsStarted = true
-                listOfRanking.clear()
-                listOfRanking.addAll(listParticipant)
-                for (i in 0 until listOfRanking.size) {
-                    listOfRanking[i].score = 0
-                }
-                viewModel.updateListOfRanking(listOfRanking)
-                listOfRound.clear()
-                generateTournament(listParticipant)
-                binding.gameTvRanking.setText(R.string.ranking)
-            } else Snackbar.make(binding.root, getString(R.string.alert_game) , Snackbar.LENGTH_SHORT).show()
-        }
-
-        // CANCEL TOURNAMENT
-        binding.gameDelete.setOnClickListener {
             if (gameIsStarted) {
                 val alertDialog = AlertDialog.Builder(requireActivity())
                 alertDialog.setMessage(getString(R.string.cancel_tournament))
                 alertDialog.setPositiveButton(R.string.ok) { _, _ ->
-                    gameIsStarted = false
+                    viewModel.updateGameIsStarted(false)
                     listOfRound.clear()
                     viewModel.updateListOfRound(listOfRound)
                     listOfRanking.clear()
@@ -92,6 +88,20 @@ class GameFragment : Fragment(), OnItemClickListener {
                     alertDialog.create().dismiss()
                 }
                 alertDialog.create().show()
+            }
+
+            if (!gameIsStarted) {
+                if (listParticipant.size >= 3 ) {
+                    viewModel.updateGameIsStarted(true)
+                    listOfRanking.clear()
+                    listOfRanking.addAll(listParticipant)
+                    for (i in 0 until listOfRanking.size) {
+                        listOfRanking[i].score = 0
+                    }
+                    viewModel.updateListOfRanking(listOfRanking)
+                    listOfRound.clear()
+                    generateTournament(listParticipant)
+                } else Snackbar.make(binding.root, getString(R.string.alert_game) , Snackbar.LENGTH_SHORT).show()
             }
         }
 
@@ -139,7 +149,7 @@ class GameFragment : Fragment(), OnItemClickListener {
         // display dialog podium, game end
         if (listOfRound.isEmpty()) {
             DialogPodium().show(parentFragmentManager, "dialog_podium")
-            gameIsStarted = false
+            viewModel.updateGameIsStarted(false)
         }
     }
 
@@ -167,11 +177,6 @@ class GameFragment : Fragment(), OnItemClickListener {
             indexListA.removeAt(randomIndex)
             indexListB.removeAt(randomIndex)
         }
-        // is here for randomize list
-//        for (i in listA.indices) {
-//            listOfRound.add(listA[i])
-//            listOfRound.add(listB[i])
-//        }
         viewModel.updateListOfRound(listOfRound)
     }
 

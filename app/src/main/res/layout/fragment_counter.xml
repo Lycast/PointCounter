@@ -70,7 +70,7 @@
                             android:paddingVertical="8dp"
                             android:textColor="@color/gray"
                             android:textSize="14pt"
-                            app:drawableStartCompat="@drawable/v_edit_24"
+                            app:drawableStartCompat="@drawable/edit_24"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -88,7 +88,7 @@
                                 android:layout_weight="1"
                                 android:contentDescription="@string/add_one_point"
                                 android:scaleType="center"
-                                android:src="@drawable/v_add_48"
+                                android:src="@drawable/add_48"
                                 app:tint="@color/gray" />
 
                             <TextView
@@ -109,7 +109,7 @@
                                 android:layout_weight="1"
                                 android:contentDescription="@string/remove_one_point"
                                 android:scaleType="center"
-                                android:src="@drawable/v_remove_48"
+                                android:src="@drawable/remove_48"
                                 app:tint="@color/gray" />
                         </LinearLayout>
                     </LinearLayout>
@@ -148,7 +148,7 @@
                             android:paddingVertical="8dp"
                             android:textColor="@color/gray"
                             android:textSize="14pt"
-                            app:drawableStartCompat="@drawable/v_edit_24"
+                            app:drawableStartCompat="@drawable/edit_24"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -166,7 +166,7 @@
                                 android:layout_weight="1"
                                 android:contentDescription="@string/add_one_point"
                                 android:scaleType="center"
-                                android:src="@drawable/v_add_48"
+                                android:src="@drawable/add_48"
                                 app:tint="@color/gray" />
 
                             <TextView
@@ -187,7 +187,7 @@
                                 android:layout_weight="1"
                                 android:contentDescription="@string/remove_one_point"
                                 android:scaleType="center"
-                                android:src="@drawable/v_remove_48"
+                                android:src="@drawable/remove_48"
                                 app:tint="@color/gray" />
                         </LinearLayout>
                     </LinearLayout>

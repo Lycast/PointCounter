@@ -30,6 +30,8 @@ import com.example.scorecounter.ui.navigation.ContactFragment
 import com.example.scorecounter.ui.navigation.ListFragment
 import com.example.scorecounter.viewmodel.SharedViewModel
 import com.example.scorecounter.viewmodel.SharedViewModelFactory
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
@@ -53,6 +55,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        MobileAds.initialize(this@MainActivity)
+
         // set immersive mode
         WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowInsetsControllerCompat(window, binding.root).let {
@@ -69,6 +74,12 @@ class MainActivity : AppCompatActivity() {
         initViewModel()
         initViewPager()
         setToolbar()
+        initAdMod()
+    }
+
+    private fun initAdMod() {
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
     }
 
     private fun initViewModel() {

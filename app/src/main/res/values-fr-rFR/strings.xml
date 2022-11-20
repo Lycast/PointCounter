@@ -34,9 +34,14 @@
     <string name="close_application">Quitter l\'application</string>
     <string name="selected">Compteurs sélectionnés</string>
     <string name="delete_counter">Supprimer ce compteur</string>
-    <string name="soon">Bientôt</string>
     <string name="by_default">Reset</string>
     <string name="message_step_input">Personnaliser le nombre de points attribué par clique</string>
     <string name="delete">Supprimer</string>
     <string name="reset_counter">Remettre à zero</string>
+    <string name="message_about_app_1">\t\t\t Bonjour et merci d\'utiliser mon application c\'est mon premier projet personnel réalisé.
+        \n\n\t\t\t J\'ai créé la partie tournoi pour mes besoins, peut être que cette fonctionnalité vous servira également.
+        \n\n\t\t\t J\'ai fait de mon mieux pour coder cette application en respectant les bonnes pratiques. J\'espère que vous aurez une bonne expérience lors de son utilisation.
+        \n\n\t\t\t N\'hésitez pas à me faire vos retour.
+        \n\n\t\t\t Merci </string>
+
 </resources>

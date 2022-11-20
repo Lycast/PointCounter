@@ -59,7 +59,12 @@
     <string name="step_4" translatable="false">Step 4</string>
     <string name="step_3" translatable="false">Step 3</string>
     <string name="step_2" translatable="false">Step 2</string>
-    <string name="soon">Soon</string>
+    <string name="stop" translatable="false">Stop</string>
+    <string name="message_about_app_1">\t\t\t Hello and thank you for using my application, this is my first personal project.
+        \n\n\t\t\t I created the tournament part for my needs, maybe this feature will be useful to you as well.
+        \n\n\t\t\t I have done my best to code this app following best practices. I hope you will have a good experience when using it.
+        \n\n\t\t\t Feel free to give me your feedback.
+        \n\n\t\t\t Thank you </string>
 
     <!--  clean marker   -->
 </resources>
